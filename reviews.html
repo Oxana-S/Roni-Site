@@ -16,8 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}html{scroll-behavior:smooth}
-  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
-  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
@@ -27,17 +27,17 @@
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <!-- HERO + RATING -->
   <section style="padding:150px 7vw 40px;text-align:center">
     <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
-    <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0;line-height:1.05">{{ t.title }}</h1>
+    <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:var(--c-paper-50);margin:0;line-height:1.05">{{ t.title }}</h1>
     <div style="display:inline-flex;align-items:center;gap:16px;margin-top:30px;border:1px solid rgba(201,168,106,.25);border-radius:40px;padding:12px 26px;background:rgba(201,168,106,.04)">
-      <span style="font:400 32px Forum,serif;color:#c9a86a">{{ t.ratingValue }}</span>
-      <span style="font:400 16px Spectral,serif;color:#c9a86a;letter-spacing:2px">★★★★★</span>
+      <span style="font:400 32px Forum,serif;color:var(--gold)">{{ t.ratingValue }}</span>
+      <span style="font:400 16px Spectral,serif;color:var(--gold);letter-spacing:2px">★★★★★</span>
       <span style="font:300 13px Spectral,serif;color:#9c917c">{{ t.ratingLabel }}</span>
     </div>
   </section>
@@ -47,12 +47,12 @@
     <div style="max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px">
       <sc-for list="{{ t.reviews }}" as="r" hint-placeholder-count="6">
         <div class="vrev" style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:30px 28px;background:rgba(201,168,106,.02);display:flex;flex-direction:column">
-          <div style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:3px;margin-bottom:16px">{{ r.stars }}</div>
+          <div style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:3px;margin-bottom:16px">{{ r.stars }}</div>
           <p style="font:300 17px/1.7 Spectral,serif;color:#d8cdb8;font-style:italic;margin:0 0 24px;flex:1">“{{ r.text }}”</p>
           <div style="display:flex;align-items:center;gap:14px">
-            <div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,106,.12);border:1px solid rgba(201,168,106,.35);display:flex;align-items:center;justify-content:center;font:400 18px Forum,serif;color:#c9a86a;flex-shrink:0">{{ r.initial }}</div>
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,106,.12);border:1px solid rgba(201,168,106,.35);display:flex;align-items:center;justify-content:center;font:400 18px Forum,serif;color:var(--gold);flex-shrink:0">{{ r.initial }}</div>
             <div>
-              <div style="font:400 15px Spectral,serif;color:#ece4d6">{{ r.name }}</div>
+              <div style="font:400 15px Spectral,serif;color:var(--text)">{{ r.name }}</div>
               <div style="font:300 13px Spectral,serif;color:#7a7060">{{ r.place }}</div>
             </div>
           </div>
@@ -67,7 +67,7 @@
       <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:440px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="book.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaBuy }}</a>
+        <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaBuy }}</a>
         <a href="read.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
       </div>
     </div>

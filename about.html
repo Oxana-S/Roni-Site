@@ -16,18 +16,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}html{scroll-behavior:smooth}
-  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
-  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
   .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
-  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
-  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:rgba(201,168,106,.7)}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="author" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
@@ -39,8 +39,8 @@
       </div>
       <div style="flex:1;min-width:300px">
         <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
-        <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:#f3ece0;margin:0 0 12px;line-height:1.02">{{ t.name }}</h1>
-        <div style="font:300 italic 18px Spectral,serif;color:#c9a86a;margin-bottom:26px">{{ t.role }}</div>
+        <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:var(--c-paper-50);margin:0 0 12px;line-height:1.02">{{ t.name }}</h1>
+        <div style="font:300 italic 18px Spectral,serif;color:var(--gold);margin-bottom:26px">{{ t.role }}</div>
         <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#c8bca6;margin:0;max-width:520px">{{ t.lead }}</p>
       </div>
     </div>
@@ -54,7 +54,7 @@
       <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 22px">{{ t.story1 }}</p>
       <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story2 }}</p>
       <div style="text-align:right">
-        <div style="font:600 30px Caveat,cursive;color:#c9a86a">{{ t.name }}</div>
+        <div style="font:600 30px Caveat,cursive;color:var(--gold)">{{ t.name }}</div>
       </div>
     </div>
   </section>
@@ -77,7 +77,7 @@
       <sc-for list="{{ t.facts }}" as="f" hint-placeholder-count="4">
         <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
           <div style="font:300 11px Spectral,serif;color:#7a7060;letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
-          <div style="font:400 20px Forum,serif;color:#ece4d6">{{ f.value }}</div>
+          <div style="font:400 20px Forum,serif;color:var(--text)">{{ f.value }}</div>
         </div>
       </sc-for>
     </div>
@@ -89,7 +89,7 @@
       <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:460px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="book.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
+        <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
         <a href="contacts.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaWrite }}</a>
       </div>
     </div>

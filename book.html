@@ -16,9 +16,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}html{scroll-behavior:smooth}
-  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
   section{scroll-margin-top:84px}
-  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
@@ -26,12 +26,12 @@
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden">
+<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden">
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="books" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <!-- HERO -->
-  <section style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,#14110d 60%)">
+  <section style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,var(--bg) 60%)">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:64px;align-items:center;flex-wrap:wrap">
       <div style="position:relative;width:280px;height:420px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,106,.3);box-shadow:0 30px 60px rgba(0,0,0,.6);background:#1c1812">
         <img src="assets/img/book-1.jpg" alt="Просто вернуться домой" style="width:100%;height:100%;object-fit:cover;display:block">
@@ -41,18 +41,18 @@
         <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:#fbf2e4;margin:0 0 16px;line-height:1.02">{{ t.title }}</h1>
         <p style="font:300 italic clamp(16px,2vw,20px) Spectral,serif;color:#e3c9ad;margin:0 0 22px;max-width:480px">{{ t.tagline }}</p>
         <a href="reviews.html" class="vlink" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:30px">
-          <span style="font:400 15px Spectral,serif;color:#c9a86a;letter-spacing:2px">★★★★★</span>
+          <span style="font:400 15px Spectral,serif;color:var(--gold);letter-spacing:2px">★★★★★</span>
           <span style="font:300 13px Spectral,serif;color:#9c917c">{{ t.ratingNote }}</span>
         </a>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-          <a href="#offer" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.25)">{{ t.buyBtn }}</a>
+          <a href="#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.25)">{{ t.buyBtn }}</a>
           <a href="read.html" class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px">{{ t.alsoOn }}</span>
           <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:9px 16px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <span style="font:500 13px Spectral,serif;color:#ece4d6;white-space:nowrap">Amazon Kindle</span>
+            <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
           </a>
         </div>
       </div>
@@ -70,7 +70,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
         <sc-for list="{{ t.features }}" as="f" hint-placeholder-count="4">
           <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
-            <div style="font:400 22px Forum,serif;color:#c9a86a;margin-bottom:10px">{{ f.title }}</div>
+            <div style="font:400 22px Forum,serif;color:var(--gold);margin-bottom:10px">{{ f.title }}</div>
             <p style="font:300 14px/1.6 Spectral,serif;color:#9c917c;margin:0">{{ f.desc }}</p>
           </div>
         </sc-for>
@@ -101,7 +101,7 @@
           <p style="font:300 17px/1.6 Spectral,serif;color:#f6dcc8;margin:0;max-width:320px;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.tolusDesc }}</p>
         </div>
       </div>
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(#c9a86a,transparent 16%,#c9a86a 50%,transparent 84%,#c9a86a);box-shadow:0 0 26px 5px rgba(201,168,106,.5)"></div>
+      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(var(--gold),transparent 16%,var(--gold) 50%,transparent 84%,var(--gold));box-shadow:0 0 26px 5px rgba(201,168,106,.5)"></div>
     </div>
   </section>
 
@@ -109,9 +109,9 @@
   <section style="padding:90px 7vw;text-align:center">
     <div style="max-width:760px;margin:0 auto">
       <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:24px">{{ t.excKicker }}</div>
-      <div style="font:400 70px Forum,serif;color:#c9a86a;line-height:0;height:30px;opacity:.5">“</div>
-      <p style="font:300 italic clamp(20px,3vw,30px)/1.5 Spectral,serif;color:#ece4d6;margin:0 0 34px">{{ t.excQuote }}</p>
-      <a href="read.html" class="vbtn" style="display:inline-block;background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
+      <div style="font:400 70px Forum,serif;color:var(--gold);line-height:0;height:30px;opacity:.5">“</div>
+      <p style="font:300 italic clamp(20px,3vw,30px)/1.5 Spectral,serif;color:var(--text);margin:0 0 34px">{{ t.excQuote }}</p>
+      <a href="read.html" class="vbtn" style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
     </div>
   </section>
 
@@ -120,14 +120,14 @@
     <div style="max-width:var(--container);margin:0 auto">
       <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:36px">
         <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0">{{ t.revTitle }}</h2>
-        <a href="reviews.html" class="vlink" style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.revAll }}</a>
+        <a href="reviews.html" class="vlink" style="font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.revAll }}</a>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
         <sc-for list="{{ t.revItems }}" as="r" hint-placeholder-count="2">
           <div style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:28px 26px;background:rgba(201,168,106,.02)">
-            <div style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:3px;margin-bottom:14px">★★★★★</div>
+            <div style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:3px;margin-bottom:14px">★★★★★</div>
             <p style="font:300 16px/1.65 Spectral,serif;color:#d8cdb8;font-style:italic;margin:0 0 18px">“{{ r.text }}”</p>
-            <div style="font:400 14px Spectral,serif;color:#ece4d6">{{ r.name }} <span style="color:#7a7060">· {{ r.place }}</span></div>
+            <div style="font:400 14px Spectral,serif;color:var(--text)">{{ r.name }} <span style="color:#7a7060">· {{ r.place }}</span></div>
           </div>
         </sc-for>
       </div>
@@ -143,7 +143,7 @@
       <div style="flex:1;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:14px">{{ t.authKicker }}</div>
         <p style="font:300 italic clamp(18px,2.2vw,24px)/1.55 Spectral,serif;color:#e3d6bd;margin:0 0 18px">{{ t.authText }}</p>
-        <a href="about.html" class="vlink" style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.authBtn }}</a>
+        <a href="about.html" class="vlink" style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.authBtn }}</a>
       </div>
     </div>
   </section>
@@ -153,20 +153,20 @@
     <div style="max-width:760px;margin:0 auto;border:1px solid rgba(201,168,106,.3);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.07),#16130f)">
       <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.offerKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 8px">{{ t.title }}</h2>
-      <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:#c9a86a;margin:14px 0 24px">3.99 €</div>
+      <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:var(--gold);margin:14px 0 24px">3.99 €</div>
       <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto 30px;text-align:left">
         <sc-for list="{{ t.includes }}" as="inc" hint-placeholder-count="4">
           <div style="display:flex;align-items:center;gap:12px">
-            <span style="color:#c9a86a;font:400 16px Spectral,serif">✦</span>
+            <span style="color:var(--gold);font:400 16px Spectral,serif">✦</span>
             <span style="font:300 15px Spectral,serif;color:#cdc1aa">{{ inc }}</span>
           </div>
         </sc-for>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
-        <a href="order.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.28)">{{ t.buyNow }}</a>
+        <a href="order.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.28)">{{ t.buyNow }}</a>
         <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:14px 20px;text-decoration:none">
           <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <span style="font:500 13px Spectral,serif;color:#ece4d6;white-space:nowrap">Amazon Kindle</span>
+          <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
         </a>
       </div>
       <div style="font:300 13px Spectral,serif;color:#7a7060;margin-top:20px">{{ t.offerNote }}</div>

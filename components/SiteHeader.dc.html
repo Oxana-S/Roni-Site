@@ -16,8 +16,8 @@
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 7vw;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
   .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
   .vhlink{transition:color .25s}
-  .vhlink:hover{color:#f3ece0 !important}
-  .vh-burger{display:none;background:transparent;border:none;color:#c9a86a;font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
+  .vhlink:hover{color:var(--c-paper-50) !important}
+  .vh-burger{display:none;background:transparent;border:none;color:var(--gold);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
   .vh-nav{display:flex;align-items:center;gap:28px}
   .vh-links{display:flex;gap:26px;font:400 16px Spectral,serif;letter-spacing:.5px}
   .vh-langs{display:flex;align-items:center;gap:3px;border-left:1px solid rgba(201,168,106,.3);padding-left:16px}
@@ -31,7 +31,7 @@
 </style>
 </helmet>
 <header class="vhead {{ headScrolled }}">
-  <a href="index.html" style="font:400 20px Forum,serif;color:#f3ece0;letter-spacing:3px;text-decoration:none">{{ brand }}</a>
+  <a href="index.html" style="font:400 20px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;text-decoration:none">{{ brand }}</a>
   <button class="vh-burger" aria-label="Меню" onClick="{{ toggle }}">{{ burger }}</button>
   <div class="vh-nav {{ navOpen }}">
     <div class="vh-links">

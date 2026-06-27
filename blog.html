@@ -17,9 +17,9 @@
 <style>
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
   .vlink{transition:color .25s}
-  .vlink:hover{color:#f3ece0 !important}
+  .vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vpost{transition:transform .4s cubic-bezier(.2,.7,.2,1)}
@@ -29,12 +29,12 @@
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
   .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
   .vchip{cursor:pointer;transition:color .2s,border-color .2s,background .2s}
-  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
-  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:rgba(201,168,106,.7)}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
 
   <!-- HEADER -->
   <dc-import name="SiteHeader" lang="{{ lang }}" active="blog" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
@@ -42,7 +42,7 @@
   <!-- PAGE HERO -->
   <section style="padding:160px 7vw 50px;text-align:center;border-bottom:1px solid rgba(201,168,106,.12)">
     <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.blogKicker }}</div>
-    <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:#f3ece0;margin:0;line-height:1.04">{{ t.blogTitle }}</h1>
+    <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:var(--c-paper-50);margin:0;line-height:1.04">{{ t.blogTitle }}</h1>
     <p style="font:300 clamp(15px,2vw,19px)/1.6 Spectral,serif;color:#a89c84;max-width:620px;margin:20px auto 0">{{ t.blogIntro }}</p>
   </section>
 
@@ -54,12 +54,12 @@
       </div>
       <div style="flex:1;min-width:300px">
         <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
-          <span style="font:500 10px Spectral,serif;color:#1a1410;background:#c9a86a;letter-spacing:2px;padding:5px 11px;border-radius:2px">{{ t.featured.cat }}</span>
+          <span style="font:500 10px Spectral,serif;color:var(--bg-2);background:var(--gold);letter-spacing:2px;padding:5px 11px;border-radius:2px">{{ t.featured.cat }}</span>
           <span style="font:300 12px Spectral,serif;color:#7a7060">{{ t.featuredMeta }}</span>
         </div>
         <h2 style="font:400 clamp(26px,3.4vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 16px;line-height:1.12">{{ t.featured.title }}</h2>
         <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 22px;max-width:460px">{{ t.featured.excerpt }}</p>
-        <span class="vbtn" style="display:inline-block;font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;border-bottom:1px solid rgba(201,168,106,.4);padding-bottom:3px">{{ t.readMore }} →</span>
+        <span class="vbtn" style="display:inline-block;font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;border-bottom:1px solid rgba(201,168,106,.4);padding-bottom:3px">{{ t.readMore }} →</span>
       </div>
     </a>
   </section>
@@ -79,10 +79,10 @@
               <img src="{{ p.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
             <div style="display:flex;gap:12px;align-items:center;margin:18px 0 12px">
-              <span style="font:500 10px Spectral,serif;color:#c9a86a;letter-spacing:2px">{{ p.cat }}</span>
+              <span style="font:500 10px Spectral,serif;color:var(--gold);letter-spacing:2px">{{ p.cat }}</span>
               <span style="font:300 12px Spectral,serif;color:#6b6152">{{ p.meta }}</span>
             </div>
-            <h3 style="font:400 22px Forum,serif;color:#ece4d6;margin:0 0 10px;line-height:1.18">{{ p.title }}</h3>
+            <h3 style="font:400 22px Forum,serif;color:var(--text);margin:0 0 10px;line-height:1.18">{{ p.title }}</h3>
             <p style="font:300 14px/1.65 Spectral,serif;color:#8f8576;margin:0">{{ p.excerpt }}</p>
           </a>
         </sc-for>
@@ -98,12 +98,12 @@
       <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 0 28px">{{ t.subText }}</p>
       <sc-if value="{{ notSubbed }}" hint-placeholder-val="{{ true }}">
         <form onSubmit="{{ onSub }}" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <input type="email" required placeholder="{{ t.subPlaceholder }}" style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,106,.3);border-radius:2px;color:#ece4d6;font:300 14px Spectral,serif;padding:13px 18px;width:280px;outline:none">
-          <button type="submit" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:13px 28px;border:none;border-radius:2px;cursor:pointer">{{ t.subBtn }}</button>
+          <input type="email" required placeholder="{{ t.subPlaceholder }}" style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,106,.3);border-radius:2px;color:var(--text);font:300 14px Spectral,serif;padding:13px 18px;width:280px;outline:none">
+          <button type="submit" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:13px 28px;border:none;border-radius:2px;cursor:pointer">{{ t.subBtn }}</button>
         </form>
       </sc-if>
       <sc-if value="{{ subbed }}" hint-placeholder-val="{{ false }}">
-        <div style="font:400 17px Spectral,serif;color:#c9a86a;padding:6px 0">{{ t.subOk }}</div>
+        <div style="font:400 17px Spectral,serif;color:var(--gold);padding:6px 0">{{ t.subOk }}</div>
       </sc-if>
     </div>
   </section>
