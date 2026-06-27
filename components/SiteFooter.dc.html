@@ -17,6 +17,9 @@
   .vflink:hover{color:var(--c-paper-50) !important}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:rgba(201,168,106,.7)}
+  .vfsbtn{cursor:pointer;background:transparent;border:1px solid var(--line-med);color:var(--text-dim);font-family:Spectral,serif;line-height:1;border-radius:3px;padding:5px 9px;min-width:30px;transition:color .2s,border-color .2s,background .2s}
+  .vfsbtn:hover{color:var(--text);border-color:var(--line-strong)}
+  @media (hover:none) and (pointer:coarse){ .vfsbtn{min-width:44px;min-height:44px} }
 </style>
 </helmet>
 <footer style="background:#0d0b08;padding:60px 7vw 38px;border-top:1px solid rgba(201,168,106,.14);font-family:Spectral,serif">
@@ -50,7 +53,15 @@
       </div>
     </div>
   </div>
-  <div style="max-width:1180px;margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(201,168,106,.1);font:300 12px Spectral,serif;color:#6b6152">© 2026 · {{ c.footRights }}</div>
+  <div style="max-width:var(--container);margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(201,168,106,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
+    <div style="font:300 12px Spectral,serif;color:#6b6152">© 2026 · {{ c.footRights }}</div>
+    <div role="group" aria-label="{{ fs.label }}" style="display:flex;align-items:center;gap:8px">
+      <span style="font:300 12px Spectral,serif;color:var(--text-mute)">{{ fs.label }}</span>
+      <sc-for list="{{ fsBtns }}" as="b" hint-placeholder-count="3">
+        <button onClick="{{ b.onSelect }}" aria-pressed="{{ b.pressed }}" aria-label="{{ b.aria }}" class="vfsbtn" style="{{ b.style }}">А</button>
+      </sc-for>
+    </div>
+  </div>
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:320},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;,&quot;uk&quot;,&quot;bg&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
@@ -69,9 +80,31 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',
       footNav:'РАЗДЕЛИ',footContactTitle:'КОНТАКТ',footCity:'гр. Варна, България',writeBtn:'Пишете на автора →',footRights:'Всички права запазени'},
   };
+  FSL = {
+    ru:{label:'Размер текста',a:['Обычный','Крупнее','Ещё крупнее']},
+    en:{label:'Text size',a:['Normal','Larger','Largest']},
+    uk:{label:'Розмір тексту',a:['Звичайний','Більший','Найбільший']},
+    bg:{label:'Размер на текста',a:['Нормален','По-голям','Най-голям']},
+  };
+  LEVELS = [{k:'1',sz:13},{k:'2',sz:16},{k:'3',sz:19}];
+  ZOOM = {'1':'1','2':'1.12','3':'1.24'};
+  state = { fs:'1' };
+  componentDidMount(){ try{ const f=localStorage.getItem('vish_fs')||'1'; this.applyZoom(f); if(f!==this.state.fs) this.setState({fs:f}); }catch(e){} }
+  applyZoom(f){ try{ document.documentElement.style.zoom=this.ZOOM[f]||'1'; }catch(e){} }
+  setFs(f){ try{ localStorage.setItem('vish_fs',f); }catch(e){} this.applyZoom(f); this.setState({fs:f}); }
   renderVals(){
     const lang = this.CH[this.props.lang] ? this.props.lang : 'ru';
-    return { c:this.CH[lang] };
+    const fsl = this.FSL[lang] || this.FSL.ru;
+    const cur = this.state.fs;
+    const fsBtns = this.LEVELS.map((lv,i)=>({
+      pressed: lv.k===cur ? 'true' : 'false',
+      aria: fsl.a[i],
+      onSelect: ()=>this.setFs(lv.k),
+      style: 'cursor:pointer;font-size:'+lv.sz+'px;'+(lv.k===cur
+        ? 'background:rgba(201,168,106,.12);border:1px solid var(--line-strong);color:var(--gold-soft);'
+        : '')
+    }));
+    return { c:this.CH[lang], fs:{label:fsl.label}, fsBtns };
   }
 }
 </script>
