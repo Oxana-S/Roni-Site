@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /wireframe.html
+Disallow: /directions.html
+Disallow: /styleguide.html
+Disallow: /design-tokens.html
+Disallow: /dev.html
+
+Sitemap: https://oxana-s.github.io/Roni-Site/sitemap.xml
