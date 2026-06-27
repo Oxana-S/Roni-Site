@@ -1,0 +1,42 @@
+/* styles/theme.css — единый источник истины для дизайна.
+   ФАЗА 1: только объявления токенов + базовая доступность.
+   Значения = текущие фактические цвета/размеры сайта (вид не меняется). */
+:root{
+  /* --- Примитивы --- */
+  --c-ink-900:#14110d; --c-ink-850:#16120d; --c-ink-800:#1a1410; --c-ink-700:#2c241a;
+  --c-gold-500:#c9a86a; --c-gold-300:#f0d8a8; --c-paper-100:#ece4d6; --c-paper-50:#f3ece0;
+  --c-mute-500:#8a8070; --c-dim-400:#c9bda8;
+
+  /* --- Семантика --- */
+  --bg:var(--c-ink-900); --bg-2:var(--c-ink-800);
+  --gold:var(--c-gold-500); --gold-soft:var(--c-gold-300);
+  --text:var(--c-paper-100); --text-dim:var(--c-dim-400); --text-mute:var(--c-mute-500);
+  --line-soft:rgba(201,168,106,.18); --line-med:rgba(201,168,106,.3); --line-strong:rgba(201,168,106,.7);
+  --header-bg:rgba(20,17,13,.72);
+
+  /* --- Слой / сетка --- */
+  --container:1180px; --container-narrow:980px; --measure:760px;
+  --gutter:7vw; --header-h:66px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px;
+  --space-6:32px; --space-7:40px; --space-8:56px; --space-9:72px; --space-10:96px;
+  --radius:2px; --shadow:0 24px 50px rgba(0,0,0,.6);
+
+  /* --- Типографика --- */
+  --font-display:Forum,serif; --font-body:Spectral,serif;
+  --fw-300:300; --fw-400:400; --fw-500:500;
+  --lh-tight:1.15; --lh-normal:1.5; --lh-loose:1.7;
+  --tracking-1:.5px; --tracking-2:1px; --tracking-3:3px;
+  --fs-eyebrow:12px; --fs-small:14px; --fs-nav:16px; --fs-body:17px; --fs-lead:19px;
+  --fs-h3:22px; --fs-h2:clamp(28px,4vw,44px); --fs-h1:clamp(40px,7vw,96px);
+
+  /* --- Служебные --- */
+  --z-header:50; --z-overlay:100; --z-toast:1000;
+  --t-fast:.25s; --t-med:.4s; --ease:cubic-bezier(.2,.7,.2,1);
+  --focus-ring:2px solid var(--gold); --touch-min:44px;
+}
+
+/* Доступность — безопасно добавляется сразу */
+:focus-visible{ outline:var(--focus-ring); outline-offset:2px; }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+}
