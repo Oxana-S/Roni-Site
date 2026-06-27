@@ -48,7 +48,7 @@
 
   <!-- FEATURED -->
   <section style="padding:64px 7vw 30px">
-    <a href="Статья.dc.html?id=1" class="vpost" style="max-width:1180px;margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
+    <a href="article.html?id=1" class="vpost" style="max-width:1180px;margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
       <div class="vthumb" style="flex:1;min-width:320px;aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);background:#1c1812">
         <img src="assets/img/blog-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
@@ -235,7 +235,7 @@ class Component extends DCLogic {
       return {label,onSelect:()=>this.setState({cat:c}),
         style:'background:'+(active?'#c9a86a':'transparent')+';color:'+(active?'#1a1410':'#a89c84')+';border:1px solid '+(active?'#c9a86a':'rgba(201,168,106,.3)')+';font:400 12px Spectral,serif;letter-spacing:1px;padding:8px 16px;border-radius:2px;'};
     });
-    const withLink=t.posts.map((p,i)=>Object.assign({},p,{link:'Статья.dc.html?id='+(i+2)}));
+    const withLink=t.posts.map((p,i)=>Object.assign({},p,{link:'article.html?id='+(i+2)}));
     const gridPosts=this.state.cat==='all'?withLink:withLink.filter(p=>p.cat===this.state.cat);
     return {
       t, langBtns, chips, gridPosts,

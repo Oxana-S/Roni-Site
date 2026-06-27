@@ -40,13 +40,13 @@
         <div style="font:400 11px Spectral,serif;color:#f3cda2;letter-spacing:5px;margin-bottom:18px">{{ t.heroKicker }}</div>
         <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:#fbf2e4;margin:0 0 16px;line-height:1.02">{{ t.title }}</h1>
         <p style="font:300 italic clamp(16px,2vw,20px) Spectral,serif;color:#e3c9ad;margin:0 0 22px;max-width:480px">{{ t.tagline }}</p>
-        <a href="Отзывы.dc.html" class="vlink" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:30px">
+        <a href="reviews.html" class="vlink" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:30px">
           <span style="font:400 15px Spectral,serif;color:#c9a86a;letter-spacing:2px">★★★★★</span>
           <span style="font:300 13px Spectral,serif;color:#9c917c">{{ t.ratingNote }}</span>
         </a>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
           <a href="#offer" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.25)">{{ t.buyBtn }}</a>
-          <a href="Читать онлайн.dc.html" class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
+          <a href="read.html" class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px">{{ t.alsoOn }}</span>
@@ -111,7 +111,7 @@
       <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:24px">{{ t.excKicker }}</div>
       <div style="font:400 70px Forum,serif;color:#c9a86a;line-height:0;height:30px;opacity:.5">“</div>
       <p style="font:300 italic clamp(20px,3vw,30px)/1.5 Spectral,serif;color:#ece4d6;margin:0 0 34px">{{ t.excQuote }}</p>
-      <a href="Читать онлайн.dc.html" class="vbtn" style="display:inline-block;background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
+      <a href="read.html" class="vbtn" style="display:inline-block;background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
     </div>
   </section>
 
@@ -120,7 +120,7 @@
     <div style="max-width:1080px;margin:0 auto">
       <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:36px">
         <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0">{{ t.revTitle }}</h2>
-        <a href="Отзывы.dc.html" class="vlink" style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.revAll }}</a>
+        <a href="reviews.html" class="vlink" style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.revAll }}</a>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
         <sc-for list="{{ t.revItems }}" as="r" hint-placeholder-count="2">
@@ -143,7 +143,7 @@
       <div style="flex:1;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:14px">{{ t.authKicker }}</div>
         <p style="font:300 italic clamp(18px,2.2vw,24px)/1.55 Spectral,serif;color:#e3d6bd;margin:0 0 18px">{{ t.authText }}</p>
-        <a href="Об авторе.dc.html" class="vlink" style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.authBtn }}</a>
+        <a href="about.html" class="vlink" style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.authBtn }}</a>
       </div>
     </div>
   </section>
@@ -163,7 +163,7 @@
         </sc-for>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
-        <a href="Заказ.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.28)">{{ t.buyNow }}</a>
+        <a href="order.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.28)">{{ t.buyNow }}</a>
         <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:14px 20px;text-decoration:none">
           <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           <span style="font:500 13px Spectral,serif;color:#ece4d6;white-space:nowrap">Amazon Kindle</span>

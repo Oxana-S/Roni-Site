@@ -31,7 +31,7 @@
 </style>
 </helmet>
 <header class="vhead {{ headScrolled }}">
-  <a href="Главная.dc.html" style="font:400 20px Forum,serif;color:#f3ece0;letter-spacing:3px;text-decoration:none">{{ brand }}</a>
+  <a href="index.html" style="font:400 20px Forum,serif;color:#f3ece0;letter-spacing:3px;text-decoration:none">{{ brand }}</a>
   <button class="vh-burger" aria-label="Меню" onClick="{{ toggle }}">{{ burger }}</button>
   <div class="vh-nav {{ navOpen }}">
     <div class="vh-links">
@@ -51,11 +51,11 @@
 class Component extends DCLogic {
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
   NAV = [
-    {key:'books',  href:'Главная.dc.html#books'},
-    {key:'author', href:'Об авторе.dc.html'},
-    {key:'blog',   href:'Блог.dc.html'},
-    {key:'news',   href:'Новости.dc.html'},
-    {key:'contact',href:'Контакты.dc.html'},
+    {key:'books',  href:'index.html#books'},
+    {key:'author', href:'about.html'},
+    {key:'blog',   href:'blog.html'},
+    {key:'news',   href:'news.html'},
+    {key:'contact',href:'contacts.html'},
   ];
   CH = {
     ru:{brand:'Р·ВИШНЕВСКИЙ',nav:{books:'Книги',author:'Автор',blog:'Блог',news:'Новости',contact:'Контакты'}},

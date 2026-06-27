@@ -26,7 +26,7 @@
 <div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden">
 
   <header style="display:flex;align-items:center;justify-content:space-between;padding:22px 7vw;position:relative;z-index:2">
-    <a href="Главная.dc.html" style="font:400 18px Forum,serif;color:#f3ece0;letter-spacing:3px;text-decoration:none">{{ t.brand }}</a>
+    <a href="index.html" style="font:400 18px Forum,serif;color:#f3ece0;letter-spacing:3px;text-decoration:none">{{ t.brand }}</a>
     <div style="display:flex;align-items:center;gap:3px">
       <sc-for list="{{ langBtns }}" as="lb" hint-placeholder-count="4">
         <button onClick="{{ lb.onSelect }}" style="{{ lb.style }}">{{ lb.label }}</button>
@@ -41,15 +41,15 @@
       <h1 style="font:400 clamp(34px,5.4vw,62px) Forum,serif;color:#f3ece0;margin:0 0 22px;line-height:1.08;max-width:760px">{{ t.title }}</h1>
       <p style="font:300 clamp(15px,2vw,19px)/1.65 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 38px">{{ t.text }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="Главная.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnHome }}</a>
-        <a href="Блог.dc.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnBlog }}</a>
+        <a href="index.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnHome }}</a>
+        <a href="blog.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnBlog }}</a>
       </div>
     </div>
   </main>
 
   <footer style="padding:30px 7vw;border-top:1px solid rgba(201,168,106,.14);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
     <div style="font:300 12px Spectral,serif;color:#6b6152">© 2026 · {{ t.rights }}</div>
-    <a href="Контакты.dc.html" class="vlink" style="font:300 13px Spectral,serif;color:#c9bda8;text-decoration:none">{{ t.contact }}</a>
+    <a href="contacts.html" class="vlink" style="font:300 13px Spectral,serif;color:#c9bda8;text-decoration:none">{{ t.contact }}</a>
   </footer>
 
 </div>
