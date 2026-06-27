@@ -13,38 +13,42 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 7vw;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:18px 7vw;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
   .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vh-brand{justify-self:start}
   .vhlink{transition:color .25s}
   .vhlink:hover{color:var(--c-paper-50) !important}
-  .vh-burger{display:none;background:transparent;border:none;color:var(--gold);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
-  .vh-nav{display:flex;align-items:center;gap:28px}
+  .vh-burger{display:none;justify-self:end;background:transparent;border:none;color:var(--gold);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
+  .vh-nav{justify-self:center;display:flex;align-items:center}
   .vh-links{display:flex;gap:26px;font:400 16px Spectral,serif;letter-spacing:.5px}
-  .vh-langs{display:flex;align-items:center;gap:3px;border-left:1px solid rgba(201,168,106,.3);padding-left:16px}
-  @media(max-width:820px){
+  .vh-langs{justify-self:end;display:flex;align-items:center;gap:3px;border-left:1px solid rgba(201,168,106,.3);padding-left:16px}
+  @media(max-width:900px){
+    .vhead{display:flex;justify-content:space-between}
+    .vh-brand{margin-right:auto}
     .vh-burger{display:block}
     .vh-nav{position:fixed;top:59px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:16px;background:rgba(16,12,9,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,106,.18);padding:22px 7vw 26px;transform:translateY(-130%);transition:transform .32s cubic-bezier(.2,.7,.2,1);pointer-events:none}
     .vh-nav.open{transform:translateY(0);pointer-events:auto}
     .vh-links{flex-direction:column;gap:18px;font-size:16px}
-    .vh-langs{border-left:none;padding-left:0;margin-top:4px}
+    .vh-langs{border-left:none;padding-left:8px;margin-right:6px}
+    .vh-langs button{padding:3px 6px !important;font-size:12px !important}
   }
 </style>
 </helmet>
 <header class="vhead {{ headScrolled }}">
-  <a href="index.html" style="font:400 20px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;text-decoration:none">{{ brand }}</a>
-  <button class="vh-burger" aria-label="{{ navLabel }}" aria-expanded="{{ burgerExpanded }}" aria-controls="site-nav" onClick="{{ toggle }}">{{ burger }}</button>
+  <a class="vh-brand" href="index.html" style="font:400 20px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;text-decoration:none">{{ brand }}</a>
   <nav id="site-nav" class="vh-nav {{ navOpen }}" aria-label="{{ navLabel }}">
     <div class="vh-links">
       <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
         <a href="{{ n.href }}" class="vhlink" aria-current="{{ n.current }}" style="{{ n.style }}">{{ n.label }}</a>
       </sc-for>
     </div>
-    <div class="vh-langs" role="group" aria-label="{{ langLabel }}">
-      <sc-for list="{{ langBtns }}" as="lb" hint-placeholder-count="4">
-        <button onClick="{{ lb.onSelect }}" aria-pressed="{{ lb.pressed }}" aria-label="{{ lb.aria }}" style="{{ lb.style }}">{{ lb.label }}</button>
-      </sc-for>
-    </div>
   </nav>
+  <div class="vh-langs" role="group" aria-label="{{ langLabel }}">
+    <sc-for list="{{ langBtns }}" as="lb" hint-placeholder-count="4">
+      <button onClick="{{ lb.onSelect }}" aria-pressed="{{ lb.pressed }}" aria-label="{{ lb.aria }}" style="{{ lb.style }}">{{ lb.label }}</button>
+    </sc-for>
+  </div>
+  <button class="vh-burger" aria-label="{{ navLabel }}" aria-expanded="{{ burgerExpanded }}" aria-controls="site-nav" onClick="{{ toggle }}">{{ burger }}</button>
 </header>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:68},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;,&quot;uk&quot;,&quot;bg&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;books&quot;,&quot;author&quot;,&quot;blog&quot;,&quot;news&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onLang&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(code:string)=&gt;void&quot;}}">
