@@ -40,3 +40,22 @@
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
 }
+
+/* --- Базовая устойчивость на мобильных --- */
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body{ overflow-wrap:break-word; }
+img{ max-width:100%; }
+
+/* --- Skip-link для клавиатуры/скринридеров (показывается при фокусе) --- */
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:var(--z-toast);
+  background:var(--bg-2); color:var(--gold-soft);
+  padding:10px 16px; border:1px solid var(--line-strong); border-radius:var(--radius);
+  font:var(--fw-400) var(--fs-small)/1 var(--font-body);
+}
+.skip-link:focus{ left:12px; top:12px; }
+
+/* --- Минимальный тач-таргет для интерактива в шапке --- */
+@media (hover:none) and (pointer:coarse){
+  .vh-langs button, .vh-burger{ min-width:var(--touch-min); min-height:var(--touch-min); }
+}
