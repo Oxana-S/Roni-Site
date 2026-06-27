@@ -16,7 +16,7 @@
 <style>
   *{box-sizing:border-box}html{scroll-behavior:smooth}
   body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
-  .ds-sec{max-width:1080px;margin:0 auto;padding:54px 7vw;border-top:1px solid rgba(201,168,106,.12)}
+  .ds-sec{max-width:var(--container);margin:0 auto;padding:54px 7vw;border-top:1px solid rgba(201,168,106,.12)}
   .ds-h{font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:28px}
   .ds-lead{font:300 15px/1.6 Spectral,serif;color:#a89c84;max-width:560px;margin:0 0 26px}
   .swatch{border-radius:4px;height:96px;border:1px solid rgba(201,168,106,.15)}
@@ -35,7 +35,7 @@
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
-  <section style="max-width:1080px;margin:0 auto;padding:140px 7vw 20px">
+  <section style="max-width:var(--container);margin:0 auto;padding:140px 7vw 20px">
     <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
     <h1 style="font:400 clamp(36px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0 0 16px">{{ t.title }}</h1>
     <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#a89c84;max-width:620px;margin:0">{{ t.intro }}</p>

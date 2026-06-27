@@ -44,7 +44,7 @@
 
   <!-- GRID -->
   <section style="padding:40px 7vw 80px">
-    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px">
+    <div style="max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px">
       <sc-for list="{{ t.reviews }}" as="r" hint-placeholder-count="6">
         <div class="vrev" style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:30px 28px;background:rgba(201,168,106,.02);display:flex;flex-direction:column">
           <div style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:3px;margin-bottom:16px">{{ r.stars }}</div>
@@ -63,7 +63,7 @@
 
   <!-- CTA -->
   <section style="padding:20px 7vw 90px">
-    <div style="max-width:1080px;margin:0 auto;text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+    <div style="max-width:var(--container);margin:0 auto;text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
       <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:440px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">

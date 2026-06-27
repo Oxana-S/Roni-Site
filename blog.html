@@ -48,7 +48,7 @@
 
   <!-- FEATURED -->
   <section style="padding:64px 7vw 30px">
-    <a href="article.html?id=1" class="vpost" style="max-width:1180px;margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
+    <a href="article.html?id=1" class="vpost" style="max-width:var(--container);margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
       <div class="vthumb" style="flex:1;min-width:320px;aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);background:#1c1812">
         <img src="assets/img/blog-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
@@ -66,7 +66,7 @@
 
   <!-- FILTER + GRID -->
   <section style="padding:30px 7vw 80px">
-    <div style="max-width:1180px;margin:0 auto">
+    <div style="max-width:var(--container);margin:0 auto">
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px;border-bottom:1px solid rgba(201,168,106,.12);padding-bottom:24px">
         <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="6">
           <button class="vchip" onClick="{{ ch.onSelect }}" style="{{ ch.style }}">{{ ch.label }}</button>
