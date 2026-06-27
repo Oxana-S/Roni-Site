@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Токены · Дизайн-система · Ростислав Вишневский</title>
+<link rel="stylesheet" href="styles/theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); line-height:var(--lh-normal); }
+  .sg-wrap{ max-width:var(--container); margin:0 auto; padding:64px 7vw 120px; }
+  .sg-h1{ font-family:var(--font-display); font-weight:var(--fw-400); font-size:var(--fs-h1); letter-spacing:1px; margin:0 0 6px; color:var(--gold-soft); }
+  .sg-sub{ color:var(--text-mute); font-size:var(--fs-body); margin:0 0 8px; }
+  .sg-note{ color:var(--text-dim); font-size:var(--fs-small); max-width:var(--measure); }
+  .sg-note code{ color:var(--gold); }
+  .sg-sec{ margin-top:64px; }
+  .sg-sec > h2{ font-family:var(--font-display); font-weight:var(--fw-400); font-size:var(--fs-h2); color:var(--text); margin:0 0 4px; }
+  .sg-sec > .sg-lead{ color:var(--text-mute); font-size:var(--fs-small); letter-spacing:var(--tracking-2); text-transform:uppercase; margin:0 0 28px; }
+  .sg-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; }
+  .sw{ border:1px solid var(--line-soft); border-radius:var(--radius); overflow:hidden; background:var(--bg-2); }
+  .sw-chip{ height:88px; }
+  .sw-body{ padding:10px 12px 14px; }
+  .sw-name{ font-size:var(--fs-small); color:var(--text); }
+  .sw-var{ font-family:ui-monospace,monospace; font-size:12px; color:var(--gold); margin-top:3px; }
+  .sw-val{ font-family:ui-monospace,monospace; font-size:11px; color:var(--text-mute); }
+  .sw-aa{ display:inline-block; margin-top:6px; font-size:11px; padding:2px 7px; border-radius:20px; }
+  .aa-pass{ background:rgba(58,107,74,.25); color:#9fd6ad; border:1px solid rgba(120,200,140,.4); }
+  .aa-warn{ background:rgba(140,90,30,.22); color:#e0b070; border:1px solid rgba(200,150,80,.4); }
+  .aa-fail{ background:rgba(176,0,32,.2); color:#f0a0a8; border:1px solid rgba(200,80,90,.45); }
+  .type-row{ display:flex; align-items:baseline; gap:18px; padding:14px 0; border-bottom:1px solid var(--line-soft); flex-wrap:wrap; }
+  .type-meta{ width:170px; flex-shrink:0; }
+  .type-meta .v{ font-family:ui-monospace,monospace; font-size:12px; color:var(--gold); }
+  .type-meta .s{ font-size:11px; color:var(--text-mute); }
+  .space-row{ display:flex; align-items:center; gap:16px; padding:8px 0; }
+  .space-bar{ height:16px; background:var(--gold); border-radius:2px; }
+  .space-meta{ font-family:ui-monospace,monospace; font-size:12px; color:var(--text-dim); }
+  .btn-demo{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+  .btn{ font-family:var(--font-body); font-weight:var(--fw-500); font-size:14.5px; letter-spacing:var(--tracking-2); padding:15px 30px; border-radius:var(--radius); text-decoration:none; cursor:pointer; border:1px solid transparent; }
+  .btn--primary{ background:var(--gold); color:var(--bg-2); }
+  .btn--ghost{ background:transparent; color:var(--text); border-color:var(--line-strong); }
+  .inv{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+  .inv div{ border:1px dashed var(--line-med); border-radius:var(--radius); padding:12px 14px; font-size:var(--fs-small); color:var(--text-dim); }
+  .inv b{ color:var(--text); font-weight:var(--fw-500); }
+  a.sg-back{ color:var(--gold); text-decoration:none; font-size:var(--fs-small); }
+</style>
+</head>
+<body>
+<div class="sg-wrap">
+  <a class="sg-back" href="index.html">← на сайт</a> &nbsp;·&nbsp; <a class="sg-back" href="styleguide.html">дизайн-система →</a>
+  <h1 class="sg-h1">Токены</h1>
+  <p class="sg-sub">Живой каталог дизайн-системы — единый источник истины.</p>
+  <p class="sg-note">Эта страница читает токены напрямую из <code>styles/theme.css</code> через <code>getComputedStyle</code>. Меняешь значение в theme.css — каталог и весь сайт обновляются автоматически. Контраст считается по WCAG относительно фона.</p>
+
+  <section class="sg-sec">
+    <h2>Цвета</h2>
+    <div class="sg-lead">Палитра · контраст к фону (WCAG AA ≥ 4.5 текст · ≥ 3.0 крупный)</div>
+    <div class="sg-grid" id="colors"></div>
+  </section>
+
+  <section class="sg-sec">
+    <h2>Типографика</h2>
+    <div class="sg-lead">Шкала размеров · Forum (заголовки) + Spectral (текст)</div>
+    <div id="type"></div>
+  </section>
+
+  <section class="sg-sec">
+    <h2>Отступы</h2>
+    <div class="sg-lead">Шкала spacing · базис 4px</div>
+    <div id="space"></div>
+  </section>
+
+  <section class="sg-sec">
+    <h2>Кнопки</h2>
+    <div class="sg-lead">Primary · Ghost</div>
+    <div class="btn-demo">
+      <a class="btn btn--primary" href="#">Купить · €3.99</a>
+      <a class="btn btn--ghost" href="#">Читать главу</a>
+    </div>
+  </section>
+
+  <section class="sg-sec">
+    <h2>Контейнеры и компоненты</h2>
+    <div class="sg-lead">Ширины и переиспользуемые блоки</div>
+    <div class="inv">
+      <div><b>--container</b> — широкие секции</div>
+      <div><b>--container-narrow</b> — узкие блоки</div>
+      <div><b>--measure</b> — ширина абзаца прозы</div>
+      <div><b>--gutter</b> — боковой отступ (7vw)</div>
+      <div><b>SiteHeader</b> — шапка + меню + языки</div>
+      <div><b>SiteFooter</b> — подвал</div>
+      <div><b>PageTemplate</b> — каркас страницы</div>
+    </div>
+    <p class="sg-note" style="margin-top:14px">Новые страницы собираются из блоков /components/ через <code>&lt;dc-import name="…"&gt;</code>; размеры и цвета берутся из токенов — править в одном месте.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root = getComputedStyle(document.documentElement);
+  function val(name){ return root.getPropertyValue(name).trim(); }
+  function toRGB(c){
+    var d = document.createElement('div'); d.style.color = c; document.body.appendChild(d);
+    var m = getComputedStyle(d).color.match(/[\d.]+/g); document.body.removeChild(d);
+    return m ? [parseFloat(m[0]),parseFloat(m[1]),parseFloat(m[2])] : null;
+  }
+  function lum(rgb){
+    var a = rgb.map(function(v){ v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
+    return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2];
+  }
+  function ratio(c1,c2){
+    var r1=toRGB(c1), r2=toRGB(c2); if(!r1||!r2) return null;
+    var L1=lum(r1), L2=lum(r2), hi=Math.max(L1,L2), lo=Math.min(L1,L2);
+    return (hi+0.05)/(lo+0.05);
+  }
+
+  var bg = val('--bg');
+  var COLORS = [
+    ['--bg','Фон'], ['--bg-2','Фон 2'],
+    ['--gold','Золото'], ['--gold-soft','Золото мягкое'],
+    ['--text','Текст'], ['--text-dim','Текст приглушённый'], ['--text-mute','Текст тихий']
+  ];
+  var ch = document.getElementById('colors');
+  COLORS.forEach(function(c){
+    var v = val(c[0]), rr = ratio(v, bg), aa='', cls='';
+    if(c[0]==='--bg' || c[0]==='--bg-2'){ aa='фон'; cls='aa-warn'; }
+    else if(rr!==null){
+      var r = rr.toFixed(2);
+      if(rr>=4.5){ aa='AA · '+r; cls='aa-pass'; }
+      else if(rr>=3.0){ aa='только крупный · '+r; cls='aa-warn'; }
+      else { aa='ниже AA · '+r; cls='aa-fail'; }
+    }
+    ch.insertAdjacentHTML('beforeend',
+      '<div class="sw"><div class="sw-chip" style="background:'+v+'"></div>'+
+      '<div class="sw-body"><div class="sw-name">'+c[1]+'</div>'+
+      '<div class="sw-var">'+c[0]+'</div><div class="sw-val">'+v+'</div>'+
+      (aa?'<span class="sw-aa '+cls+'">'+aa+'</span>':'')+'</div></div>');
+  });
+
+  var TYPE = [
+    ['--fs-h1','H1 · Forum','display'], ['--fs-h2','H2 · Forum','display'], ['--fs-h3','H3 · Forum','display'],
+    ['--fs-lead','Lead','body'], ['--fs-body','Body','body'], ['--fs-nav','Nav','body'],
+    ['--fs-small','Small','body'], ['--fs-eyebrow','Eyebrow','body']
+  ];
+  var tc = document.getElementById('type');
+  TYPE.forEach(function(t){
+    var fam = t[2]==='display' ? 'var(--font-display)' : 'var(--font-body)';
+    tc.insertAdjacentHTML('beforeend',
+      '<div class="type-row"><div class="type-meta"><div class="v">'+t[0]+'</div><div class="s">'+val(t[0])+'</div></div>'+
+      '<div style="font-family:'+fam+';font-size:'+val(t[0])+';color:var(--text);line-height:1.1">'+t[1]+' — Ростислав</div></div>');
+  });
+
+  var sc = document.getElementById('space');
+  for(var i=1;i<=10;i++){
+    var name='--space-'+i, v=val(name);
+    sc.insertAdjacentHTML('beforeend',
+      '<div class="space-row"><div class="space-bar" style="width:'+v+'"></div>'+
+      '<div class="space-meta">'+name+' · '+v+'</div></div>');
+  }
+})();
+</script>
+</body>
+</html>
