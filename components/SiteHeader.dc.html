@@ -35,7 +35,10 @@
 </style>
 </helmet>
 <header class="vhead {{ headScrolled }}">
-  <a class="vh-brand" href="index.html" style="font:400 20px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;text-decoration:none">{{ brand }}</a>
+  <a class="vh-brand" href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+    <img src="assets/img/logo.png" alt="" style="width:30px;height:30px;display:block;flex-shrink:0">
+    <span style="font:400 20px Forum,serif;color:var(--c-paper-50);letter-spacing:3px">{{ brand }}</span>
+  </a>
   <nav id="site-nav" class="vh-nav {{ navOpen }}" aria-label="{{ navLabel }}">
     <div class="vh-links">
       <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
