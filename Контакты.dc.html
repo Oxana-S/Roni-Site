@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Контакты · Написать автору · Ростислав Вишневский</title>
+<meta name="description" content="Свяжитесь с писателем Ростиславом Вишневским: напишите письмо автору, задайте вопрос о книгах мира Толуса или предложите сотрудничество.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+  .vfield{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(60,48,30,.35);color:#2c241a;font:400 16px Spectral,serif;padding:8px 2px;outline:none}
+  .vfield::placeholder{color:rgba(80,66,44,.45)}
+  .vfield:focus{border-bottom-color:#9c7b3e}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="contact" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <section style="padding:150px 7vw 40px;text-align:center">
+    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+    <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0;line-height:1.05">{{ t.title }}</h1>
+    <p style="font:300 clamp(15px,2vw,18px)/1.6 Spectral,serif;color:#a89c84;max-width:560px;margin:18px auto 0">{{ t.intro }}</p>
+  </section>
+
+  <section style="padding:40px 7vw 90px">
+    <div style="max-width:1080px;margin:0 auto;display:flex;gap:50px;align-items:flex-start;flex-wrap:wrap">
+
+      <!-- contact info -->
+      <div style="flex:1;min-width:260px">
+        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:4px;margin-bottom:24px">{{ t.infoTitle }}</div>
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div>
+            <div style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px;margin-bottom:5px">{{ t.emailLabel }}</div>
+            <a href="mailto:rostvish.bg@gmail.com" class="vlink" style="font:400 17px Spectral,serif;color:#ece4d6;text-decoration:none">rostvish.bg@gmail.com</a>
+          </div>
+          <div>
+            <div style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px;margin-bottom:5px">{{ t.phoneLabel }}</div>
+            <a href="tel:+359892903386" class="vlink" style="font:400 17px Spectral,serif;color:#ece4d6;text-decoration:none">+359 892 903 386</a>
+          </div>
+          <div>
+            <div style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px;margin-bottom:5px">{{ t.addressLabel }}</div>
+            <div style="font:400 16px/1.5 Spectral,serif;color:#c9bda8">{{ t.address }}</div>
+          </div>
+          <div>
+            <div style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px;margin-bottom:12px">{{ t.socialTitle }}</div>
+            <div style="display:flex;gap:10px">
+              <a href="https://www.facebook.com/rostyslavvyshnevskyi/" target="_blank" rel="noopener" aria-label="Facebook" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 8h2V5h-2.5C12.6 5 11 6.6 11 8.5V10H9v3h2v7h3v-7h2.2l.5-3H14V9c0-.6.4-1 1-1z"></path></svg></a>
+              <a href="В разработке.dc.html" aria-label="Instagram" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"></circle></svg></a>
+              <a href="В разработке.dc.html" aria-label="YouTube" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.5c-.2-1-.9-1.7-1.9-2C18.3 5 12 5 12 5s-6.3 0-8.1.5c-1 .3-1.7 1-1.9 2C1.5 9.3 1.5 12 1.5 12s0 2.7.5 4.5c.2 1 .9 1.7 1.9 2C5.7 19 12 19 12 19s6.3 0 8.1-.5c1-.3 1.7-1 1.9-2 .5-1.8.5-4.5.5-4.5s0-2.7-.5-4.5z"></path><path d="M10 15l5-3-5-3z" fill="#14110d"></path></svg></a>
+            </div>
+          </div>
+          <p style="font:300 italic 14px/1.6 Spectral,serif;color:#8a8070;margin:8px 0 0;max-width:300px">{{ t.responseNote }}</p>
+        </div>
+      </div>
+
+      <!-- letter form -->
+      <div style="flex:1.3;min-width:320px">
+        <div style="position:relative;background:linear-gradient(180deg,#f5ecd8,#efe4cd);border-radius:3px;box-shadow:0 24px 60px rgba(0,0,0,.45);padding:42px 40px 36px;background-image:repeating-linear-gradient(rgba(120,96,60,.07) 0 1px,transparent 1px 32px);background-position:0 64px">
+          <div style="position:absolute;top:16px;right:20px;font:600 15px Caveat,cursive;color:rgba(120,96,60,.5)">{{ t.stamp }}</div>
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}">
+              <div style="font:600 26px Caveat,cursive;color:#3a2f1e;margin-bottom:24px">{{ t.greeting }}</div>
+              <div style="display:flex;flex-direction:column;gap:22px">
+                <input class="vfield" type="text" required placeholder="{{ t.namePh }}">
+                <input class="vfield" type="email" required placeholder="{{ t.emailPh }}">
+                <textarea class="vfield" required rows="5" placeholder="{{ t.msgPh }}" style="resize:vertical;line-height:32px"></textarea>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:28px;flex-wrap:wrap;gap:14px">
+                <div style="font:600 18px Caveat,cursive;color:rgba(120,96,60,.7)">{{ t.signoff }}</div>
+                <button type="submit" class="vbtn" style="background:#2c241a;color:#f0e0c2;font:500 13px Spectral,serif;letter-spacing:2px;padding:14px 32px;border:none;border-radius:2px;cursor:pointer">{{ t.sendBtn }}</button>
+              </div>
+            </form>
+          </sc-if>
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:30px 10px">
+              <div style="font:600 32px Caveat,cursive;color:#3a2f1e;margin-bottom:14px">{{ t.sentTitle }}</div>
+              <p style="font:400 16px/1.6 Spectral,serif;color:#5a4a32;margin:0 auto;max-width:340px">{{ t.sentText }}</p>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  DICT = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      kicker:'НАПИШИТЕ АВТОРУ',title:'Письмо автору',intro:'Вопрос о книге, отзыв или предложение — напишите Ростиславу напрямую. Он читает все письма сам.',
+      infoTitle:'ПРЯМАЯ СВЯЗЬ',emailLabel:'ПОЧТА',phoneLabel:'ТЕЛЕФОН',addressLabel:'АДРЕС',address:'г. Варна, бул. Княз Борис I 72, эт. 2, ап. 4, 9000, Болгария',
+      socialTitle:'СОЦСЕТИ',responseNote:'Обычно отвечаю в течение нескольких дней. Письма на любом из четырёх языков — это нормально.',
+      stamp:'Варна · 2026',greeting:'Дорогой Ростислав,',namePh:'Ваше имя',emailPh:'Ваша почта для ответа',msgPh:'…здесь начните своё письмо',
+      signoff:'С уважением,',sendBtn:'ОТПРАВИТЬ',sentTitle:'Письмо отправлено!',sentText:'Спасибо. Ваше письмо ушло автору — ждите ответа на указанную почту.',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      kicker:'WRITE TO THE AUTHOR',title:'A letter to the author',intro:'A question about a book, a few kind words or a proposal — write to Rostyslav directly. He reads every letter himself.',
+      infoTitle:'DIRECT LINE',emailLabel:'EMAIL',phoneLabel:'PHONE',addressLabel:'ADDRESS',address:'Varna, Knyaz Boris I Blvd 72, fl. 2, apt. 4, 9000, Bulgaria',
+      socialTitle:'SOCIAL',responseNote:'I usually reply within a few days. Letters in any of the four languages are welcome.',
+      stamp:'Varna · 2026',greeting:'Dear Rostyslav,',namePh:'Your name',emailPh:'Your email for a reply',msgPh:'…begin your letter here',
+      signoff:'Yours sincerely,',sendBtn:'SEND',sentTitle:'Letter sent!',sentText:'Thank you. Your letter is on its way to the author — watch your inbox for a reply.',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      kicker:'НАПИШІТЬ АВТОРУ',title:'Лист авторові',intro:'Питання про книгу, відгук чи пропозиція — напишіть Ростиславу напряму. Він читає всі листи сам.',
+      infoTitle:'ПРЯМИЙ ЗВ’ЯЗОК',emailLabel:'ПОШТА',phoneLabel:'ТЕЛЕФОН',addressLabel:'АДРЕСА',address:'м. Варна, бул. Княз Борис I 72, пов. 2, ап. 4, 9000, Болгарія',
+      socialTitle:'СОЦМЕРЕЖІ',responseNote:'Зазвичай відповідаю протягом кількох днів. Листи будь-якою з чотирьох мов — це нормально.',
+      stamp:'Варна · 2026',greeting:'Дорогий Ростиславе,',namePh:'Ваше ім’я',emailPh:'Ваша пошта для відповіді',msgPh:'…почніть свій лист тут',
+      signoff:'З повагою,',sendBtn:'НАДІСЛАТИ',sentTitle:'Лист надіслано!',sentText:'Дякуємо. Ваш лист вирушив до автора — чекайте на відповідь на вказану пошту.',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      kicker:'ПИШЕТЕ НА АВТОРА',title:'Писмо до автора',intro:'Въпрос за книга, отзив или предложение — пишете на Ростислав директно. Той чете всички писма сам.',
+      infoTitle:'ДИРЕКТНА ВРЪЗКА',emailLabel:'ПОЩА',phoneLabel:'ТЕЛЕФОН',addressLabel:'АДРЕС',address:'гр. Варна, бул. Княз Борис I 72, ет. 2, ап. 4, 9000, България',
+      socialTitle:'СОЦМРЕЖИ',responseNote:'Обикновено отговарям в рамките на няколко дни. Писма на всеки от четирите езика са добре дошли.',
+      stamp:'Варна · 2026',greeting:'Скъпи Ростислав,',namePh:'Вашето име',emailPh:'Вашата поща за отговор',msgPh:'…започнете писмото си тук',
+      signoff:'С уважение,',sendBtn:'ИЗПРАТИ',sentTitle:'Писмото е изпратено!',sentText:'Благодаря. Вашето писмо пътува към автора — очаквайте отговор на посочената поща.',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  state={lang:'ru',scrolled:false,sent:false};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),
+      notSent:!this.state.sent,sent:this.state.sent,
+      onSubmit:(e)=>{e.preventDefault();this.setState({sent:true});}};
+  }
+}
+</script>
+</body>
+</html>

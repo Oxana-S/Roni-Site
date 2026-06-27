@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+</helmet>
+
+<!-- ===== TITLE ===== -->
+<div style="position:absolute;left:80px;top:36px;width:1100px">
+  <div style="font:400 38px Forum,serif;color:#211d18;letter-spacing:.5px">Главная — три направления</div>
+  <div style="font:400 16px Spectral,serif;color:#6b6358;margin-top:6px;max-width:760px">Все три построены на идее книги: воин рода Даргонов под видом антиквара-оружейника, два мира — Земля и Толус с красным солнцем. Картинки — плейсхолдеры.</div>
+</div>
+
+<!-- =================================================== -->
+<!-- DIRECTION 1 — TWO WORLDS / PORTAL                    -->
+<!-- =================================================== -->
+<div data-drags-parent="1" style="position:absolute;left:80px;top:150px;font:600 14px Caveat,cursive;color:#8a8175;letter-spacing:.5px">A · «ДВА МИРА» — портал между Землёй и Толусом</div>
+<div style="position:absolute;left:80px;top:178px;width:470px">
+  <div style="background:#16130f;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.18);overflow:hidden;font-family:Spectral,serif">
+    <!-- nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(201,168,106,.18)">
+      <div style="font:400 15px Forum,serif;color:#ece4d6;letter-spacing:2px">Р · ВИШНЕВСКИЙ</div>
+      <div style="display:flex;gap:14px;font:400 11px Spectral,serif;color:#9c917c;letter-spacing:.5px"><span>Книги</span><span>Автор</span><span>Блог</span></div>
+    </div>
+    <!-- hero split -->
+    <div style="position:relative;height:300px;display:flex">
+      <!-- earth -->
+      <div style="flex:1;background:linear-gradient(160deg,#23262b,#191b1f);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 2px,transparent 2px 9px)"></div>
+        <div style="position:absolute;top:16px;left:16px;font:400 9px Spectral,serif;color:#5f6b78;letter-spacing:2px">ЗЕМЛЯ · АНТИКВАРНАЯ ЛАВКА</div>
+        <div style="position:absolute;bottom:18px;left:16px;font:300 13px Spectral,serif;color:#8b96a3;line-height:1.4">холодное оружие,<br>тишина, бессонница</div>
+      </div>
+      <!-- tolus -->
+      <div style="flex:1;background:linear-gradient(160deg,#3a1d16,#5a2a1c);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 2px,transparent 2px 9px)"></div>
+        <div style="position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#e07a4e,#b5654a 60%,transparent 72%);opacity:.85"></div>
+        <div style="position:absolute;top:16px;right:16px;font:400 9px Spectral,serif;color:#d99a7e;letter-spacing:2px;text-align:right">ТОЛУС · РОД ДАРГОНОВ</div>
+        <div style="position:absolute;bottom:18px;right:16px;font:300 13px Spectral,serif;color:#e3b59e;line-height:1.4;text-align:right">красное солнце,<br>горы, война</div>
+      </div>
+      <!-- portal seam + centered title -->
+      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(#c9a86a,transparent 18%,#c9a86a 50%,transparent 82%,#c9a86a);box-shadow:0 0 22px 4px rgba(201,168,106,.45)"></div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:78%">
+        <div style="font:400 11px Spectral,serif;color:#c9a86a;letter-spacing:4px;margin-bottom:10px">ВОИН ДВУХ МИРОВ</div>
+        <div style="font:400 40px Forum,serif;color:#f3ece0;letter-spacing:1px;text-shadow:0 2px 18px rgba(0,0,0,.6)">Ростислав<br>Вишневский</div>
+      </div>
+    </div>
+    <!-- books straddling -->
+    <div style="padding:24px 20px 28px;display:flex;justify-content:center;gap:18px;background:#16130f">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div style="width:88px;height:124px;border-radius:2px;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 5px,#262019 5px,#262019 10px);border:1px solid rgba(201,168,106,.3);display:flex;align-items:center;justify-content:center;font:400 8px Spectral,serif;color:#7a7060;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.4)">обложка<br>книги 1</div>
+        <div style="font:400 11px Spectral,serif;color:#c9a86a;letter-spacing:.5px">Открыть →</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div style="width:88px;height:124px;border-radius:2px;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 5px,#262019 5px,#262019 10px);border:1px solid rgba(201,168,106,.3);display:flex;align-items:center;justify-content:center;font:400 8px Spectral,serif;color:#7a7060;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.4)">обложка<br>книги 2</div>
+        <div style="font:400 11px Spectral,serif;color:#c9a86a;letter-spacing:.5px">Открыть →</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="position:absolute;left:80px;top:700px;width:470px;font:400 13px Spectral,serif;color:#6b6358;line-height:1.5">Главный кадр — расколотый надвое экран: серая Земля и красный Толус, между ними светящийся «шов»-портал, на нём имя автора. Книги стоят на разломе. Концепт буквально из сюжета.</div>
+
+<!-- =================================================== -->
+<!-- DIRECTION 2 — CABINET OF CURIOSITIES                 -->
+<!-- =================================================== -->
+<div data-drags-parent="1" style="position:absolute;left:610px;top:150px;font:600 14px Caveat,cursive;color:#8a8175;letter-spacing:.5px">B · «КАБИНЕТ РЕДКОСТЕЙ» — книги как артефакты</div>
+<div style="position:absolute;left:610px;top:178px;width:470px">
+  <div style="background:#1d1a15;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.18);overflow:hidden;font-family:Spectral,serif">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(201,168,106,.18)">
+      <div style="font:400 15px Forum,serif;color:#e9dcc4;letter-spacing:2px">ВИШНЕВСКИЙ</div>
+      <div style="display:flex;gap:14px;font:400 11px Spectral,serif;color:#9c917c;letter-spacing:.5px"><span>Собрание</span><span>Автор</span><span>Блог</span></div>
+    </div>
+    <!-- hero: featured artifact -->
+    <div style="padding:30px 22px 24px;text-align:center;background:radial-gradient(120% 80% at 50% 0%,#2a2419,#1d1a15)">
+      <div style="font:400 10px Spectral,serif;color:#b8935a;letter-spacing:4px;margin-bottom:14px">СОБРАНИЕ СОЧИНЕНИЙ · ФЭНТЕЗИ</div>
+      <!-- glass case -->
+      <div style="display:inline-block;position:relative;padding:18px 30px 14px;border:1px solid rgba(201,168,106,.35);border-radius:3px;background:linear-gradient(180deg,rgba(201,168,106,.06),transparent)">
+        <div style="width:120px;height:170px;margin:0 auto;border-radius:2px;background:repeating-linear-gradient(45deg,#322b20,#322b20 5px,#2c261c 5px,#2c261c 10px);box-shadow:0 10px 28px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font:400 9px Spectral,serif;color:#8a7c60;text-align:center">обложка<br>главной книги</div>
+        <div style="position:absolute;left:50%;bottom:-11px;transform:translateX(-50%);background:#c9a86a;color:#1d1a15;font:500 9px Spectral,serif;letter-spacing:1.5px;padding:4px 12px;border-radius:1px;white-space:nowrap">РОД ДАРГОНОВ · ТОМ I</div>
+      </div>
+      <div style="font:400 30px Forum,serif;color:#f0e6d2;letter-spacing:.5px;margin:24px 0 6px">Просто вернуться домой</div>
+      <div style="font:300 13px Spectral,serif;color:#a89c84;font-style:italic">«Роман для тех, кто читает сердцем»</div>
+    </div>
+    <!-- shelf of cases -->
+    <div style="padding:16px 22px 26px;border-top:1px solid rgba(201,168,106,.14)">
+      <div style="font:400 9px Spectral,serif;color:#7a7060;letter-spacing:3px;margin-bottom:14px">ВСЁ СОБРАНИЕ</div>
+      <div style="display:flex;gap:14px">
+        <div style="flex:1;text-align:center;padding:12px 8px;border:1px solid rgba(201,168,106,.18);border-radius:3px;background:rgba(201,168,106,.03)"><div style="width:54px;height:76px;margin:0 auto 8px;background:repeating-linear-gradient(45deg,#322b20,#322b20 4px,#2c261c 4px,#2c261c 8px);border-radius:1px"></div><div style="font:400 10px Spectral,serif;color:#c9a86a">Книга I</div></div>
+        <div style="flex:1;text-align:center;padding:12px 8px;border:1px solid rgba(201,168,106,.18);border-radius:3px;background:rgba(201,168,106,.03)"><div style="width:54px;height:76px;margin:0 auto 8px;background:repeating-linear-gradient(45deg,#322b20,#322b20 4px,#2c261c 4px,#2c261c 8px);border-radius:1px"></div><div style="font:400 10px Spectral,serif;color:#c9a86a">Книга II</div></div>
+        <div style="flex:1;text-align:center;padding:12px 8px;border:1px dashed rgba(201,168,106,.25);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#6b6152"><div style="font:400 22px Forum,serif">+</div><div style="font:400 10px Spectral,serif">скоро</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="position:absolute;left:610px;top:700px;width:470px;font:400 13px Spectral,serif;color:#6b6358;line-height:1.5">Сайт как витрина антиквара: каждая книга — артефакт под «стеклом» с латунной табличкой. Прямо отсылает к лавке холодного оружия. Тёплый тёмный тон, латунь, антикварная типографика. Легко добавлять новые «экспонаты».</div>
+
+<!-- =================================================== -->
+<!-- DIRECTION 3 — CINEMATIC EDITORIAL                    -->
+<!-- =================================================== -->
+<div data-drags-parent="1" style="position:absolute;left:1140px;top:150px;font:600 14px Caveat,cursive;color:#8a8175;letter-spacing:.5px">C · «КИНО-РАЗВОРОТ» — атмосфера и кадр</div>
+<div style="position:absolute;left:1140px;top:178px;width:470px">
+  <div style="background:#0f0d0b;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.18);overflow:hidden;font-family:Spectral,serif">
+    <!-- full-bleed cinematic hero -->
+    <div style="position:relative;height:440px;background:linear-gradient(180deg,#2a1208 0%,#5a2a18 40%,#7a3a22 60%,#1a1410 100%);overflow:hidden">
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 2px,transparent 2px 10px)"></div>
+      <!-- red sun -->
+      <div style="position:absolute;top:40px;left:50%;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#ffb27a,#d2683f 55%,rgba(210,104,63,0) 74%)"></div>
+      <!-- mountains -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:160px;background:linear-gradient(180deg,transparent,#1a1410);clip-path:polygon(0 60%,18% 30%,34% 55%,52% 18%,70% 50%,86% 28%,100% 55%,100% 100%,0 100%)"></div>
+      <!-- nav -->
+      <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px">
+        <div style="font:400 14px Forum,serif;color:#f0e6d2;letter-spacing:2px">ВИШНЕВСКИЙ</div>
+        <div style="display:flex;gap:14px;font:400 11px Spectral,serif;color:#e8d3b8;letter-spacing:.5px"><span>Книги</span><span>Автор</span><span>Блог</span></div>
+      </div>
+      <!-- placeholder note -->
+      <div style="position:absolute;top:200px;left:50%;transform:translateX(-50%);font:400 9px Spectral,serif;color:rgba(255,255,255,.4);letter-spacing:2px">[ full-bleed арт: горы Толуса, фигура воина ]</div>
+      <!-- title block -->
+      <div style="position:absolute;bottom:34px;left:22px;right:22px;text-align:center">
+        <div style="font:400 11px Spectral,serif;color:#f0c99a;letter-spacing:5px;margin-bottom:12px">ЭПИЧЕСКОЕ ФЭНТЕЗИ · МАГИЯ · ДОЛГ</div>
+        <div style="font:400 46px Forum,serif;color:#fbf2e4;letter-spacing:1px;line-height:1;text-shadow:0 3px 24px rgba(0,0,0,.7)">Ростислав<br>Вишневский</div>
+        <div style="margin-top:18px;display:inline-block;border:1px solid rgba(240,201,154,.6);color:#f0c99a;font:400 11px Spectral,serif;letter-spacing:2px;padding:9px 22px">ВОЙТИ В МИР →</div>
+      </div>
+    </div>
+    <!-- below the fold teaser -->
+    <div style="padding:22px;display:flex;gap:16px;align-items:center;background:#16130f">
+      <div style="width:64px;height:90px;flex-shrink:0;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 5px,#262019 5px,#262019 10px);border-radius:2px;border:1px solid rgba(201,168,106,.25)"></div>
+      <div>
+        <div style="font:400 9px Spectral,serif;color:#b8935a;letter-spacing:3px;margin-bottom:6px">КНИГА ПЕРВАЯ</div>
+        <div style="font:400 20px Forum,serif;color:#ece4d6">Просто вернуться домой</div>
+        <div style="font:300 12px Spectral,serif;color:#9c917c;font-style:italic;margin-top:4px">Воин, торгующий древним оружием на чужой Земле…</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="position:absolute;left:1140px;top:740px;width:470px;font:400 13px Spectral,serif;color:#6b6358;line-height:1.5">Журнально-кинематографичная подача: полноэкранный атмосферный кадр (красное солнце, горы), крупный заголовок, движение на скролле. Самый «вау», но требует сильной картинки/арта.</div>
+
+<!-- ===== shared palette note ===== -->
+<div style="position:absolute;left:80px;top:790px;width:1100px;background:#fef4a8;padding:16px 18px;font:400 14px Spectral,serif;color:#5a5238;box-shadow:0 2px 8px rgba(0,0,0,.1);line-height:1.55">
+  <b style="font-family:Forum,serif">Общая система всех трёх:</b> тёмная тёплая база, латунное золото + «красное солнце Толуса» как акценты, заголовки — Forum (антикварные капители), текст — Spectral. Витрина книг масштабируется на N книг. Выбери направление (можно гибрид) — соберу его как живую страницу целиком.
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Об авторе · Ростислав Вишневский — писатель фэнтези</title>
+<meta name="description" content="Ростислав Вишневский — автор эпического фэнтези о мире Толуса: боевые искусства, магия и философия долга. История создания романа «Просто вернуться домой».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="author" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <!-- HERO -->
+  <section style="padding:150px 7vw 60px">
+    <div style="max-width:1080px;margin:0 auto;display:flex;gap:60px;align-items:center;flex-wrap:wrap">
+      <div style="position:relative;width:300px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 22px 50px rgba(0,0,0,.55);background:#1c1812">
+        <img src="assets/img/author.jpg" alt="Ростислав Вишневский" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="flex:1;min-width:300px">
+        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+        <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:#f3ece0;margin:0 0 12px;line-height:1.02">{{ t.name }}</h1>
+        <div style="font:300 italic 18px Spectral,serif;color:#c9a86a;margin-bottom:26px">{{ t.role }}</div>
+        <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#c8bca6;margin:0;max-width:520px">{{ t.lead }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section style="padding:50px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12);border-bottom:1px solid rgba(201,168,106,.12)">
+    <div style="max-width:760px;margin:0 auto">
+      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:24px;text-align:center">{{ t.storyKicker }}</div>
+      <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 28px;text-align:center;line-height:1.15">{{ t.storyTitle }}</h2>
+      <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 22px">{{ t.story1 }}</p>
+      <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story2 }}</p>
+      <div style="text-align:right">
+        <div style="font:600 30px Caveat,cursive;color:#c9a86a">{{ t.name }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section style="padding:80px 7vw;border-bottom:1px solid rgba(201,168,106,.12)">
+    <div style="max-width:900px;margin:0 auto;text-align:center">
+      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.videoKicker }}</div>
+      <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.videoTitle }}</h2>
+      <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 32px">{{ t.videoText }}</p>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:5px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 24px 56px rgba(0,0,0,.55)">
+        <iframe src="{{ videoUrl }}" title="{{ t.videoTitle }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section style="padding:64px 7vw">
+    <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
+      <sc-for list="{{ t.facts }}" as="f" hint-placeholder-count="4">
+        <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
+          <div style="font:300 11px Spectral,serif;color:#7a7060;letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
+          <div style="font:400 20px Forum,serif;color:#ece4d6">{{ f.value }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:30px 7vw 90px">
+    <div style="max-width:1080px;margin:0 auto;text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+      <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
+      <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:460px">{{ t.ctaText }}</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="Книга - Просто вернуться домой.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
+        <a href="Контакты.dc.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaWrite }}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  VIDEO_ID = 'DePmzRg5h4g'; // ← вставьте сюда ID ролика с YouTube (часть после v= или youtu.be/)
+  DICT = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      kicker:'ОБ АВТОРЕ',name:'Ростислав Вишневский',role:'Писатель · эпическое фэнтези',
+      lead:'Автор глубоких, многослойных историй, где боевые искусства и магия встречаются с философией долга, наследия и личной судьбы. Создатель мира Толуса и хроник рода Даргонов.',
+      storyKicker:'ИСТОРИЯ СОЗДАНИЯ',storyTitle:'Вдохновение в горах',
+      story1:'Эту книгу я начал писать довольно давно. Мы поехали с детьми отдыхать в Карпаты, в маленький городок, окружённый горами и лесом. Деревянный дом, пахнущий сосной, спящие детки, полная тишина, прерываемая только шумом деревьев на вершине.',
+      story2:'Именно там, в этой тишине, появились первые строки — и мир, в котором воин древнего рода живёт под чужим именем на нашей Земле. С тех пор истории о долге и судьбе не отпускают меня.',
+      videoKicker:'ВИДЕО',videoTitle:'Слово автора',videoText:'Видео-приветствие Ростислава и рассказ о мире книги. Новые ролики выходят на его YouTube-канале.',
+      facts:[{label:'ЖАНР',value:'Эпическое фэнтези'},{label:'МИР',value:'Толус · Род Даргонов'},{label:'ЯЗЫКИ ИЗДАНИЯ',value:'4 языка'},{label:'ГОРОД',value:'Варна, Болгария'}],
+      ctaTitle:'Войдите в мир Толуса',ctaText:'Начните с первого романа — или напишите автору напрямую.',ctaRead:'К книге',ctaWrite:'Написать автору',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      kicker:'ABOUT THE AUTHOR',name:'Rostyslav Vyshnevskyi',role:'Writer · epic fantasy',
+      lead:'Author of deep, many-layered stories where martial arts and magic meet a philosophy of duty, heritage and personal fate. Creator of the world of Tolus and the chronicles of the Dargon clan.',
+      storyKicker:'HOW IT BEGAN',storyTitle:'Inspiration in the mountains',
+      story1:'I began this book a long time ago. We took the children on holiday to the Carpathians, to a small town ringed by mountains and forest. A wooden house that smelled of pine, the children asleep, complete silence broken only by the rustle of trees at the summit.',
+      story2:'It was there, in that silence, that the first lines appeared — and a world where a warrior of an ancient clan lives under a borrowed name here on our Earth. Ever since, stories of duty and fate have never let me go.',
+      videoKicker:'VIDEO',videoTitle:'A word from the author',videoText:'Rostyslav’s video greeting and a glimpse into the world of the book. New videos appear on his YouTube channel.',
+      facts:[{label:'GENRE',value:'Epic fantasy'},{label:'WORLD',value:'Tolus · The Dargon Clan'},{label:'PUBLISHED IN',value:'4 languages'},{label:'CITY',value:'Varna, Bulgaria'}],
+      ctaTitle:'Step into the world of Tolus',ctaText:'Start with the first novel — or write to the author directly.',ctaRead:'To the book',ctaWrite:'Write to the author',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      kicker:'ПРО АВТОРА',name:'Ростислав Вишневський',role:'Письменник · епічне фентезі',
+      lead:'Автор глибоких, багатошарових історій, де бойові мистецтва й магія зустрічаються з філософією обов’язку, спадку та власної долі. Творець світу Толуса й хронік роду Даргонів.',
+      storyKicker:'ІСТОРІЯ СТВОРЕННЯ',storyTitle:'Натхнення в горах',
+      story1:'Цю книгу я почав писати досить давно. Ми поїхали з дітьми відпочивати в Карпати, у маленьке містечко, оточене горами й лісом. Дерев’яний дім, що пахнув сосною, сплячі дітки, цілковита тиша, яку переривав лише шум дерев на вершині.',
+      story2:'Саме там, у цій тиші, з’явилися перші рядки — і світ, де воїн древнього роду живе під чужим іменем на нашій Землі. Відтоді історії про обов’язок і долю не відпускають мене.',
+      videoKicker:'ВІДЕО',videoTitle:'Слово автора',videoText:'Відео-привітання Ростислава й розповідь про світ книги. Нові ролики виходять на його YouTube-каналі.',
+      facts:[{label:'ЖАНР',value:'Епічне фентезі'},{label:'СВІТ',value:'Толус · Рід Даргонів'},{label:'МОВИ ВИДАННЯ',value:'4 мови'},{label:'МІСТО',value:'Варна, Болгарія'}],
+      ctaTitle:'Увійдіть у світ Толуса',ctaText:'Почніть із першого роману — або напишіть авторові напряму.',ctaRead:'До книги',ctaWrite:'Написати авторові',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      kicker:'ЗА АВТОРА',name:'Ростислав Вишневски',role:'Писател · епично фентъзи',
+      lead:'Автор на дълбоки, многопластови истории, където бойните изкуства и магията се срещат с философията на дълга, наследството и личната съдба. Създател на света Толус и хрониките на рода Даргон.',
+      storyKicker:'КАК СЕ РОДИ',storyTitle:'Вдъхновение в планините',
+      story1:'Започнах тази книга доста отдавна. Заведохме децата на почивка в Карпатите, в малко градче, обградено от планини и гора. Дървена къща, ухаеща на бор, спящи деца, пълна тишина, прекъсвана само от шума на дърветата по върха.',
+      story2:'Точно там, в тази тишина, се появиха първите редове — и свят, в който воин от древен род живее под чуждо име тук, на нашата Земя. Оттогава историите за дълг и съдба не ме оставят.',
+      videoKicker:'ВИДЕО',videoTitle:'Дума от автора',videoText:'Видео-поздрав от Ростислав и поглед към света на книгата. Нови видеа излизат в неговия YouTube канал.',
+      facts:[{label:'ЖАНР',value:'Епично фентъзи'},{label:'СВЯТ',value:'Толус · Родът Даргон'},{label:'ИЗДАНИЯ НА',value:'4 езика'},{label:'ГРАД',value:'Варна, България'}],
+      ctaTitle:'Влезте в света на Толус',ctaText:'Започнете с първия роман — или пишете на автора директно.',ctaRead:'Към книгата',ctaWrite:'Пишете на автора',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  state={lang:'ru',scrolled:false};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),videoUrl:'https://www.youtube.com/embed/'+this.VIDEO_ID};
+  }
+}
+</script>
+</body>
+</html>

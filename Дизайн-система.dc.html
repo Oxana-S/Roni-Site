@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Дизайн-система · Ростислав Вишневский</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .ds-sec{max-width:1080px;margin:0 auto;padding:54px 7vw;border-top:1px solid rgba(201,168,106,.12)}
+  .ds-h{font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:28px}
+  .ds-lead{font:300 15px/1.6 Spectral,serif;color:#a89c84;max-width:560px;margin:0 0 26px}
+  .swatch{border-radius:4px;height:96px;border:1px solid rgba(201,168,106,.15)}
+  .cap{font:400 13px Spectral,serif;color:#ece4d6;margin-top:8px}
+  .sub{font:300 12px Spectral,serif;color:#7a7060}
+  .cell{border:1px solid rgba(201,168,106,.18);border-radius:4px;padding:18px 10px;text-align:center;background:rgba(201,168,106,.02)}
+  .tcell{border:1px solid rgba(201,168,106,.2);border-radius:4px;overflow:hidden;background:rgba(201,168,106,.02)}
+  .tcap{padding:12px 14px;border-top:1px solid rgba(201,168,106,.14)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a}
+  .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+  .vbtn{transition:transform .25s}.vbtn:hover{transform:translateY(-2px)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <section style="max-width:1080px;margin:0 auto;padding:140px 7vw 20px">
+    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+    <h1 style="font:400 clamp(36px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0 0 16px">{{ t.title }}</h1>
+    <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#a89c84;max-width:620px;margin:0">{{ t.intro }}</p>
+  </section>
+
+  <!-- COLORS -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.cPalette }}</div>
+    <div style="margin-bottom:30px">
+      <div style="font:400 16px Forum,serif;color:#ece4d6;margin-bottom:16px">{{ t.cBg }}</div>
+      <div class="grid4">
+        <div><div class="swatch" style="background:#14110d"></div><div class="cap">#14110D</div><div class="sub">{{ t.cBgMain }}</div></div>
+        <div><div class="swatch" style="background:#100d0a"></div><div class="cap">#100D0A</div><div class="sub">{{ t.cBgSec }}</div></div>
+        <div><div class="swatch" style="background:#0d0b08"></div><div class="cap">#0D0B08</div><div class="sub">{{ t.cBgFoot }}</div></div>
+        <div><div class="swatch" style="background:#1c1812"></div><div class="cap">#1C1812</div><div class="sub">{{ t.cBgCard }}</div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:30px">
+      <div style="font:400 16px Forum,serif;color:#ece4d6;margin-bottom:16px">{{ t.cAccent }}</div>
+      <div class="grid4">
+        <div><div class="swatch" style="background:#c9a86a"></div><div class="cap">#C9A86A</div><div class="sub">{{ t.cGold }}</div></div>
+        <div><div class="swatch" style="background:#b8935a"></div><div class="cap">#B8935A</div><div class="sub">{{ t.cGoldLbl }}</div></div>
+        <div><div class="swatch" style="background:#f0d8a8"></div><div class="cap">#F0D8A8</div><div class="sub">{{ t.cGoldAct }}</div></div>
+        <div><div class="swatch" style="background:linear-gradient(135deg,#ffb27a,#d2683f)"></div><div class="cap">#D2683F</div><div class="sub">{{ t.cSun }}</div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font:400 16px Forum,serif;color:#ece4d6;margin-bottom:16px">{{ t.cText }}</div>
+      <div class="grid4">
+        <div><div class="swatch" style="background:#ece4d6"></div><div class="cap">#ECE4D6</div><div class="sub">{{ t.cTxtMain }}</div></div>
+        <div><div class="swatch" style="background:#c9bda8"></div><div class="cap">#C9BDA8</div><div class="sub">{{ t.cTxtLink }}</div></div>
+        <div><div class="swatch" style="background:#9c917c"></div><div class="cap">#9C917C</div><div class="sub">{{ t.cTxtMute }}</div></div>
+        <div><div class="swatch" style="background:#6b6152"></div><div class="cap">#6B6152</div><div class="sub">{{ t.cTxtFaint }}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.tyHead }}</div>
+    <div style="display:flex;gap:40px;flex-wrap:wrap">
+      <div style="flex:1;min-width:280px">
+        <div class="sub" style="letter-spacing:2px;margin-bottom:14px">FORUM — {{ t.tyForum }}</div>
+        <div style="font:400 clamp(34px,5vw,52px) Forum,serif;color:#f3ece0;line-height:1.05;margin-bottom:8px">{{ t.tyH1 }}</div>
+        <div style="font:400 34px Forum,serif;color:#f0e6d2;margin-bottom:8px">{{ t.tyH2 }}</div>
+        <div style="font:400 22px Forum,serif;color:#ece4d6;margin-bottom:8px">{{ t.tyH3 }}</div>
+        <div style="font:400 40px Forum,serif;color:#c9a86a">3.99 € · {{ t.tyNums }}</div>
+      </div>
+      <div style="flex:1;min-width:280px">
+        <div class="sub" style="letter-spacing:2px;margin-bottom:14px">SPECTRAL — {{ t.tySpectral }}</div>
+        <p style="font:300 18px/1.8 Spectral,serif;color:#c8bca6;margin:0 0 14px">{{ t.tyBody }}</p>
+        <p style="font:300 italic 18px/1.6 Spectral,serif;color:#e3d6bd;margin:0 0 14px">{{ t.tyItalic }}</p>
+        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px">{{ t.tyKicker }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.bHead }}</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+      <a class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(201,168,106,.22)">{{ t.bPrimary }}</a>
+      <a class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.bSecondary }}</a>
+      <a class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:11px 18px;text-decoration:none">
+        <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span style="font:500 13px Spectral,serif;color:#ece4d6">Amazon Kindle</span>
+      </a>
+      <a style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none;border-bottom:1px solid rgba(201,168,106,.4);padding-bottom:3px">{{ t.bLink }} →</a>
+    </div>
+  </section>
+
+  <!-- FORMS -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.fHead }}</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;max-width:560px">
+      <input style="flex:1;min-width:200px;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,106,.28);border-radius:3px;color:#ece4d6;font:300 15px Spectral,serif;padding:13px 15px;outline:none" placeholder="{{ t.fField }}">
+      <input style="flex:1;min-width:200px;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,106,.28);border-radius:3px;color:#ece4d6;font:300 15px Spectral,serif;padding:13px 15px;outline:none" placeholder="you@email.com">
+    </div>
+    <p class="sub" style="margin:10px 0 0">{{ t.fNote }}</p>
+  </section>
+
+  <!-- ICONOGRAPHY -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.iHead }}</div>
+    <p class="ds-lead">{{ t.iNote }}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:14px">
+      <div class="cell"><span class="vsoc" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 8h2V5h-2.5C12.6 5 11 6.6 11 8.5V10H9v3h2v7h3v-7h2.2l.5-3H14V9c0-.6.4-1 1-1z"></path></svg></span><div class="sub">Facebook</div></div>
+      <div class="cell"><span class="vsoc" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"></circle></svg></span><div class="sub">Instagram</div></div>
+      <div class="cell"><span class="vsoc" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.5c-.2-1-.9-1.7-1.9-2C18.3 5 12 5 12 5s-6.3 0-8.1.5c-1 .3-1.7 1-1.9 2C1.5 9.3 1.5 12 1.5 12s0 2.7.5 4.5c.2 1 .9 1.7 1.9 2C5.7 19 12 19 12 19s6.3 0 8.1-.5c1-.3 1.7-1 1.9-2 .5-1.8.5-4.5.5-4.5s0-2.7-.5-4.5z"></path><path d="M10 15l5-3-5-3z" fill="#14110d"></path></svg></span><div class="sub">YouTube</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px"><svg width="30" height="15" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="sub">Amazon</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font:400 18px Spectral,serif;color:#c9a86a">►</div><div class="sub">{{ t.iPlay }}</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font:400 20px Spectral,serif;color:#c9a86a">✓</div><div class="sub">{{ t.iOk }}</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font:400 18px Spectral,serif;color:#c9a86a">★★★★★</div><div class="sub">{{ t.iRating }}</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font:400 18px Spectral,serif;color:#c9a86a">→</div><div class="sub">{{ t.iArrow }}</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font:400 18px Spectral,serif;color:#c9a86a">✦</div><div class="sub">{{ t.iMarker }}</div></div>
+      <div class="cell"><div style="height:38px;display:flex;align-items:center;justify-content:center;margin-bottom:10px"><div style="width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#ffc093,#d2683f 60%,transparent 74%)"></div></div><div class="sub">{{ t.iSun }}</div></div>
+    </div>
+  </section>
+
+  <!-- PAGE TEMPLATES -->
+  <section class="ds-sec">
+    <div class="ds-h">{{ t.ptHead }}</div>
+    <p class="ds-lead">{{ t.ptNote }}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px">
+      <div class="tcell"><div style="padding:14px;display:flex;flex-direction:column;gap:7px"><div style="height:7px;background:rgba(201,168,106,.5);border-radius:2px"></div><div style="display:flex;gap:8px;margin-top:4px"><div style="width:44px;height:64px;background:#2a2620;border-radius:2px"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;justify-content:center"><div style="height:6px;width:80%;background:#3a352c;border-radius:2px"></div><div style="height:6px;width:60%;background:#3a352c;border-radius:2px"></div><div style="height:14px;width:50%;background:#c9a86a;border-radius:2px;margin-top:2px"></div></div></div><div style="height:30px;background:#23201b;border-radius:2px;margin-top:4px"></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptLanding }}</div><div class="sub" style="margin-top:3px">Книга - …dc.html</div></div></div>
+      <div class="tcell"><div style="padding:14px;display:flex;flex-direction:column;gap:7px;align-items:center"><div style="height:6px;width:40%;background:rgba(201,168,106,.5);border-radius:2px"></div><div style="height:9px;width:75%;background:#3a352c;border-radius:2px"></div><div style="height:46px;width:100%;background:#23201b;border-radius:2px"></div><div style="height:6px;width:90%;background:#2f2a22;border-radius:2px"></div><div style="height:6px;width:85%;background:#2f2a22;border-radius:2px"></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptArticle }}</div><div class="sub" style="margin-top:3px">Статья.dc.html?id=N</div></div></div>
+      <div class="tcell"><div style="padding:14px;display:flex;flex-direction:column;gap:9px"><div style="display:flex;gap:8px;align-items:center"><div style="width:20px;height:5px;background:#3a352c;border-radius:2px"></div><div style="width:8px;height:8px;border-radius:50%;background:#c9a86a"></div><div style="flex:1;height:22px;background:#23201b;border-radius:2px"></div></div><div style="display:flex;gap:8px;align-items:center"><div style="width:20px;height:5px;background:#3a352c;border-radius:2px"></div><div style="width:8px;height:8px;border-radius:50%;background:#c9a86a"></div><div style="flex:1;height:22px;background:#23201b;border-radius:2px"></div></div><div style="display:flex;gap:8px;align-items:center"><div style="width:20px;height:5px;background:#3a352c;border-radius:2px"></div><div style="width:8px;height:8px;border-radius:50%;background:#c9a86a"></div><div style="flex:1;height:22px;background:#23201b;border-radius:2px"></div></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptFeed }}</div><div class="sub" style="margin-top:3px">Новости.dc.html</div></div></div>
+      <div class="tcell"><div style="padding:14px;display:flex;gap:10px"><div style="width:56px;height:78px;background:#2a2620;border-radius:2px;flex-shrink:0"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;justify-content:center"><div style="height:5px;width:50%;background:rgba(201,168,106,.5);border-radius:2px"></div><div style="height:8px;width:90%;background:#3a352c;border-radius:2px"></div><div style="height:5px;width:100%;background:#2f2a22;border-radius:2px"></div><div style="height:5px;width:80%;background:#2f2a22;border-radius:2px"></div></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptContent }}</div><div class="sub" style="margin-top:3px">Об авторе · Контакты</div></div></div>
+      <div class="tcell"><div style="padding:14px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:6px"><div style="height:14px;width:40px;background:#c9a86a;border-radius:8px"></div><div style="height:14px;width:40px;background:#2f2a22;border-radius:8px"></div><div style="height:14px;width:40px;background:#2f2a22;border-radius:8px"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="height:40px;background:#23201b;border-radius:2px"></div><div style="height:40px;background:#23201b;border-radius:2px"></div></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptList }}</div><div class="sub" style="margin-top:3px">Блог · Отзывы</div></div></div>
+      <div class="tcell"><div style="padding:14px;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;height:96px"><div style="font:400 30px Forum,serif;color:#c9a86a">404</div><div style="height:5px;width:60%;background:#3a352c;border-radius:2px"></div></div><div class="tcap"><div style="font:400 15px Forum,serif;color:#ece4d6">{{ t.ptUtil }}</div><div class="sub" style="margin-top:3px">404 · В разработке</div></div></div>
+    </div>
+  </section>
+
+  <!-- SECTION TEMPLATES -->
+  <section class="ds-sec" style="border-bottom:1px solid rgba(201,168,106,.12)">
+    <div class="ds-h">{{ t.stHead }}</div>
+    <p class="ds-lead">{{ t.stNote }}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px">
+      <div class="cell" style="padding:22px"><div style="font:400 9px Spectral,serif;color:#b8935a;letter-spacing:3px;margin-bottom:10px">{{ t.tyKicker }}</div><div style="font:400 22px Forum,serif;color:#ece4d6;margin-bottom:14px">{{ t.tyH3 }}</div><div class="sub">{{ t.sbKicker }}</div></div>
+      <div class="cell" style="padding:22px;text-align:left"><div style="border:1px solid rgba(201,168,106,.25);border-radius:3px;padding:14px;margin-bottom:12px"><div style="font:400 9px Spectral,serif;color:#b8935a;letter-spacing:2px;margin-bottom:6px">{{ t.tyKicker }}</div><div style="font:400 16px Forum,serif;color:#ece4d6">{{ t.sbCardT }}</div></div><div class="sub" style="text-align:center">{{ t.sbCard }}</div></div>
+      <div class="cell" style="padding:22px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div></div><div class="sub">{{ t.sbGrid }}</div></div>
+      <div class="cell" style="padding:22px;border-color:rgba(201,168,106,.3);background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.06),transparent)"><div style="font:400 28px Forum,serif;color:#c9a86a;margin-bottom:8px">3.99 €</div><div style="display:inline-block;background:#c9a86a;color:#1a1410;font:500 10px Spectral,serif;padding:8px 18px;border-radius:2px;margin-bottom:12px">{{ t.bPrimary }}</div><div class="sub">{{ t.sbOffer }}</div></div>
+      <div class="cell" style="padding:22px"><div style="font:400 16px Forum,serif;color:#f0e6d2;margin-bottom:12px">{{ t.sbCtaT }}</div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px"><div style="background:#c9a86a;height:24px;width:60px;border-radius:2px"></div><div style="border:1px solid rgba(201,168,106,.5);height:24px;width:60px;border-radius:2px"></div></div><div class="sub">{{ t.sbCta }}</div></div>
+      <div class="cell" style="padding:22px"><div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start"><div style="font:400 11px Spectral,serif;color:#c9a86a">2026</div><div style="width:9px;height:9px;border-radius:50%;background:#c9a86a;margin-top:2px;box-shadow:0 0 0 3px #14110d"></div><div style="flex:1;height:36px;background:#23201b;border-radius:3px"></div></div><div class="sub">{{ t.sbTimeline }}</div></div>
+      <div class="cell" style="padding:22px;text-align:left"><div style="font:400 12px Spectral,serif;color:#c9a86a;letter-spacing:2px;margin-bottom:8px">★★★★★</div><div style="font:300 italic 13px/1.5 Spectral,serif;color:#d8cdb8;margin-bottom:10px">«…»</div><div style="font:400 12px Spectral,serif;color:#ece4d6;margin-bottom:12px">{{ t.sbReviewName }}</div><div class="sub" style="text-align:center">{{ t.sbReview }}</div></div>
+      <div class="cell" style="padding:0;overflow:hidden"><div style="position:relative;display:flex;height:88px"><div style="flex:1;background:linear-gradient(160deg,#23262b,#15171b)"></div><div style="flex:1;background:linear-gradient(160deg,#4a2418,#6a3320)"></div><div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(#c9a86a,transparent 50%,#c9a86a);box-shadow:0 0 18px 3px rgba(201,168,106,.5)"></div></div><div style="padding:12px"><div class="sub">{{ t.sbWorlds }}</div></div></div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DICT = {
+    ru:{kicker:'СТАЙЛ-ГАЙД',title:'Дизайн-система',intro:'Единый язык сайта: цвет, типографика, кнопки, поля и компоненты. Используйте эти значения, чтобы новые страницы выглядели частью того же мира.',
+      cPalette:'ПАЛИТРА',cBg:'Фон и поверхности',cBgMain:'Основной фон',cBgSec:'Тёмная секция',cBgFoot:'Подвал',cBgCard:'Карточка / медиа',
+      cAccent:'Акценты',cGold:'Золото — кнопки, ссылки',cGoldLbl:'Золото-метка (кикеры)',cGoldAct:'Золото светлое (актив)',cSun:'«Красное солнце» Толуса',
+      cText:'Текст',cTxtMain:'Основной текст',cTxtLink:'Ссылки / вторичный',cTxtMute:'Приглушённый',cTxtFaint:'Слабый / копирайт',
+      tyHead:'ТИПОГРАФИКА',tyForum:'ЗАГОЛОВКИ',tyH1:'Заголовок H1',tyH2:'Заголовок H2',tyH3:'Заголовок H3',tyNums:'цифры',tySpectral:'ТЕКСТ',
+      tyBody:'Основной текст набирается Spectral 300/400 с увеличенным интерлиньяжем — для комфортного чтения длинных абзацев.',tyItalic:'Курсив — для цитат и подзаголовков-слоганов.',tyKicker:'КИКЕР · МЕТКА',
+      bHead:'КНОПКИ И ССЫЛКИ',bPrimary:'Основная',bSecondary:'Вторичная',bLink:'Текст-ссылка',
+      fHead:'ПОЛЯ ФОРМ',fField:'Поле ввода',fNote:'Фокус — рамка золотом #C9A86A. У всех форм есть экран «успех».',
+      iHead:'ИКОНОГРАФИКА',iNote:'Тонкие иконки в золоте #C9A86A. Соцсети — 16px в кружке 38px; остальные — инлайн рядом с текстом.',iPlay:'Play',iOk:'Успех',iRating:'Рейтинг',iArrow:'Стрелка',iMarker:'Маркер',iSun:'Солнце',
+      ptHead:'ШАБЛОНЫ СТРАНИЦ',ptNote:'Не выдумывать с нуля — скопировать готовый шаблон и наполнить. Шапка и подвал — общие компоненты.',ptLanding:'Лендинг книги',ptArticle:'Статья',ptFeed:'Лента',ptContent:'Контент-страница',ptList:'Список с фильтром',ptUtil:'Служебная',
+      stHead:'ШАБЛОНЫ СЕКЦИЙ И БЛОКОВ',stNote:'Готовые блоки, из которых собираются страницы. Берём, а не изобретаем.',sbKicker:'Кикер + заголовок',sbCardT:'Карточка',sbCard:'Карточка (рамка + текст)',sbGrid:'Сетка карточек (auto-fit)',sbOffer:'Оффер (цена + кнопка)',sbCtaT:'Призыв к действию',sbCta:'CTA-блок (2 кнопки)',sbTimeline:'Таймлайн-запись (лента)',sbReviewName:'Имя · Город',sbReview:'Карточка отзыва',sbWorlds:'Два мира (раскол + шов)'},
+    en:{kicker:'STYLE GUIDE',title:'Design system',intro:'The site’s single visual language: colour, typography, buttons, fields and components. Use these values so new pages feel part of the same world.',
+      cPalette:'PALETTE',cBg:'Background & surfaces',cBgMain:'Main background',cBgSec:'Dark section',cBgFoot:'Footer',cBgCard:'Card / media',
+      cAccent:'Accents',cGold:'Gold — buttons, links',cGoldLbl:'Gold label (kickers)',cGoldAct:'Light gold (active)',cSun:'Tolus “red sun”',
+      cText:'Text',cTxtMain:'Body text',cTxtLink:'Links / secondary',cTxtMute:'Muted',cTxtFaint:'Faint / copyright',
+      tyHead:'TYPOGRAPHY',tyForum:'HEADINGS',tyH1:'Heading H1',tyH2:'Heading H2',tyH3:'Heading H3',tyNums:'numerals',tySpectral:'BODY',
+      tyBody:'Body text is set in Spectral 300/400 with generous line-height — for comfortable reading of long paragraphs.',tyItalic:'Italic — for quotes and slogan subheads.',tyKicker:'KICKER · LABEL',
+      bHead:'BUTTONS & LINKS',bPrimary:'Primary',bSecondary:'Secondary',bLink:'Text link',
+      fHead:'FORM FIELDS',fField:'Input field',fNote:'Focus — gold border #C9A86A. Every form has a “success” screen.',
+      iHead:'ICONOGRAPHY',iNote:'Thin gold #C9A86A icons. Social — 16px in a 38px circle; others — inline next to text.',iPlay:'Play',iOk:'Success',iRating:'Rating',iArrow:'Arrow',iMarker:'Marker',iSun:'Sun',
+      ptHead:'PAGE TEMPLATES',ptNote:'Don’t start from scratch — copy a ready template and fill it. Header and footer are shared components.',ptLanding:'Book landing',ptArticle:'Article',ptFeed:'Feed',ptContent:'Content page',ptList:'Filtered list',ptUtil:'Utility',
+      stHead:'SECTION & BLOCK TEMPLATES',stNote:'Ready blocks that pages are built from. Reuse, don’t reinvent.',sbKicker:'Kicker + heading',sbCardT:'Card',sbCard:'Card (border + text)',sbGrid:'Card grid (auto-fit)',sbOffer:'Offer (price + button)',sbCtaT:'Call to action',sbCta:'CTA block (2 buttons)',sbTimeline:'Timeline entry (feed)',sbReviewName:'Name · City',sbReview:'Review card',sbWorlds:'Two worlds (split + seam)'},
+    uk:{kicker:'СТАЙЛ-ГАЙД',title:'Дизайн-система',intro:'Єдина візуальна мова сайту: колір, типографіка, кнопки, поля та компоненти. Використовуйте ці значення, щоб нові сторінки виглядали частиною того ж світу.',
+      cPalette:'ПАЛІТРА',cBg:'Фон і поверхні',cBgMain:'Основний фон',cBgSec:'Темна секція',cBgFoot:'Підвал',cBgCard:'Картка / медіа',
+      cAccent:'Акценти',cGold:'Золото — кнопки, посилання',cGoldLbl:'Золото-мітка (кікери)',cGoldAct:'Золото світле (актив)',cSun:'«Червоне сонце» Толуса',
+      cText:'Текст',cTxtMain:'Основний текст',cTxtLink:'Посилання / вторинний',cTxtMute:'Приглушений',cTxtFaint:'Слабкий / копірайт',
+      tyHead:'ТИПОГРАФІКА',tyForum:'ЗАГОЛОВКИ',tyH1:'Заголовок H1',tyH2:'Заголовок H2',tyH3:'Заголовок H3',tyNums:'цифри',tySpectral:'ТЕКСТ',
+      tyBody:'Основний текст набирається Spectral 300/400 зі збільшеним інтерліньяжем — для комфортного читання довгих абзаців.',tyItalic:'Курсив — для цитат і підзаголовків-слоганів.',tyKicker:'КІКЕР · МІТКА',
+      bHead:'КНОПКИ І ПОСИЛАННЯ',bPrimary:'Основна',bSecondary:'Вторинна',bLink:'Текст-посилання',
+      fHead:'ПОЛЯ ФОРМ',fField:'Поле вводу',fNote:'Фокус — рамка золотом #C9A86A. У всіх форм є екран «успіх».',
+      iHead:'ІКОНОГРАФІКА',iNote:'Тонкі іконки золотом #C9A86A. Соцмережі — 16px у кружку 38px; інші — інлайн поруч із текстом.',iPlay:'Play',iOk:'Успіх',iRating:'Рейтинг',iArrow:'Стрілка',iMarker:'Маркер',iSun:'Сонце',
+      ptHead:'ШАБЛОНИ СТОРІНОК',ptNote:'Не вигадувати з нуля — скопіювати готовий шаблон і наповнити. Шапка й підвал — спільні компоненти.',ptLanding:'Лендинг книги',ptArticle:'Стаття',ptFeed:'Стрічка',ptContent:'Контент-сторінка',ptList:'Список з фільтром',ptUtil:'Службова',
+      stHead:'ШАБЛОНИ СЕКЦІЙ І БЛОКІВ',stNote:'Готові блоки, з яких збираються сторінки. Беремо, а не винаходимо.',sbKicker:'Кікер + заголовок',sbCardT:'Картка',sbCard:'Картка (рамка + текст)',sbGrid:'Сітка карток (auto-fit)',sbOffer:'Оффер (ціна + кнопка)',sbCtaT:'Заклик до дії',sbCta:'CTA-блок (2 кнопки)',sbTimeline:'Запис стрічки',sbReviewName:'Ім’я · Місто',sbReview:'Картка відгуку',sbWorlds:'Два світи (розкол + шов)'},
+    bg:{kicker:'СТАЙЛ-ГАЙД',title:'Дизайн-система',intro:'Единен визуален език на сайта: цвят, типография, бутони, полета и компоненти. Използвайте тези стойности, за да изглеждат новите страници част от същия свят.',
+      cPalette:'ПАЛИТРА',cBg:'Фон и повърхности',cBgMain:'Основен фон',cBgSec:'Тъмна секция',cBgFoot:'Подвал',cBgCard:'Карта / медия',
+      cAccent:'Акценти',cGold:'Злато — бутони, връзки',cGoldLbl:'Злато-етикет (кикери)',cGoldAct:'Светло злато (активно)',cSun:'«Червеното слънце» на Толус',
+      cText:'Текст',cTxtMain:'Основен текст',cTxtLink:'Връзки / вторичен',cTxtMute:'Приглушен',cTxtFaint:'Слаб / копирайт',
+      tyHead:'ТИПОГРАФИЯ',tyForum:'ЗАГЛАВИЯ',tyH1:'Заглавие H1',tyH2:'Заглавие H2',tyH3:'Заглавие H3',tyNums:'цифри',tySpectral:'ТЕКСТ',
+      tyBody:'Основният текст е с Spectral 300/400 с увеличен интерлиньяж — за удобно четене на дълги абзаци.',tyItalic:'Курсив — за цитати и подзаглавия-слогани.',tyKicker:'КИКЕР · ЕТИКЕТ',
+      bHead:'БУТОНИ И ВРЪЗКИ',bPrimary:'Основен',bSecondary:'Вторичен',bLink:'Текст-връзка',
+      fHead:'ПОЛЕТА НА ФОРМИ',fField:'Поле за въвеждане',fNote:'Фокус — златна рамка #C9A86A. Всички форми имат екран «успех».',
+      iHead:'ИКОНОГРАФИЯ',iNote:'Тънки икони в злато #C9A86A. Социални — 16px в кръг 38px; останалите — инлайн до текста.',iPlay:'Play',iOk:'Успех',iRating:'Рейтинг',iArrow:'Стрелка',iMarker:'Маркер',iSun:'Слънце',
+      ptHead:'ШАБЛОНИ ЗА СТРАНИЦИ',ptNote:'Не измисляйте от нулата — копирайте готов шаблон и попълнете. Шапка и подвал — общи компоненти.',ptLanding:'Лендинг на книга',ptArticle:'Статия',ptFeed:'Лента',ptContent:'Съдържателна страница',ptList:'Списък с филтър',ptUtil:'Служебна',
+      stHead:'ШАБЛОНИ ЗА СЕКЦИИ И БЛОКОВЕ',stNote:'Готови блокове, от които се сглобяват страниците. Вземаме, а не измисляме.',sbKicker:'Кикер + заглавие',sbCardT:'Карта',sbCard:'Карта (рамка + текст)',sbGrid:'Решетка карти (auto-fit)',sbOffer:'Оферта (цена + бутон)',sbCtaT:'Призив за действие',sbCta:'CTA блок (2 бутона)',sbTimeline:'Запис в лента',sbReviewName:'Име · Град',sbReview:'Карта отзив',sbWorlds:'Два свята (разкол + шев)'},
+  };
+  state = { lang:'ru' };
+  componentDidMount(){ try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){} }
+  setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
+  renderVals(){ const lang=this.DICT[this.state.lang]?this.state.lang:'ru'; return { t:this.DICT[lang], lang:lang, setLang:(c)=>this.setLang(c) }; }
+}
+</script>
+</body>
+</html>

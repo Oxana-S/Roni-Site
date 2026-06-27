@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Новости · Лента автора · Ростислав Вишневский</title>
+<meta name="description" content="Лента новостей Ростислава Вишневского: планы, анонсы новых книг, заметки и мысли о мире Толуса.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .ventry{transition:transform .35s,border-color .35s}
+  .ventry:hover{transform:translateY(-3px);border-color:rgba(201,168,106,.4)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="news" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <section style="padding:150px 7vw 50px;text-align:center">
+    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+    <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0;line-height:1.05">{{ t.title }}</h1>
+    <p style="font:300 clamp(15px,2vw,18px)/1.6 Spectral,serif;color:#a89c84;max-width:560px;margin:18px auto 0">{{ t.intro }}</p>
+  </section>
+
+  <!-- FEED -->
+  <section style="padding:30px 7vw 80px">
+    <div style="max-width:740px;margin:0 auto">
+      <sc-for list="{{ items }}" as="e" hint-placeholder-count="4">
+        <sc-if value="{{ e.showYear }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:18px;margin:6px 0 26px">
+            <div style="font:400 26px Forum,serif;color:#c9a86a">{{ e.year }}</div>
+            <div style="flex:1;height:1px;background:rgba(201,168,106,.18)"></div>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:24px">
+          <div style="width:96px;flex-shrink:0;text-align:right;padding-top:2px">
+            <div style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:.5px">{{ e.date }}</div>
+          </div>
+          <div style="position:relative;width:14px;flex-shrink:0">
+            <div style="position:absolute;left:50%;top:8px;bottom:-26px;width:1px;background:rgba(201,168,106,.22);transform:translateX(-50%)"></div>
+            <div style="position:absolute;left:50%;top:6px;width:11px;height:11px;border-radius:50%;background:#c9a86a;transform:translateX(-50%);box-shadow:0 0 0 4px #14110d"></div>
+          </div>
+          <div class="ventry" style="flex:1;min-width:0;margin-bottom:34px;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:24px 26px;background:rgba(201,168,106,.02)">
+            <div style="font:500 10px Spectral,serif;color:#b8935a;letter-spacing:2px;margin-bottom:12px">{{ e.tag }}</div>
+            <p style="font:300 17px/1.7 Spectral,serif;color:#d8cdb8;margin:0">{{ e.text }}</p>
+            <sc-if value="{{ e.hasImg }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.18);aspect-ratio:16/9;background:#1c1812">{{ e.imgEl }}</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;margin-top:24px">
+          <button onClick="{{ loadMore }}" class="vbtn" style="background:transparent;border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 13px Spectral,serif;letter-spacing:2px;padding:13px 32px;border-radius:2px;cursor:pointer">{{ t.showMore }}</button>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- FOLLOW -->
+  <section style="padding:60px 7vw 80px;background:#100d0a;border-top:1px solid rgba(201,168,106,.12)">
+    <div style="max-width:600px;margin:0 auto;text-align:center">
+      <h2 style="font:400 clamp(22px,3vw,32px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.followTitle }}</h2>
+      <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 0 24px">{{ t.followText }}</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <a href="https://www.facebook.com/rostyslavvyshnevskyi/" target="_blank" rel="noopener" aria-label="Facebook" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 8h2V5h-2.5C12.6 5 11 6.6 11 8.5V10H9v3h2v7h3v-7h2.2l.5-3H14V9c0-.6.4-1 1-1z"></path></svg></a>
+        <a href="В разработке.dc.html" aria-label="Instagram" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"></circle></svg></a>
+        <a href="В разработке.dc.html" aria-label="YouTube" class="vsoc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.5c-.2-1-.9-1.7-1.9-2C18.3 5 12 5 12 5s-6.3 0-8.1.5c-1 .3-1.7 1-1.9 2C1.5 9.3 1.5 12 1.5 12s0 2.7.5 4.5c.2 1 .9 1.7 1.9 2C5.7 19 12 19 12 19s6.3 0 8.1-.5c1-.3 1.7-1 1.9-2 .5-1.8.5-4.5.5-4.5s0-2.7-.5-4.5z"></path><path d="M10 15l5-3-5-3z" fill="#100d0a"></path></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  DICT = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      kicker:'ЛЕНТА АВТОРА',title:'Что нового',intro:'Короткие заметки о планах, новых книгах и жизни между двумя мирами. Самое свежее — сверху.',
+      entries:[
+        {date:'июнь 2026',tag:'РАБОТА НАД КНИГОЙ',text:'Полным ходом пишу вторую книгу хроник рода Даргонов. Кил возвращается — и на этот раз дорога ведёт дальше Земли. Первые главы уже на бумаге.',img:'assets/img/world-tolus.jpg'},
+        {date:'май 2026',tag:'РЕЛИЗ',text:'«Просто вернуться домой» теперь доступна и на Amazon Kindle — выбирайте удобный формат.',img:''},
+        {date:'апрель 2026',tag:'ВИДЕО',text:'Записал короткое видео о том, как устроен мир Толуса и откуда взялось красное солнце. Смотрите на странице автора.',img:''},
+        {date:'март 2026',tag:'МЫСЛИ',text:'Иногда лучшая глава приходит не за столом, а на горной тропе. Сегодня поймал идею для сцены, которую искал несколько месяцев.',img:'assets/img/world-earth.jpg'},
+        {date:'февраль 2026',tag:'ОТЗЫВЫ',text:'Читаю ваши первые письма и отзывы — и не перестаю удивляться, как по-разному отзывается история. Спасибо, что читаете сердцем.',img:''},
+      ],
+      showMore:'Показать ещё',followTitle:'Следите за новостями',followText:'Самые свежие анонсы и заметки автор публикует в соцсетях.',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      kicker:'AUTHOR’S FEED',title:'What’s new',intro:'Short notes on plans, new books and life between two worlds. The latest is at the top.',
+      entries:[
+        {date:'June 2026',tag:'WORK IN PROGRESS',text:'I’m well into the second book of the Dargon clan chronicles. Kil returns — and this time the road leads beyond Earth. The first chapters are already on paper.',img:'assets/img/world-tolus.jpg'},
+        {date:'May 2026',tag:'RELEASE',text:'“Just to Return Home” is now available on Amazon Kindle as well — choose the format that suits you.',img:''},
+        {date:'April 2026',tag:'VIDEO',text:'I recorded a short video about how the world of Tolus works and where the red sun came from. Watch it on the author page.',img:''},
+        {date:'March 2026',tag:'THOUGHTS',text:'Sometimes the best chapter comes not at the desk but on a mountain trail. Today I caught an idea for a scene I’d been chasing for months.',img:'assets/img/world-earth.jpg'},
+        {date:'February 2026',tag:'REVIEWS',text:'I’m reading your first letters and reviews — and I never cease to wonder how differently the story resonates. Thank you for reading with the heart.',img:''},
+      ],
+      showMore:'Show more',followTitle:'Follow the news',followText:'The author shares the freshest announcements and notes on social media.',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      kicker:'СТРІЧКА АВТОРА',title:'Що нового',intro:'Короткі нотатки про плани, нові книги й життя між двома світами. Найсвіжіше — згори.',
+      entries:[
+        {date:'червень 2026',tag:'РОБОТА НАД КНИГОЮ',text:'Повним ходом пишу другу книгу хронік роду Даргонів. Кіл повертається — і цього разу дорога веде далі за Землю. Перші розділи вже на папері.',img:'assets/img/world-tolus.jpg'},
+        {date:'травень 2026',tag:'РЕЛІЗ',text:'«Просто повернутися додому» тепер доступна й на Amazon Kindle — обирайте зручний формат.',img:''},
+        {date:'квітень 2026',tag:'ВІДЕО',text:'Записав коротке відео про те, як влаштований світ Толуса й звідки взялося червоне сонце. Дивіться на сторінці автора.',img:''},
+        {date:'березень 2026',tag:'ДУМКИ',text:'Іноді найкращий розділ приходить не за столом, а на гірській стежці. Сьогодні впіймав ідею для сцени, яку шукав кілька місяців.',img:'assets/img/world-earth.jpg'},
+        {date:'лютий 2026',tag:'ВІДГУКИ',text:'Читаю ваші перші листи й відгуки — і не перестаю дивуватися, як по-різному відлунює історія. Дякую, що читаєте серцем.',img:''},
+      ],
+      showMore:'Показати ще',followTitle:'Стежте за новинами',followText:'Найсвіжіші анонси й нотатки автор публікує в соцмережах.',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      kicker:'ЛЕНТА НА АВТОРА',title:'Какво ново',intro:'Кратки бележки за планове, нови книги и живота между два свята. Най-новото е отгоре.',
+      entries:[
+        {date:'юни 2026',tag:'РАБОТА ПО КНИГА',text:'Пиша с пълна сила втората книга от хрониките на рода Даргон. Кил се завръща — и този път пътят води отвъд Земята. Първите глави вече са на хартия.',img:'assets/img/world-tolus.jpg'},
+        {date:'май 2026',tag:'ИЗДАНИЕ',text:'„Просто да се върнеш у дома“ вече е достъпна и на Amazon Kindle — изберете удобния формат.',img:''},
+        {date:'април 2026',tag:'ВИДЕО',text:'Записах кратко видео за това как е устроен светът на Толус и откъде идва червеното слънце. Гледайте на страницата на автора.',img:''},
+        {date:'март 2026',tag:'МИСЛИ',text:'Понякога най-добрата глава идва не на бюрото, а на планинска пътека. Днес улових идея за сцена, която търсех от месеци.',img:'assets/img/world-earth.jpg'},
+        {date:'февруари 2026',tag:'ОТЗИВИ',text:'Чета първите ви писма и отзиви — и не спирам да се удивлявам колко различно отеква историята. Благодаря, че четете със сърце.',img:''},
+      ],
+      showMore:'Покажи още',followTitle:'Следете новините',followText:'Най-свежите анонси и бележки авторът публикува в социалните мрежи.',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  state={lang:'ru',scrolled:false,count:4};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const t=this.DICT[lang];
+    const all=t.entries;
+    const vis=all.slice(0,this.state.count);
+    let prevYear=null;
+    const items=vis.map(e=>{const m=String(e.date).match(/(\d{4})/);const y=m?m[1]:'';const showYear=y!==prevYear;prevYear=y;const imgEl=e.img?React.createElement('img',{src:e.img,alt:'',style:{width:'100%',height:'100%',objectFit:'cover',display:'block'}}):null;return Object.assign({},e,{year:y,showYear:showYear,hasImg:!!e.img,imgEl:imgEl});});
+    return {t,langBtns,items,hasMore:this.state.count<all.length,loadMore:()=>this.setState(s=>({count:s.count+4})),headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c)};
+  }
+}
+</script>
+</body>
+</html>

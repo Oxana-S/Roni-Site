@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Kalam:wght@300;400&display=swap" rel="stylesheet">
+</helmet>
+
+<!-- ================= TITLE ================= -->
+<div style="position:absolute;left:80px;top:36px;width:1000px">
+  <div style="font:700 34px Caveat,cursive;color:#2a2620">Архитектура: сайт-хаб автора + лендинг на каждую книгу</div>
+  <div style="font:400 15px Kalam,cursive;color:#6b6358;margin-top:4px">Сейчас 2 книги, система масштабируется на N. Лендинг книги — переиспользуемый шаблон.</div>
+</div>
+
+<!-- ================= SITEMAP ================= -->
+<div data-drags-parent="1" style="position:absolute;left:80px;top:128px;font:600 13px Kalam,cursive;color:#8a8175;letter-spacing:.5px">КАРТА САЙТА</div>
+
+<!-- hub node -->
+<div style="position:absolute;left:300px;top:160px;width:200px;background:#23201b;color:#e8e0d0;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:14px 16px;text-align:center">
+  <div style="font:600 15px Kalam,cursive">Главная — хаб автора</div>
+  <div style="font:400 11px Kalam,cursive;color:#9c917c;margin-top:2px">витрина всех книг + лицо автора</div>
+</div>
+
+<!-- level 2 nodes -->
+<div style="position:absolute;left:80px;top:300px;width:150px;background:#fff;border:1.5px solid #d9d1c0;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive;color:#3a352c">Книги<div style="font:400 10px Kalam,cursive;color:#8a8175">каталог</div></div>
+<div style="position:absolute;left:250px;top:300px;width:150px;background:#fff;border:1.5px solid #d9d1c0;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive;color:#3a352c">Об авторе</div>
+<div style="position:absolute;left:420px;top:300px;width:150px;background:#fff;border:1.5px solid #d9d1c0;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive;color:#3a352c">Блог</div>
+<div style="position:absolute;left:590px;top:300px;width:150px;background:#fff;border:1.5px solid #d9d1c0;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive;color:#3a352c">Контакты</div>
+
+<!-- book landings under catalog -->
+<div style="position:absolute;left:60px;top:430px;width:165px;background:#2d3a2f;color:#dfe8df;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive">Лендинг — Книга 1<div style="font:400 10px Kalam,cursive;color:#9ab09c">«Просто вернуться домой»</div></div>
+<div style="position:absolute;left:60px;top:506px;width:165px;background:#2d3a2f;color:#dfe8df;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:11px 12px;text-align:center;font:600 13px Kalam,cursive">Лендинг — Книга 2<div style="font:400 10px Kalam,cursive;color:#9ab09c">вторая книга</div></div>
+<div style="position:absolute;left:60px;top:582px;width:165px;background:#fff;border:1.5px dashed #9ab09c;border-radius:4px;padding:11px 12px;text-align:center;font:400 12px Kalam,cursive;color:#6b8a6f">+ Книга 3, 4 … <br>тот же шаблон</div>
+
+<!-- connectors via SVG -->
+<svg style="position:absolute;left:0;top:0;width:760px;height:640px;overflow:visible;pointer-events:none" viewBox="0 0 760 640">
+  <g stroke="#c2b9a6" stroke-width="1.6" fill="none">
+    <path d="M400 218 L155 300"/>
+    <path d="M400 218 L325 300"/>
+    <path d="M400 218 L495 300"/>
+    <path d="M400 218 L665 300"/>
+    <path d="M155 348 L142 430"/>
+    <path d="M142 478 L142 506"/>
+    <path d="M142 554 L142 582"/>
+  </g>
+</svg>
+
+<div style="position:absolute;left:300px;top:445px;width:230px;background:#fef4a8;padding:13px;font:400 13px Kalam,cursive;color:#5a5238;box-shadow:0 2px 8px rgba(0,0,0,.1);transform:rotate(-1deg);line-height:1.45">
+  <b>Ключевая идея:</b> «Об авторе», «Блог», «Контакты» — общие для сайта. Лендинг книги — отдельный шаблон, дублируется под каждую новую книгу, меняется только контент.
+</div>
+
+<!-- ================= HUB HOME ================= -->
+<div data-drags-parent="1" style="position:absolute;left:80px;top:700px;font:600 13px Kalam,cursive;color:#8a8175;letter-spacing:.5px">A · ГЛАВНАЯ (ХАБ) — секции</div>
+<div style="position:absolute;left:80px;top:728px;width:400px">
+  <div style="background:#fff;border-radius:3px;box-shadow:0 2px 10px rgba(0,0,0,.09);overflow:hidden;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1.5px solid #ece6d8">
+      <div style="width:70px;height:13px;background:#d9d1c0;border-radius:2px"></div>
+      <div style="display:flex;gap:8px"><div style="width:30px;height:8px;background:#e7e0d0;border-radius:2px"></div><div style="width:30px;height:8px;background:#e7e0d0;border-radius:2px"></div><div style="width:30px;height:8px;background:#e7e0d0;border-radius:2px"></div></div>
+    </div>
+    <div style="padding:22px 14px;background:#23201b;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center">
+      <div style="width:160px;height:13px;background:#4a4438;border-radius:2px"></div>
+      <div style="width:220px;height:9px;background:#3a352c;border-radius:2px"></div>
+      <div style="font:400 11px Kalam,cursive;color:#c9a86a;margin-top:2px">автор фэнтези · Ростислав Вишневский</div>
+    </div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">1 · Знакомство с автором (имя, жанр, лицо)</div>
+    <div style="padding:18px 14px;display:flex;gap:12px;justify-content:center">
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><div style="width:90px;height:120px;background:repeating-linear-gradient(45deg,#e7e0d0,#e7e0d0 6px,#ddd5c4 6px,#ddd5c4 12px);border-radius:3px"></div><div style="width:80px;height:18px;background:#c9a86a;border-radius:3px"></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><div style="width:90px;height:120px;background:repeating-linear-gradient(45deg,#e7e0d0,#e7e0d0 6px,#ddd5c4 6px,#ddd5c4 12px);border-radius:3px"></div><div style="width:80px;height:18px;background:#c9a86a;border-radius:3px"></div></div>
+    </div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">2 · ВИТРИНА КНИГ → каждая ведёт на свой лендинг</div>
+    <div style="padding:16px 14px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center"><div style="width:140px;height:11px;background:#d9d1c0;border-radius:2px"></div><div style="width:90%;height:8px;background:#ece6d8;border-radius:2px"></div><div style="width:80%;height:8px;background:#ece6d8;border-radius:2px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">3 · Об авторе кратко + история · 4 · Блог · 5 · Футер</div>
+  </div>
+</div>
+
+<!-- ================= BOOK LANDING TEMPLATE ================= -->
+<div data-drags-parent="1" style="position:absolute;left:560px;top:700px;font:600 13px Kalam,cursive;color:#3a6b4a;letter-spacing:.5px">B · ШАБЛОН ЛЕНДИНГА КНИГИ (воронка)</div>
+<div style="position:absolute;left:560px;top:728px;width:400px">
+  <div style="background:#fff;border-radius:3px;box-shadow:0 2px 10px rgba(0,0,0,.09);overflow:hidden;display:flex;flex-direction:column">
+    <div style="display:flex;gap:14px;padding:20px 14px;background:#23201b">
+      <div style="width:95px;height:130px;background:repeating-linear-gradient(45deg,#3a352c,#3a352c 6px,#34302a 6px,#34302a 12px);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font:400 10px Kalam,cursive;color:#9c917c">обложка</div>
+      <div style="display:flex;flex-direction:column;gap:7px;padding-top:6px">
+        <div style="font:400 11px Kalam,cursive;color:#c9a86a">фэнтези · роман</div>
+        <div style="width:140px;height:18px;background:#4a4438;border-radius:2px"></div>
+        <div style="width:160px;height:10px;background:#3a352c;border-radius:2px;margin-bottom:4px"></div>
+        <div style="display:flex;gap:6px"><div style="width:100px;height:24px;background:#c9a86a;border-radius:3px"></div><div style="width:80px;height:24px;border:1.5px solid #6b6358;border-radius:3px"></div></div>
+      </div>
+    </div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">1 · Hero — обложка, крючок, «Купить» + «Читать главу»</div>
+    <div style="padding:11px 14px;display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:1.5px solid #ece6d8"><div style="font:400 12px Kalam,cursive;color:#c9a86a">★★★★★</div><div style="width:180px;height:9px;background:#e7e0d0;border-radius:2px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">2 · Доверие — рейтинг / отзыв строкой</div>
+    <div style="padding:16px 14px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center"><div style="width:140px;height:11px;background:#d9d1c0;border-radius:2px"></div><div style="width:88%;height:8px;background:#ece6d8;border-radius:2px"></div><div style="width:82%;height:8px;background:#ece6d8;border-radius:2px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">3 · О книге — аннотация + «что внутри»</div>
+    <div style="padding:16px 14px;background:#faf7ef;display:flex;flex-direction:column;gap:7px;align-items:center;border-top:1.5px solid #ece6d8"><div style="width:160px;height:11px;background:#d9d1c0;border-radius:2px"></div><div style="width:120px;height:24px;background:#23201b;border-radius:3px;margin-top:2px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">4 · Отрывок — первая глава бесплатно (магнит)</div>
+    <div style="display:flex;gap:14px;padding:16px 14px;align-items:center"><div style="width:64px;height:64px;border-radius:50%;background:repeating-linear-gradient(45deg,#e7e0d0,#e7e0d0 6px,#ddd5c4 6px,#ddd5c4 12px);flex-shrink:0"></div><div style="display:flex;flex-direction:column;gap:5px"><div style="width:110px;height:10px;background:#d9d1c0;border-radius:2px"></div><div style="width:160px;height:7px;background:#ece6d8;border-radius:2px"></div><div style="width:140px;height:7px;background:#ece6d8;border-radius:2px"></div></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">5 · Об авторе + история создания + видео</div>
+    <div style="display:flex;gap:8px;padding:16px 14px"><div style="flex:1;height:60px;background:#f1ece0;border-radius:3px"></div><div style="flex:1;height:60px;background:#f1ece0;border-radius:3px"></div><div style="flex:1;height:60px;background:#f1ece0;border-radius:3px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">6 · Отзывы читателей</div>
+    <div style="padding:20px 14px;background:#23201b;display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:150px;height:12px;background:#4a4438;border-radius:2px"></div><div style="font:700 20px Caveat,cursive;color:#c9a86a">3.99 €</div><div style="width:150px;height:26px;background:#c9a86a;border-radius:4px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">7 · Оффер — цена, что получаешь, формат, гарантия</div>
+    <div style="padding:14px;background:#faf7ef;display:flex;flex-direction:column;gap:5px;align-items:center;text-align:center"><div style="width:130px;height:9px;background:#d9d1c0;border-radius:2px"></div><div style="width:70%;height:7px;background:#ece6d8;border-radius:2px"></div></div>
+    <div style="font:600 11px Kalam,cursive;color:#3a6b4a;padding:6px 14px;background:#f3efe5">8 · «Другие книги автора» → кросс-промо на хаб</div>
+  </div>
+</div>
+
+<!-- annotations -->
+<div style="position:absolute;left:990px;top:760px;width:225px;background:#cfe8d4;padding:14px;font:400 14px Kalam,cursive;color:#2f5238;box-shadow:0 2px 8px rgba(0,0,0,.1);transform:rotate(1deg);line-height:1.5">
+  <b>Шаблон = система:</b> один дизайн лендинга, контент подставляется под книгу. Новая книга → копия + новый текст/обложка/цвет-акцент.
+</div>
+<div style="position:absolute;left:990px;top:940px;width:225px;background:#fde0d0;padding:14px;font:400 14px Kalam,cursive;color:#7a4030;box-shadow:0 2px 8px rgba(0,0,0,.1);transform:rotate(-1deg);line-height:1.5">
+  <b>Акцент-цвет на книгу:</b> у каждой книги свой акцентный цвет в рамках общей тёмной темы — лендинги отличимы, но узнаются как один автор.
+</div>
+<div style="position:absolute;left:990px;top:1110px;width:225px;background:#d4e2f0;padding:14px;font:400 14px Kalam,cursive;color:#2f4a6b;box-shadow:0 2px 8px rgba(0,0,0,.1);transform:rotate(1.2deg);line-height:1.5">
+  <b>Вопросы:</b> 1) Каталог отдельной страницей или витрина прямо на главной? 2) Блог общий на сайт. 3) Корзина/оплата — как сейчас (письмо на почту) или магазин?
+</div>
+</x-dc>
+</body>
+</html>

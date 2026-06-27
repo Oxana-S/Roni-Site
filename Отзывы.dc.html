@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Отзывы читателей · Просто вернуться домой · Ростислав Вишневский</title>
+<meta name="description" content="Что говорят читатели о романе «Просто вернуться домой» Ростислава Вишневского — отзывы о мире Толуса, героях и философии книги.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vrev{transition:transform .35s,border-color .35s}
+  .vrev:hover{transform:translateY(-5px);border-color:rgba(201,168,106,.4)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <!-- HERO + RATING -->
+  <section style="padding:150px 7vw 40px;text-align:center">
+    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+    <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:#f3ece0;margin:0;line-height:1.05">{{ t.title }}</h1>
+    <div style="display:inline-flex;align-items:center;gap:16px;margin-top:30px;border:1px solid rgba(201,168,106,.25);border-radius:40px;padding:12px 26px;background:rgba(201,168,106,.04)">
+      <span style="font:400 32px Forum,serif;color:#c9a86a">{{ t.ratingValue }}</span>
+      <span style="font:400 16px Spectral,serif;color:#c9a86a;letter-spacing:2px">★★★★★</span>
+      <span style="font:300 13px Spectral,serif;color:#9c917c">{{ t.ratingLabel }}</span>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section style="padding:40px 7vw 80px">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px">
+      <sc-for list="{{ t.reviews }}" as="r" hint-placeholder-count="6">
+        <div class="vrev" style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:30px 28px;background:rgba(201,168,106,.02);display:flex;flex-direction:column">
+          <div style="font:400 14px Spectral,serif;color:#c9a86a;letter-spacing:3px;margin-bottom:16px">{{ r.stars }}</div>
+          <p style="font:300 17px/1.7 Spectral,serif;color:#d8cdb8;font-style:italic;margin:0 0 24px;flex:1">“{{ r.text }}”</p>
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,106,.12);border:1px solid rgba(201,168,106,.35);display:flex;align-items:center;justify-content:center;font:400 18px Forum,serif;color:#c9a86a;flex-shrink:0">{{ r.initial }}</div>
+            <div>
+              <div style="font:400 15px Spectral,serif;color:#ece4d6">{{ r.name }}</div>
+              <div style="font:300 13px Spectral,serif;color:#7a7060">{{ r.place }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:20px 7vw 90px">
+    <div style="max-width:1080px;margin:0 auto;text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+      <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
+      <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:440px">{{ t.ctaText }}</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="Книга - Просто вернуться домой.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaBuy }}</a>
+        <a href="Читать онлайн.dc.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 13px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  DICT = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      kicker:'ОТЗЫВЫ ЧИТАТЕЛЕЙ',title:'Что говорят читатели',ratingValue:'4,8',ratingLabel:'на основе отзывов читателей',
+      reviews:[
+        {stars:'★★★★★',initial:'Е',name:'Елена',place:'Варна',text:'Не ожидала, что фэнтези может быть таким душевным. За боями — настоящая философия долга и рода.'},
+        {stars:'★★★★★',initial:'Д',name:'Дмитрий',place:'Киев',text:'Идея воина-антиквара на Земле — гениальна. Читается на одном дыхании, а герой остаётся с тобой.'},
+        {stars:'★★★★★',initial:'М',name:'Мария',place:'София',text:'Мир Толуса хочется исследовать дальше — красное солнце, род Даргонов. Жду продолжения!'},
+        {stars:'★★★★☆',initial:'А',name:'Андрей',place:'Лондон',text:'Боевые сцены выверены — видно, что автор знает тему. И при этом книга по-настоящему трогает.'},
+        {stars:'★★★★★',initial:'О',name:'Ольга',place:'Торонто',text:'Прочитала за одну ночь. Идея двух миров свежая, а атмосфера затягивает с первой страницы.'},
+        {stars:'★★★★★',initial:'Г',name:'Георги',place:'Пловдив',text:'Глубокая книга о долге и наследии. Редкое фэнтези, которое заставляет думать. Рекомендую.'},
+      ],
+      ctaTitle:'Составьте своё мнение',ctaText:'Прочитайте бесплатный отрывок или возьмите книгу целиком.',ctaBuy:'Купить книгу',ctaRead:'Читать отрывок',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      kicker:'READER REVIEWS',title:'What readers say',ratingValue:'4.8',ratingLabel:'based on reader reviews',
+      reviews:[
+        {stars:'★★★★★',initial:'E',name:'Elena',place:'Varna',text:'I didn’t expect fantasy to be this heartfelt. Behind the fights lies a real philosophy of duty and lineage.'},
+        {stars:'★★★★★',initial:'D',name:'Dmytro',place:'Kyiv',text:'The idea of a warrior-antiquarian on Earth is brilliant. I read it in one breath, and the hero stays with you.'},
+        {stars:'★★★★★',initial:'M',name:'Maria',place:'Sofia',text:'I want to explore the world of Tolus further — the red sun, the Dargon clan. Waiting for the sequel!'},
+        {stars:'★★★★☆',initial:'A',name:'Andrew',place:'London',text:'The fight scenes are precise — the author clearly knows the subject. And still the book genuinely moves you.'},
+        {stars:'★★★★★',initial:'O',name:'Olena',place:'Toronto',text:'Read it in one night. The two-worlds idea is fresh and the atmosphere grips you from page one.'},
+        {stars:'★★★★★',initial:'G',name:'Georgi',place:'Plovdiv',text:'A deep book about duty and heritage. Rare fantasy that makes you think. Highly recommended.'},
+      ],
+      ctaTitle:'Make up your own mind',ctaText:'Read a free excerpt or get the whole book.',ctaBuy:'Buy the book',ctaRead:'Read the excerpt',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      kicker:'ВІДГУКИ ЧИТАЧІВ',title:'Що кажуть читачі',ratingValue:'4,8',ratingLabel:'на основі відгуків читачів',
+      reviews:[
+        {stars:'★★★★★',initial:'О',name:'Олена',place:'Варна',text:'Не очікувала, що фентезі може бути таким душевним. За боями — справжня філософія обов’язку й роду.'},
+        {stars:'★★★★★',initial:'Д',name:'Дмитро',place:'Київ',text:'Ідея воїна-антиквара на Землі — геніальна. Читається на одному диханні, а герой залишається з тобою.'},
+        {stars:'★★★★★',initial:'М',name:'Марія',place:'Софія',text:'Світ Толуса хочеться досліджувати далі — червоне сонце, рід Даргонів. Чекаю на продовження!'},
+        {stars:'★★★★☆',initial:'А',name:'Андрій',place:'Лондон',text:'Бойові сцени вивірені — видно, що автор знає тему. І при цьому книга по-справжньому зворушує.'},
+        {stars:'★★★★★',initial:'О',name:'Ольга',place:'Торонто',text:'Прочитала за одну ніч. Ідея двох світів свіжа, а атмосфера затягує з першої сторінки.'},
+        {stars:'★★★★★',initial:'Г',name:'Георгі',place:'Пловдив',text:'Глибока книга про обов’язок і спадок. Рідкісне фентезі, що змушує думати. Рекомендую.'},
+      ],
+      ctaTitle:'Складіть власну думку',ctaText:'Прочитайте безкоштовний уривок або візьміть книгу повністю.',ctaBuy:'Купити книгу',ctaRead:'Читати уривок',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      kicker:'ОТЗИВИ НА ЧИТАТЕЛИ',title:'Какво казват читателите',ratingValue:'4,8',ratingLabel:'въз основа на читателски отзиви',
+      reviews:[
+        {stars:'★★★★★',initial:'Е',name:'Елена',place:'Варна',text:'Не очаквах, че фентъзито може да е толкова сърдечно. Зад битките стои истинска философия за дълга и рода.'},
+        {stars:'★★★★★',initial:'Д',name:'Димитър',place:'Киев',text:'Идеята за воина-антиквар на Земята е гениална. Чете се на един дъх, а героят остава с теб.'},
+        {stars:'★★★★★',initial:'М',name:'Мария',place:'София',text:'Светът на Толус кара да искаш да го изследваш — червеното слънце, родът Даргон. Чакам продължението!'},
+        {stars:'★★★★☆',initial:'А',name:'Андрей',place:'Лондон',text:'Бойните сцени са премерени — личи, че авторът познава темата. И все пак книгата истински трогва.'},
+        {stars:'★★★★★',initial:'О',name:'Олга',place:'Торонто',text:'Прочетох я за една нощ. Идеята за двата свята е свежа, а атмосферата те грабва от първата страница.'},
+        {stars:'★★★★★',initial:'Г',name:'Георги',place:'Пловдив',text:'Дълбока книга за дълга и наследството. Рядко фентъзи, което те кара да мислиш. Препоръчвам.'},
+      ],
+      ctaTitle:'Съставете собствено мнение',ctaText:'Прочетете безплатен откъс или вземете цялата книга.',ctaBuy:'Купи книгата',ctaRead:'Чети откъса',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  state={lang:'ru',scrolled:false};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c)};
+  }
+}
+</script>
+</body>
+</html>

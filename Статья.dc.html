@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Статья · Блог · Ростислав Вишневский</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vdrop::first-letter{font-family:Forum,serif;font-size:60px;line-height:.8;float:left;color:#c9a86a;padding:6px 12px 0 0}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="blog" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <article style="max-width:760px;margin:0 auto;padding:140px 28px 40px">
+    <a href="Блог.dc.html" class="vlink" style="font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;text-decoration:none">{{ t.back }}</a>
+    <div style="margin-top:30px;text-align:center">
+      <div style="font:500 11px Spectral,serif;color:#b8935a;letter-spacing:4px;margin-bottom:18px">{{ a.cat }}</div>
+      <h1 style="font:400 clamp(30px,4.6vw,52px) Forum,serif;color:#f3ece0;margin:0 0 16px;line-height:1.1">{{ a.title }}</h1>
+      <div style="font:300 13px Spectral,serif;color:#7a7060;letter-spacing:1px">{{ a.meta }}</div>
+    </div>
+    <div style="margin:40px 0;border-radius:5px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);aspect-ratio:3/2;background:#1c1812">
+      <img src="{{ a.img }}" alt="{{ a.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+    </div>
+
+    <p class="vdrop" style="font:300 19px/1.9 Spectral,serif;color:#dccfb8;margin:0 0 26px">{{ a.lead }}</p>
+    <p style="font:300 18px/1.9 Spectral,serif;color:#c2b6a0;margin:0 0 26px">{{ a.p1 }}</p>
+    <p style="font:300 18px/1.9 Spectral,serif;color:#c2b6a0;margin:0 0 26px">{{ a.p2 }}</p>
+
+    <div style="width:60px;height:1px;background:rgba(201,168,106,.5);margin:44px auto"></div>
+
+    <!-- byline -->
+    <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:50px">
+      <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,106,.35);flex-shrink:0;background:#1c1812">
+        <img src="assets/img/author.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="text-align:left">
+        <div style="font:600 22px Caveat,cursive;color:#c9a86a;line-height:1">{{ t.byName }}</div>
+        <div style="font:300 12px Spectral,serif;color:#7a7060">{{ t.byRole }}</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:40px 28px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+      <h2 style="font:400 clamp(22px,3vw,32px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.ctaTitle }}</h2>
+      <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 26px;max-width:400px">{{ t.ctaText }}</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="Книга - Просто вернуться домой.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.ctaBook }}</a>
+        <a href="Блог.dc.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 13px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.ctaMore }}</a>
+      </div>
+    </div>
+  </article>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  UI = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      back:'← В блог',byName:'Ростислав Вишневский',byRole:'Писатель',
+      ctaTitle:'Войдите в мир Толуса',ctaText:'Прочитайте роман, из которого выросли эти заметки.',ctaBook:'Читать книгу',ctaMore:'Другие статьи',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      back:'← Back to blog',byName:'Rostyslav Vyshnevskyi',byRole:'Writer',
+      ctaTitle:'Step into the world of Tolus',ctaText:'Read the novel these notes grew from.',ctaBook:'Read the book',ctaMore:'More articles',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      back:'← До блогу',byName:'Ростислав Вишневський',byRole:'Письменник',
+      ctaTitle:'Увійдіть у світ Толуса',ctaText:'Прочитайте роман, з якого виросли ці нотатки.',ctaBook:'Читати книгу',ctaMore:'Інші статті',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      back:'← Към блога',byName:'Ростислав Вишневски',byRole:'Писател',
+      ctaTitle:'Влезте в света на Толус',ctaText:'Прочетете романа, от който израснаха тези бележки.',ctaBook:'Чети книгата',ctaMore:'Други статии',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  ARTICLES = {
+    '1':{
+      ru:{cat:'МИР',meta:'12 мин · 2026',img:'assets/img/blog-1.jpg',title:'Как родился мир Толуса',lead:'Мир Толуса я строил не как карту, а как ощущение. Первым появилось красное солнце, давшее имя всему миру.',p1:'Здесь нет привычной луны: ночь подсвечивается огнями из-за гор клоссов, а днём всё заливает красноватый свет. Природа этого мира скупа на краски — и потому редкие яркие детали становятся драгоценными. Зимы морозные и почти бесснежные, но вершины в снегу всегда.',p2:'Логику мира я держу по принципу айсберга: на поверхности лишь то, что нужно истории, остальное скрыто. Читатель должен чувствовать, что мир огромен, но не обязан видеть каждую деталь — так он остаётся живым и манящим.'},
+      en:{cat:'WORLDBUILDING',meta:'12 min · 2026',img:'assets/img/blog-1.jpg',title:'How the world of Tolus was born',lead:'I built the world of Tolus not as a map but as a feeling. The red sun came first, and gave its name to the whole world.',p1:'There is no familiar moon here: night glows with fires from beyond the closs mountains, and day is washed in reddish light. This world is poor in colour — and so its rare bright details become precious. Winters are frosty and almost snowless, yet the peaks are white year-round.',p2:'I keep the world’s logic by the iceberg rule: only what the story needs shows above the surface, the rest stays hidden. The reader should sense that the world is vast without having to see every detail — that is what keeps it alive and alluring.'},
+      uk:{cat:'СВІТ',meta:'12 хв · 2026',img:'assets/img/blog-1.jpg',title:'Як народився світ Толуса',lead:'Світ Толуса я будував не як карту, а як відчуття. Першим з’явилося червоне сонце, що дало ім’я всьому світові.',p1:'Тут немає звичного місяця: ніч підсвічена вогнями з-за гір клоссів, а вдень усе заливає червонувате світло. Природа цього світу скупа на барви — і тому рідкісні яскраві деталі стають коштовними. Зими морозні й майже безсніжні, та вершини в снігу завжди.',p2:'Логіку світу я тримаю за принципом айсберга: на поверхні лише те, що потрібно історії, решта прихована. Читач має відчувати, що світ величезний, та не зобов’язаний бачити кожну деталь — так він лишається живим і звабливим.'},
+      bg:{cat:'СВЕТЪТ',meta:'12 мин · 2026',img:'assets/img/blog-1.jpg',title:'Как се роди светът на Толус',lead:'Светът на Толус градих не като карта, а като усещане. Първо се появи червеното слънце, дало име на целия свят.',p1:'Тук няма обичайната луна: нощта свети с огньове иззад планините на клосите, а денят е залят в червеникава светлина. Този свят е беден на цветове — и затова редките ярки детайли стават скъпоценни. Зимите са мразовити и почти безснежни, но върховете са в сняг винаги.',p2:'Логиката на света държа по принципа на айсберга: на повърхността е само нужното на историята, останалото е скрито. Читателят трябва да усеща, че светът е огромен, без да вижда всеки детайл — така той остава жив и примамлив.'},
+    },
+    '2':{
+      ru:{cat:'ГЕРОЙ',meta:'8 мин · 2026',img:'assets/img/blog-2.jpg',title:'Воин под видом антиквара',lead:'Кил — старший сын главы рода воинов. И при этом торговец древним оружием на чужой Земле. Из этого противоречия выросла вся книга.',p1:'Его отец зарубил бы сына на месте за такой позор — воин рода Даргонов не может быть торговцем. Но отец далеко, в другом мире, и неизвестно, увидятся ли они когда-нибудь. Кил живёт под чужим именем, Константином Александровичем, и каждый день играет чужую роль.',p2:'Мне было важно показать героя не всесильным, а уставшим от двойной жизни. Бессонница, смутная тревога, тоска по дому — с этого начинается история. Сила воина здесь меньше интересна, чем его одиночество.'},
+      en:{cat:'CHARACTER',meta:'8 min · 2026',img:'assets/img/blog-2.jpg',title:'A warrior disguised as an antiquarian',lead:'Kil is the eldest son of a warrior clan’s head. And yet a dealer in ancient weapons on an alien Earth. The whole book grew from that contradiction.',p1:'His father would have cut him down on the spot for such disgrace — a warrior of the Dargon clan cannot be a merchant. But the father is far away, in another world, and they may never meet again. Kil lives under a borrowed name, Konstantin Aleksandrovich, playing a stranger’s role every day.',p2:'It mattered to me to show the hero not as all-powerful, but as worn out by a double life. Insomnia, a vague unease, longing for home — that is where the story begins. The warrior’s strength interests me less than his loneliness.'},
+      uk:{cat:'ГЕРОЙ',meta:'8 хв · 2026',img:'assets/img/blog-2.jpg',title:'Воїн під виглядом антиквара',lead:'Кіл — старший син голови роду воїнів. І водночас торговець древньою зброєю на чужій Землі. З цієї суперечності виросла вся книга.',p1:'Його батько зарубав би сина на місці за таку ганьбу — воїн роду Даргонів не може бути торговцем. Та батько далеко, в іншому світі, і невідомо, чи побачаться вони колись. Кіл живе під чужим іменем, Костянтином Олександровичем, і щодня грає чужу роль.',p2:'Мені було важливо показати героя не всесильним, а втомленим від подвійного життя. Безсоння, невиразна тривога, туга за домом — з цього починається історія. Сила воїна тут менш цікава, ніж його самотність.'},
+      bg:{cat:'ГЕРОЙ',meta:'8 мин · 2026',img:'assets/img/blog-2.jpg',title:'Воин под маската на антиквар',lead:'Кил е най-големият син на главата на воински род. И същевременно търговец на древно оръжие на чужда Земя. От това противоречие израсна цялата книга.',p1:'Баща му би го посякъл на място за такъв позор — воин от рода Даргон не може да е търговец. Но бащата е далеч, в друг свят, и не се знае дали ще се видят някога. Кил живее под чуждо име, Константин Александрович, и всеки ден играе чужда роля.',p2:'За мен беше важно да покажа героя не като всесилен, а като уморен от двойствения живот. Безсъние, смътна тревога, носталгия по дома — оттук започва историята. Силата на воина тук ме интересува по-малко от самотата му.'},
+    },
+    '3':{
+      ru:{cat:'БОЕВЫЕ ИСКУССТВА',meta:'9 мин · 2026',img:'assets/img/blog-3.jpg',title:'Оружие рода Даргонов',lead:'Владеть оружием и боем без оружия мальчиков рода учат чуть ли не с первых шагов.',p1:'С четырёх лет осваиваются шесты и кинжалы; верёвкой с грузилом учат захлёстывать шеи, потом — шейным платком, лозой. Чем старше ученик, тем больше приёмов. Меч, копьё, щит, метательные пластины, иглы, шипастые булавы — лишь малый перечень того, чем играючи владеют Даргоны.',p2:'Но боевые искусства в книге — не самоцель. Ищущие, мудрецы рода, находят забытое оружие, а Чтущие магией вбивают новое в умы учеников. За каждым приёмом стоит знание, наследие и дисциплина целого народа, единственное занятие которого — война.'},
+      en:{cat:'MARTIAL ARTS',meta:'9 min · 2026',img:'assets/img/blog-3.jpg',title:'Weapons of the Dargon clan',lead:'The clan’s boys are taught weapons and unarmed combat almost from their first steps.',p1:'From the age of four they master staves and daggers; with a weighted cord they learn to snare necks, then with a neck-scarf, a switch of wood. The older the pupil, the more techniques. Sword, spear, shield, throwing plates, needles, spiked maces — a small part of what the Dargons wield with ease.',p2:'But the martial arts are not an end in themselves. The Seeking, the clan’s sages, recover forgotten weapons, and the Heeding drive new skill into pupils’ minds by magic. Behind every move stands the knowledge, heritage and discipline of a whole people whose only craft is war.'},
+      uk:{cat:'БОЙОВІ МИСТЕЦТВА',meta:'9 хв · 2026',img:'assets/img/blog-3.jpg',title:'Зброя роду Даргонів',lead:'Володіти зброєю і боєм без зброї хлопців роду навчають чи не з перших кроків.',p1:'З чотирьох років опановують шести й кинджали; мотузкою з тягарцем учать захльостувати шиї, потім — шийною хусткою, лозою. Що старший учень, то більше прийомів. Меч, спис, щит, метальні пластини, голки, шипасті булави — лише малий перелік того, чим грайливо володіють Даргони.',p2:'Та бойові мистецтва в книзі — не самоціль. Шукачі, мудреці роду, знаходять забуту зброю, а Чтущі магією вбивають нове в розум учнів. За кожним прийомом стоїть знання, спадок і дисципліна цілого народу, чиє єдине заняття — війна.'},
+      bg:{cat:'БОЙНИ ИЗКУСТВА',meta:'9 мин · 2026',img:'assets/img/blog-3.jpg',title:'Оръжието на рода Даргон',lead:'Да владеят оръжие и бой без оръжие момчетата от рода учат едва ли не от първите си стъпки.',p1:'От четиригодишни усвояват тояги и ками; с въже с тежест учат да примкват вратове, после — с шал на врата, с лоза. Колкото по-голям е ученикът, толкова повече похвати. Меч, копие, щит, хвърлящи пластини, игли, шипести боздугани — само малка част от това, което Даргон владеят с лекота.',p2:'Но бойните изкуства в книгата не са самоцел. Търсещите, мъдреците на рода, намират забравено оръжие, а Четящите чрез магия набиват новото в умовете на учениците. Зад всеки похват стои знание, наследство и дисциплина на цял народ, чието единствено занятие е войната.'},
+    },
+    '4':{
+      ru:{cat:'ЗА КАДРОМ',meta:'6 мин · 2026',img:'assets/img/blog-4.jpg',title:'Карпаты, сосна и тишина',lead:'Эту книгу я начал писать в Карпатах. Мы поехали с детьми в маленький городок, окружённый горами и лесом.',p1:'Деревянный дом, пахнущий сосной, спящие детки, полная тишина, прерываемая только шумом деревьев на вершине. Именно в этой тишине пришли первые строки — и образ воина, что живёт под чужим именем вдали от дома.',p2:'С тех пор мне кажется, что лучшие истории рождаются не за столом, а в дороге и в тишине. Достаточно выйти из привычного шума — и мир сам начинает рассказывать себя.'},
+      en:{cat:'BEHIND THE BOOK',meta:'6 min · 2026',img:'assets/img/blog-4.jpg',title:'The Carpathians, pine and silence',lead:'I began this book in the Carpathians. We took the children to a small town ringed by mountains and forest.',p1:'A wooden house that smelled of pine, the children asleep, complete silence broken only by the rustle of trees at the summit. It was in that silence that the first lines came — and the image of a warrior living under a borrowed name far from home.',p2:'Ever since, it seems to me the best stories are born not at a desk but on the road and in silence. Step out of the usual noise, and the world begins to tell itself.'},
+      uk:{cat:'ЗА КАДРОМ',meta:'6 хв · 2026',img:'assets/img/blog-4.jpg',title:'Карпати, сосна й тиша',lead:'Цю книгу я почав писати в Карпатах. Ми поїхали з дітьми в маленьке містечко, оточене горами й лісом.',p1:'Дерев’яний дім, що пахнув сосною, сплячі дітки, цілковита тиша, яку переривав лише шум дерев на вершині. Саме в цій тиші прийшли перші рядки — і образ воїна, що живе під чужим іменем далеко від дому.',p2:'Відтоді мені здається, що найкращі історії народжуються не за столом, а в дорозі й у тиші. Досить вийти зі звичного шуму — і світ сам починає розповідати себе.'},
+      bg:{cat:'ЗАД КАДЪР',meta:'6 мин · 2026',img:'assets/img/blog-4.jpg',title:'Карпатите, борът и тишината',lead:'Започнах тази книга в Карпатите. Заведохме децата в малко градче, обградено от планини и гора.',p1:'Дървена къща, ухаеща на бор, спящи деца, пълна тишина, прекъсвана само от шума на дърветата по върха. Именно в тази тишина дойдоха първите редове — и образът на воин, който живее под чуждо име далеч от дома.',p2:'Оттогава ми се струва, че най-добрите истории се раждат не на бюрото, а по пътя и в тишината. Достатъчно е да излезеш от обичайния шум — и светът сам започва да се разказва.'},
+    },
+    '5':{
+      ru:{cat:'МАГИЯ',meta:'7 мин · 2026',img:'assets/img/blog-5.jpg',title:'Магия Чтущих',lead:'Чтущие — жрецы-маги рода Даргонов. Их сила не в молниях, а в знании.',p1:'Они вкладывают в головы учеников вместе с умением чувствовать опасность целую кучу полезных вещей. Ищущие находят на раскопках забытое оружие, а Чтущие с помощью магии адаптируют его и вбивают новое прямо в мозг. Знание здесь — оружие не менее острое, чем клинок.',p2:'Я намеренно не делаю магию всесильной. У неё есть цена и границы — иначе она убивает напряжение. Самое интересное в любой системе магии не то, что она позволяет, а то, чего она стоит.'},
+      en:{cat:'MAGIC',meta:'7 min · 2026',img:'assets/img/blog-5.jpg',title:'The magic of the Heeding',lead:'The Heeding are the priest-mages of the Dargon clan. Their power lies not in lightning but in knowledge.',p1:'Along with the gift of sensing danger, they plant a great many useful things in their pupils’ minds. The Seeking unearth forgotten weapons, and the Heeding adapt them by magic and drive the new skill straight into the brain. Knowledge here is a blade no less sharp than steel.',p2:'I deliberately keep the magic from being all-powerful. It has a price and limits — otherwise it kills the tension. The most interesting thing about any magic system is not what it allows, but what it costs.'},
+      uk:{cat:'МАГІЯ',meta:'7 хв · 2026',img:'assets/img/blog-5.jpg',title:'Магія Чтущих',lead:'Чтущі — жерці-маги роду Даргонів. Їхня сила не в блискавках, а в знанні.',p1:'Вони вкладають у голови учнів разом із умінням відчувати небезпеку цілу купу корисних речей. Шукачі знаходять на розкопках забуту зброю, а Чтущі за допомогою магії адаптують її і вбивають нове просто в мозок. Знання тут — зброя не менш гостра, ніж клинок.',p2:'Я навмисне не роблю магію всесильною. У неї є ціна й межі — інакше вона вбиває напругу. Найцікавіше в будь-якій системі магії не те, що вона дозволяє, а те, чого вона коштує.'},
+      bg:{cat:'МАГИЯ',meta:'7 мин · 2026',img:'assets/img/blog-5.jpg',title:'Магията на Четящите',lead:'Четящите са жреците-маги на рода Даргон. Силата им не е в мълниите, а в знанието.',p1:'Заедно с усета за опасност те влагат в умовете на учениците цял куп полезни неща. Търсещите намират при разкопки забравено оръжие, а Четящите чрез магия го адаптират и набиват новото право в мозъка. Знанието тук е оръжие не по-малко остро от острие.',p2:'Нарочно не правя магията всесилна. Тя има цена и граници — иначе убива напрежението. Най-интересното във всяка магическа система не е какво позволява, а какво струва.'},
+    },
+    '6':{
+      ru:{cat:'ФИЛОСОФИЯ',meta:'10 мин · 2026',img:'assets/img/blog-6.jpg',title:'Долг, род и судьба',lead:'Под боевыми сценами и магией прячется главный вопрос книги: что мы должны своему роду — и что себе самим.',p1:'Кил несёт груз наследия: он сын главы рода, воин по крови, и всё же выбрал другую жизнь. Долг и личная судьба тянут его в разные стороны. Это конфликт, близкий каждому, кто хоть раз выбирал между ожиданиями семьи и собственным путём.',p2:'Для меня фэнтези — лучший способ говорить о настоящем. Чужой мир снимает защиту, и читатель вдруг узнаёт в воине рода Даргонов самого себя.'},
+      en:{cat:'PHILOSOPHY',meta:'10 min · 2026',img:'assets/img/blog-6.jpg',title:'Duty, lineage and fate',lead:'Beneath the fights and the magic hides the book’s central question: what do we owe our lineage — and what do we owe ourselves.',p1:'Kil carries the weight of heritage: he is the son of a clan’s head, a warrior by blood, and yet he chose another life. Duty and personal fate pull him in opposite directions. It is a conflict close to anyone who has ever had to choose between a family’s expectations and their own path.',p2:'For me, fantasy is the best way to speak about the present. An alien world lowers our defences, and the reader suddenly recognises themselves in a warrior of the Dargon clan.'},
+      uk:{cat:'ФІЛОСОФІЯ',meta:'10 хв · 2026',img:'assets/img/blog-6.jpg',title:'Обов’язок, рід і доля',lead:'Під бойовими сценами й магією ховається головне питання книги: що ми винні своєму роду — і що собі самим.',p1:'Кіл несе тягар спадку: він син голови роду, воїн по крові, та все ж обрав інше життя. Обов’язок і власна доля тягнуть його в різні боки. Це конфлікт, близький кожному, хто хоч раз обирав між очікуваннями родини та власним шляхом.',p2:'Для мене фентезі — найкращий спосіб говорити про сьогодення. Чужий світ знімає захист, і читач раптом упізнає у воїні роду Даргонів самого себе.'},
+      bg:{cat:'ФИЛОСОФИЯ',meta:'10 мин · 2026',img:'assets/img/blog-6.jpg',title:'Дълг, род и съдба',lead:'Под бойните сцени и магията се крие главният въпрос на книгата: какво дължим на своя род — и какво на себе си.',p1:'Кил носи товара на наследството: той е син на главата на рода, воин по кръв, и все пак избра друг живот. Дългът и личната съдба го теглят в различни посоки. Това е конфликт, близък на всеки, който поне веднъж е избирал между очакванията на семейството и собствения си път.',p2:'За мен фентъзито е най-добрият начин да говоря за настоящето. Чуждият свят сваля защитата и читателят изведнъж разпознава себе си във воина от рода Даргон.'},
+    },
+  };
+  state={lang:'ru',scrolled:false,id:'1'};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){
+    try{const s=localStorage.getItem('vish_lang');if(s&&this.UI[s])this.setState({lang:s});}catch(e){}
+    try{const q=new URLSearchParams(location.search).get('id');if(q&&this.ARTICLES[q])this.setState({id:q});}catch(e){}
+    window.addEventListener('scroll',this.onScroll,{passive:true});
+  }
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const x=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(x?'rgba(201,168,106,.7)':'transparent')+';color:'+(x?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const art=this.ARTICLES[this.state.id]||this.ARTICLES['1'];
+    return {t:this.UI[lang],a:art[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c)};
+  }
+}
+</script>
+</body>
+</html>

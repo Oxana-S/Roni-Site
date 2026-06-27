@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Читать онлайн · Просто вернуться домой · Ростислав Вишневский</title>
+<meta name="description" content="Читайте бесплатный отрывок из романа «Просто вернуться домой» Ростислава Вишневского — первая глава о воине рода Даргонов, что скрывается на Земле.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}.vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vdrop::first-letter{font-family:Forum,serif;font-size:62px;line-height:.8;float:left;color:#c9a86a;padding:6px 12px 0 0}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <!-- READER -->
+  <article style="max-width:720px;margin:0 auto;padding:140px 28px 40px">
+    <div style="text-align:center;margin-bottom:50px">
+      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+      <h1 style="font:400 clamp(32px,5vw,52px) Forum,serif;color:#f3ece0;margin:0 0 10px;line-height:1.06">{{ t.bookTitle }}</h1>
+      <div style="font:300 italic 16px Spectral,serif;color:#9c917c">{{ t.chapter }}</div>
+      <div style="width:50px;height:1px;background:rgba(201,168,106,.5);margin:28px auto 0"></div>
+    </div>
+
+    <p class="vdrop" style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ t.lead }}</p>
+    <sc-for list="{{ t.paras }}" as="para" hint-placeholder-count="3">
+      <p style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ para }}</p>
+    </sc-for>
+
+    <!-- gate -->
+    <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,rgba(20,17,13,0),#14110d 55%)">
+      <div style="text-align:center;border:1px solid rgba(201,168,106,.25);border-radius:4px;padding:44px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:4px;margin-bottom:14px">{{ t.gateKicker }}</div>
+        <h2 style="font:400 clamp(24px,3.4vw,34px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.gateTitle }}</h2>
+        <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 28px;max-width:420px">{{ t.gateText }}</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
+          <a href="Книга - Просто вернуться домой.dc.html" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.buyBtn }}</a>
+          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:13px 20px;text-decoration:none">
+            <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font:500 13px Spectral,serif;color:#ece4d6;white-space:nowrap">Amazon Kindle</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+  AMAZON_URL='https://www.amazon.com/dp/REPLACE_WITH_ASIN';
+  DICT = {
+    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
+      kicker:'ЧИТАТЬ ОНЛАЙН · ОТРЫВОК',bookTitle:'Просто вернуться домой',chapter:'Глава первая',
+      lead:'Кил сидел на веранде своего загородного дома и раздражённо смотрел на звёзды. Уже которую ночь его мучила бессонница, а теперь добавилось и смутное чувство тревоги.',
+      paras:[
+        'Если бы была настоящая опасность, то Килимдин Даргон, а попросту Кил — как настоящий воин, и не какой-нибудь, а старший сын главы рода Даргонов — её бы почувствовал, да и с вероятностью процентов в девяносто девять знал бы, откуда грозит. Этому всех воинов учили с детства, а Чтущие, жрецы-маги рода, вкладывали в головы вместе с умением чувствовать опасность целую кучу полезных вещей.',
+        'Не было нужды и выставлять дозоры: любой враг, даже с амулетом Полог Тишины, не мог подобраться незаметно — все просыпались мгновенно, без потягиваний и зевков, в полной боевой готовности. Так что тревожило его не опасность, а непонятно что.',
+        'Появилось это чувство после визита в антикварный магазин юноши — интеллигентного на вид, но с цепким, пронзительным взглядом профессионального вора, что, будто рентгеном, просвечивал всё пространство. Парень оказался неплохим знатоком: кортик, которому продавец Лёха насчитал триста лет, он безошибочно определил как принадлежность морского офицера 1894 года, а «турецкую» саблю опознал чуть ли не до имени казацкого атамана.',
+        'Интересовало его только холодное оружие. Когда хозяин — здесь Кила звали Константином Александровичем Драгомировым — предложил кое-что подороже, гость сразу согласился. Все лицензии, в том числе на торговлю холодным оружием, у Кила были, так что подвоха он не ждал.',
+        'И всё же не покидало ощущение, что Игорь — так звали парня — не просто верит услышанному, а чётко ЗНАЕТ, что это так. Ни капли сомнения, только хищный блеск в глазах при виде самых дорогих экземпляров. Пересмотрев всё и приценившись, он попросил пару дней на раздумья.',
+        'Вот с этого момента тревога и поселилась. Кил занимался антиквариатом больше сотни лет и хорошо знал покупателей: потеющие коллекционеры, махровые спекулянты, лохи, которым можно втюхать любое фуфло. Игорь не относился ни к одной из этих категорий. Самый ценный товар хранился не в магазине, а в доме у Кила — и дважды на этот богатый, почти нежилой дом уже зарились незваные гости. Оба раза заканчивалось для них плохо.',
+      ],
+      gateKicker:'КОНЕЦ ОТРЫВКА',gateTitle:'Продолжение — в книге',gateText:'Дальше Кила ждёт ночной гость, тайна рода и дорога между двумя мирами. Прочитайте всю историю целиком.',
+      buyBtn:'Купить книгу · 3.99 €',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
+    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
+      kicker:'READ ONLINE · EXCERPT',bookTitle:'Just to Return Home',chapter:'Chapter One',
+      lead:'Kil sat on the veranda of his country house, glaring at the stars in irritation. Night after night insomnia had tormented him — and now a vague sense of dread had joined it.',
+      paras:[
+        'Had there been real danger, Killimdin Dargon — Kil for short, a true warrior and no lesser man than the eldest son of the clan’s head — would have felt it, and with ninety-nine percent certainty would have known where it came from. Every warrior was taught this from childhood, and the Heeding, the clan’s priest-mages, planted a great many useful things in their minds along with the gift of sensing danger.',
+        'There was no need to post sentries: no enemy, even bearing a Veil of Silence amulet, could approach unnoticed — all woke instantly, without a stretch or a yawn, in full battle readiness. So what troubled him was not danger, but something he could not name.',
+        'The feeling had begun after a young man visited his antique shop — refined in appearance, yet with the sharp, piercing gaze of a professional thief that scanned the whole room as if with an x-ray. He proved a fine connoisseur: a dirk the seller Lyokha had aged at three hundred years he identified at once as a naval officer’s of 1894, and a “Turkish” sabre he traced almost to the name of its Cossack chieftain.',
+        'Only edged weapons interested him. When the owner — here Kil went by Konstantin Aleksandrovich Dragomirov — offered something dearer, the guest agreed at once. Kil held every licence, including one to trade in edged weapons, so he expected no trouble there.',
+        'And still he could not shake the sense that Igor — for that was the young man’s name — did not merely believe what he heard, but clearly KNEW it to be so. Not a shred of doubt, only a predatory gleam at the sight of the costliest pieces. Having looked over everything and weighed the prices, he asked for a couple of days to think.',
+        'It was from that moment the unease settled in. Kil had dealt in antiques for over a hundred years and knew his buyers well: sweating collectors, hardened speculators, fools you could palm any rubbish off on. Igor fit none of them. The most valuable goods were kept not in the shop but at Kil’s house — and twice already uninvited guests had eyed that rich, near-empty home. Both times it ended badly for them.',
+      ],
+      gateKicker:'END OF EXCERPT',gateTitle:'The rest is in the book',gateText:'Ahead of Kil lie a night visitor, the secret of his clan, and a road between two worlds. Read the whole story.',
+      buyBtn:'Buy the book · €3.99',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
+    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
+      kicker:'ЧИТАТИ ОНЛАЙН · УРИВОК',bookTitle:'Просто повернутися додому',chapter:'Розділ перший',
+      lead:'Кіл сидів на веранді свого заміського будинку й роздратовано дивився на зорі. Котру вже ніч його мучило безсоння, а тепер додалося й невиразне відчуття тривоги.',
+      paras:[
+        'Якби була справжня небезпека, то Кілімдін Даргон, а простіше Кіл — як справжній воїн, і не якийсь, а старший син голови роду Даргонів — її б відчув і майже напевно знав би, звідки вона. Цього всіх воїнів навчали з дитинства, а Чтущі, жерці-маги роду, вкладали в голови разом із умінням відчувати небезпеку цілу купу корисних речей.',
+        'Не було потреби й виставляти дозори: жоден ворог, навіть з амулетом Полог Тиші, не міг підібратися непомітно — усі прокидалися миттєво, без потягувань і позіхань, у повній бойовій готовності. Тож тривожило його не небезпека, а щось незрозуміле.',
+        'З’явилося це відчуття після візиту до антикварного магазину юнака — інтелігентного на вигляд, але з чіпким, пронизливим поглядом професійного злодія, що, наче рентгеном, просвічував увесь простір. Хлопець виявився непоганим знавцем: кортик, якому продавець Льоха налічив триста років, він безпомилково визначив як належність морського офіцера 1894 року, а «турецьку» шаблю впізнав чи не до імені козацького отамана.',
+        'Цікавило його лише холодну зброю. Коли господар — тут Кіла звали Костянтином Олександровичем Драгомировим — запропонував щось дорожче, гість одразу погодився. Усі ліцензії, зокрема на торгівлю холодною зброєю, у Кіла були, тож підступу він не чекав.',
+        'І все ж не полишало відчуття, що Ігор — так звали хлопця — не просто вірить почутому, а чітко ЗНАЄ, що це так. Ні краплі сумніву, лише хижий блиск в очах, коли бачив найдорожчі екземпляри. Переглянувши все й прицінившись, він попросив пару днів на роздуми.',
+        'Ось із цієї миті тривога й оселилася. Кіл займався антикваріатом понад сотню років і добре знав покупців: спітнілі колекціонери, затяті спекулянти, лохи, яким можна впхати будь-який мотлох. Ігор не належав до жодної з цих категорій. Найцінніший товар зберігався не в магазині, а в домі Кіла — і двічі на цей багатий, майже нежилий дім уже зазіхали непрохані гості. Обидва рази для них це скінчилося погано.',
+      ],
+      gateKicker:'КІНЕЦЬ УРИВКА',gateTitle:'Продовження — у книзі',gateText:'Далі на Кіла чекає нічний гість, таємниця роду й дорога між двома світами. Прочитайте всю історію повністю.',
+      buyBtn:'Купити книгу · 3.99 €',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
+    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
+      kicker:'ЧЕТИ ОНЛАЙН · ОТКЪС',bookTitle:'Просто да се върнеш у дома',chapter:'Първа глава',
+      lead:'Кил седеше на верандата на крайградската си къща и раздразнено гледаше звездите. Поредна нощ безсънието го измъчваше, а сега се прибави и смътно чувство на тревога.',
+      paras:[
+        'Ако имаше истинска опасност, Килимдин Даргон, или просто Кил — като истински воин, и не какъв да е, а най-големият син на главата на рода Даргон — би я усетил и почти сигурно би знаел откъде идва. На това учеха всички воини от детство, а Четящите, жреците-маги на рода, влагаха в умовете заедно с усета за опасност цял куп полезни неща.',
+        'Нямаше нужда и от стражи: никой враг, дори с амулет Воал на тишината, не можеше да се приближи незабелязано — всички се будеха мигновено, без протягане и прозявки, в пълна бойна готовност. Тъй че го тревожеше не опасност, а нещо неясно.',
+        'Появи се това чувство след посещение в антикварния магазин на младеж — интелигентен на вид, но с остър, пронизващ поглед на професионален крадец, който сякаш с рентген просветляваше цялото пространство. Момчето се оказа добър познавач: кортик, на който продавачът Льоха приписа триста години, той безпогрешно определи като принадлежност на морски офицер от 1894 г., а „турската“ сабя разпозна едва ли не до името на казашкия атаман.',
+        'Интересуваше го само хладно оръжие. Когато стопанинът — тук Кил се казваше Константин Александрович Драгомиров — предложи нещо по-скъпо, гостът веднага се съгласи. Кил имаше всички лицензи, включително за търговия с хладно оръжие, тъй че не очакваше уловка.',
+        'И все пак не го напускаше усещането, че Игор — така се казваше момчето — не просто вярва на чутото, а ясно ЗНАЕ, че е така. Нито капка съмнение, само хищен блясък в очите при вида на най-скъпите екземпляри. След като разгледа всичко и прецени цените, той помоли за няколко дни за размисъл.',
+        'Именно от този момент тревогата се настани. Кил се занимаваше с антики над сто години и познаваше купувачите: потящи се колекционери, заклети спекуланти, наивници, на които можеш да пробуташ всякаква вехтория. Игор не принадлежеше към нито една от тези категории. Най-ценната стока се пазеше не в магазина, а в дома на Кил — и два пъти вече неканени гости бяха посягали към този богат, почти необитаем дом. И двата пъти за тях завърши зле.',
+      ],
+      gateKicker:'КРАЙ НА ОТКЪСА',gateTitle:'Продължението е в книгата',gateText:'Напред Кил очакват нощен гост, тайната на рода и път между два свята. Прочетете цялата история.',
+      buyBtn:'Купи книгата · 3.99 €',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+  };
+  state={lang:'ru',scrolled:false};
+  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
+  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  renderVals(){
+    const lang=this.state.lang;
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),amazonUrl:this.AMAZON_URL};
+  }
+}
+</script>
+</body>
+</html>

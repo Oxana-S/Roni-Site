@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Блог · Ростислав Вишневский — мир Толуса, магия и боевые искусства</title>
+<meta name="description" content="Авторские размышления Ростислава Вишневского: как устроен мир Толуса, боевые искусства рода Даргонов, магия Чтущих и история создания романа «Просто вернуться домой».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#14110d;-webkit-font-smoothing:antialiased}
+  .vlink{transition:color .25s}
+  .vlink:hover{color:#f3ece0 !important}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+  .vpost{transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .vpost:hover{transform:translateY(-6px)}
+  .vpost:hover .vthumb img{transform:scale(1.05)}
+  .vthumb img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vchip{cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:#c9a86a;text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:#f0d8a8;border-color:rgba(201,168,106,.7)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:#ece4d6;background:#14110d;overflow-x:hidden;min-height:100vh">
+
+  <!-- HEADER -->
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="blog" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <!-- PAGE HERO -->
+  <section style="padding:160px 7vw 50px;text-align:center;border-bottom:1px solid rgba(201,168,106,.12)">
+    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.blogKicker }}</div>
+    <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:#f3ece0;margin:0;line-height:1.04">{{ t.blogTitle }}</h1>
+    <p style="font:300 clamp(15px,2vw,19px)/1.6 Spectral,serif;color:#a89c84;max-width:620px;margin:20px auto 0">{{ t.blogIntro }}</p>
+  </section>
+
+  <!-- FEATURED -->
+  <section style="padding:64px 7vw 30px">
+    <a href="Статья.dc.html?id=1" class="vpost" style="max-width:1180px;margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
+      <div class="vthumb" style="flex:1;min-width:320px;aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);background:#1c1812">
+        <img src="assets/img/blog-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="flex:1;min-width:300px">
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
+          <span style="font:500 10px Spectral,serif;color:#1a1410;background:#c9a86a;letter-spacing:2px;padding:5px 11px;border-radius:2px">{{ t.featured.cat }}</span>
+          <span style="font:300 12px Spectral,serif;color:#7a7060">{{ t.featuredMeta }}</span>
+        </div>
+        <h2 style="font:400 clamp(26px,3.4vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 16px;line-height:1.12">{{ t.featured.title }}</h2>
+        <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 22px;max-width:460px">{{ t.featured.excerpt }}</p>
+        <span class="vbtn" style="display:inline-block;font:400 13px Spectral,serif;color:#c9a86a;letter-spacing:1px;border-bottom:1px solid rgba(201,168,106,.4);padding-bottom:3px">{{ t.readMore }} →</span>
+      </div>
+    </a>
+  </section>
+
+  <!-- FILTER + GRID -->
+  <section style="padding:30px 7vw 80px">
+    <div style="max-width:1180px;margin:0 auto">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px;border-bottom:1px solid rgba(201,168,106,.12);padding-bottom:24px">
+        <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="6">
+          <button class="vchip" onClick="{{ ch.onSelect }}" style="{{ ch.style }}">{{ ch.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:38px">
+        <sc-for list="{{ gridPosts }}" as="p" hint-placeholder-count="5">
+          <a href="{{ p.link }}" class="vpost" style="text-decoration:none;display:flex;flex-direction:column">
+            <div class="vthumb" style="aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.18);box-shadow:0 14px 32px rgba(0,0,0,.45);background:#1c1812">
+              <img src="{{ p.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;margin:18px 0 12px">
+              <span style="font:500 10px Spectral,serif;color:#c9a86a;letter-spacing:2px">{{ p.cat }}</span>
+              <span style="font:300 12px Spectral,serif;color:#6b6152">{{ p.meta }}</span>
+            </div>
+            <h3 style="font:400 22px Forum,serif;color:#ece4d6;margin:0 0 10px;line-height:1.18">{{ p.title }}</h3>
+            <p style="font:300 14px/1.65 Spectral,serif;color:#8f8576;margin:0">{{ p.excerpt }}</p>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section style="padding:74px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12)">
+    <div style="max-width:680px;margin:0 auto;text-align:center">
+      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.subKicker }}</div>
+      <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.subTitle }}</h2>
+      <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 0 28px">{{ t.subText }}</p>
+      <sc-if value="{{ notSubbed }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ onSub }}" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <input type="email" required placeholder="{{ t.subPlaceholder }}" style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,106,.3);border-radius:2px;color:#ece4d6;font:300 14px Spectral,serif;padding:13px 18px;width:280px;outline:none">
+          <button type="submit" class="vbtn" style="background:#c9a86a;color:#1a1410;font:500 13px Spectral,serif;letter-spacing:1px;padding:13px 28px;border:none;border-radius:2px;cursor:pointer">{{ t.subBtn }}</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ subbed }}" hint-placeholder-val="{{ false }}">
+        <div style="font:400 17px Spectral,serif;color:#c9a86a;padding:6px 0">{{ t.subOk }}</div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
+
+  DICT = {
+    ru: {
+      brand:'Р·ВИШНЕВСКИЙ',
+      navBooks:'Книги', navAuthor:'Автор', navBlog:'Блог', navNews:'Новости', navContact:'Контакты',
+      blogKicker:'АВТОРСКИЕ РАЗМЫШЛЕНИЯ',
+      blogTitle:'Блог: мир Толуса изнутри',
+      blogIntro:'Как устроен мир под красным солнцем, откуда взялись боевые искусства Даргонов и почему герой прячется на Земле. Заметки автора о магии, долге и ремесле писателя.',
+      featured:{cat:'МИР', title:'Как родился мир Толуса: красное солнце, горы клоссов и небо без луны', excerpt:'Мир, скупой на краски, где ночь подсвечена огнями из-за гор, а день горит красным. Рассказываю, как собиралась география и логика этого мира.'},
+      featuredMeta:'12 мин · июнь 2026',
+      readMore:'Читать', catAll:'Все темы',
+      posts:[
+        {img:'assets/img/blog-2.jpg',cat:'ГЕРОЙ',meta:'8 мин',title:'Воин под видом антиквара: герой между двух миров',excerpt:'Старший сын главы рода — и торговец древним оружием на Земле. Почему это противоречие движет всю историю.'},
+        {img:'assets/img/blog-3.jpg',cat:'БОЕВЫЕ ИСКУССТВА',meta:'9 мин',title:'Оружие рода Даргонов: боевой стиль, выкованный магией',excerpt:'Меч, копьё, метательные пластины, шейный платок как оружие. Как воинов учат с первых шагов.'},
+        {img:'assets/img/blog-4.jpg',cat:'ЗА КАДРОМ',meta:'6 мин',title:'Карпаты, сосна и тишина: как родился роман',excerpt:'Деревянный дом в горах, спящие дети и полная тишина — место, где появились первые строки.'},
+        {img:'assets/img/blog-5.jpg',cat:'МАГИЯ',meta:'7 мин',title:'Магия Чтущих: как знание вкладывают прямо в умы воинов',excerpt:'Жрецы-маги рода адаптируют забытое оружие и вбивают новое в мозг ученикам. Где границы такой силы.'},
+        {img:'assets/img/blog-6.jpg',cat:'ФИЛОСОФИЯ',meta:'10 мин',title:'Долг, род и судьба: о чём на самом деле эта книга',excerpt:'Под боевыми сценами — вопрос наследия и личного выбора. Почему фэнтези говорит о нас самих.'},
+      ],
+      subKicker:'ОСТАВАЙТЕСЬ В МИРЕ', subTitle:'Новые главы и заметки — на почту',
+      subText:'Подпишитесь, чтобы первыми получать новые истории из мира Толуса и анонсы следующих книг.',
+      subPlaceholder:'Ваша почта', subBtn:'Подписаться', subOk:'Готово! Проверьте почту — вы подписаны.',
+      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',
+      footContactTitle:'КОНТАКТ', footCity:'г. Варна, Болгария', footLangTitle:'ЯЗЫК', footRights:'Все права защищены',
+    },
+    en: {
+      brand:'R·VYSHNEVSKYI',
+      navBooks:'Books', navAuthor:'Author', navBlog:'Blog', navNews:'News', navContact:'Contact',
+      blogKicker:'NOTES FROM THE AUTHOR',
+      blogTitle:'Blog: inside the world of Tolus',
+      blogIntro:'How a world beneath a red sun works, where the Dargon martial arts come from, and why the hero hides on Earth. The author on magic, duty and the craft of writing.',
+      featured:{cat:'WORLDBUILDING', title:'How the world of Tolus was born: a red sun, the closs mountains and a moonless sky', excerpt:'A world poor in colour, where night glows from beyond the mountains and day burns red. How its geography and inner logic came together.'},
+      featuredMeta:'12 min · June 2026',
+      readMore:'Read', catAll:'All topics',
+      posts:[
+        {img:'assets/img/blog-2.jpg',cat:'CHARACTER',meta:'8 min',title:'A warrior disguised as an antiquarian: a hero between two worlds',excerpt:'The eldest son of a clan chief — and a dealer in ancient weapons on Earth. Why that contradiction drives the whole story.'},
+        {img:'assets/img/blog-3.jpg',cat:'MARTIAL ARTS',meta:'9 min',title:'Weapons of the Dargon clan: a fighting style forged by magic',excerpt:'Sword, spear, throwing plates, a neck-scarf as a weapon. How warriors are trained from their first steps.'},
+        {img:'assets/img/blog-4.jpg',cat:'BEHIND THE BOOK',meta:'6 min',title:'The Carpathians, pine and silence: how the novel began',excerpt:'A wooden house in the mountains, sleeping children and total quiet — where the first lines appeared.'},
+        {img:'assets/img/blog-5.jpg',cat:'MAGIC',meta:'7 min',title:'The magic of the Heeding: planting knowledge straight into warriors’ minds',excerpt:'The clan’s priest-mages adapt forgotten weapons and drive new skills into their pupils’ minds. Where the limits of such power lie.'},
+        {img:'assets/img/blog-6.jpg',cat:'PHILOSOPHY',meta:'10 min',title:'Duty, lineage and fate: what this book is really about',excerpt:'Beneath the fight scenes lies a question of heritage and personal choice. Why fantasy speaks about ourselves.'},
+      ],
+      subKicker:'STAY IN THE WORLD', subTitle:'New chapters and notes, to your inbox',
+      subText:'Subscribe to be first to receive new stories from the world of Tolus and news of the next books.',
+      subPlaceholder:'Your email', subBtn:'Subscribe', subOk:'Done! Check your inbox — you’re subscribed.',
+      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',
+      footContactTitle:'CONTACT', footCity:'Varna, Bulgaria', footLangTitle:'LANGUAGE', footRights:'All rights reserved',
+    },
+    uk: {
+      brand:'Р·ВИШНЕВСЬКИЙ',
+      navBooks:'Книги', navAuthor:'Автор', navBlog:'Блог', navNews:'Новини', navContact:'Контакти',
+      blogKicker:'АВТОРСЬКІ РОЗДУМИ',
+      blogTitle:'Блог: світ Толуса зсередини',
+      blogIntro:'Як влаштований світ під червоним сонцем, звідки взялися бойові мистецтва Даргонів і чому герой ховається на Землі. Нотатки автора про магію, обов’язок і ремесло письменника.',
+      featured:{cat:'СВІТ', title:'Як народився світ Толуса: червоне сонце, гори клоссів і небо без місяця', excerpt:'Світ, скупий на барви, де ніч підсвічена вогнями з-за гір, а день палає червоним. Розповідаю, як збиралася географія й логіка цього світу.'},
+      featuredMeta:'12 хв · червень 2026',
+      readMore:'Читати', catAll:'Усі теми',
+      posts:[
+        {img:'assets/img/blog-2.jpg',cat:'ГЕРОЙ',meta:'8 хв',title:'Воїн під виглядом антиквара: герой між двох світів',excerpt:'Старший син голови роду — і торговець древньою зброєю на Землі. Чому ця суперечність рухає всю історію.'},
+        {img:'assets/img/blog-3.jpg',cat:'БОЙОВІ МИСТЕЦТВА',meta:'9 хв',title:'Зброя роду Даргонів: бойовий стиль, викуваний магією',excerpt:'Меч, спис, метальні пластини, шийна хустка як зброя. Як воїнів навчають з перших кроків.'},
+        {img:'assets/img/blog-4.jpg',cat:'ЗА КАДРОМ',meta:'6 хв',title:'Карпати, сосна й тиша: як народився роман',excerpt:'Дерев’яний дім у горах, сплячі діти й цілковита тиша — місце, де з’явилися перші рядки.'},
+        {img:'assets/img/blog-5.jpg',cat:'МАГІЯ',meta:'7 хв',title:'Магія Чтущих: як знання вкладають просто в розум воїнів',excerpt:'Жерці-маги роду адаптують забуту зброю і вбивають нове в розум учням. Де межі такої сили.'},
+        {img:'assets/img/blog-6.jpg',cat:'ФІЛОСОФІЯ',meta:'10 хв',title:'Обов’язок, рід і доля: про що насправді ця книга',excerpt:'Під бойовими сценами — питання спадку й особистого вибору. Чому фентезі говорить про нас самих.'},
+      ],
+      subKicker:'ЗАЛИШАЙТЕСЯ У СВІТІ', subTitle:'Нові розділи й нотатки — на пошту',
+      subText:'Підпишіться, щоб першими отримувати нові історії зі світу Толуса й анонси наступних книг.',
+      subPlaceholder:'Ваша пошта', subBtn:'Підписатися', subOk:'Готово! Перевірте пошту — ви підписані.',
+      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',
+      footContactTitle:'КОНТАКТ', footCity:'м. Варна, Болгарія', footLangTitle:'МОВА', footRights:'Усі права захищені',
+    },
+    bg: {
+      brand:'Р·ВИШНЕВСКИ',
+      navBooks:'Книги', navAuthor:'Автор', navBlog:'Блог', navNews:'Новини', navContact:'Контакти',
+      blogKicker:'АВТОРСКИ РАЗМИСЛИ',
+      blogTitle:'Блог: светът на Толус отвътре',
+      blogIntro:'Как е устроен светът под червеното слънце, откъде идват бойните изкуства на Даргон и защо героят се крие на Земята. Бележки на автора за магията, дълга и писателския занаят.',
+      featured:{cat:'СВЕТЪТ', title:'Как се роди светът на Толус: червено слънце, планините на клосите и небе без луна', excerpt:'Свят, беден на цветове, където нощта свети с огньове иззад планините, а денят гори в червено. Разказвам как се сглоби географията и логиката на този свят.'},
+      featuredMeta:'12 мин · юни 2026',
+      readMore:'Чети', catAll:'Всички теми',
+      posts:[
+        {img:'assets/img/blog-2.jpg',cat:'ГЕРОЙ',meta:'8 мин',title:'Воин под маската на антиквар: герой между два свята',excerpt:'Най-големият син на главата на рода — и търговец на древно оръжие на Земята. Защо това противоречие движи цялата история.'},
+        {img:'assets/img/blog-3.jpg',cat:'БОЙНИ ИЗКУСТВА',meta:'9 мин',title:'Оръжието на рода Даргон: боен стил, изкован от магия',excerpt:'Меч, копие, хвърлящи пластини, шал на врата като оръжие. Как воините се обучават от първите си стъпки.'},
+        {img:'assets/img/blog-4.jpg',cat:'ЗАД КАДЪР',meta:'6 мин',title:'Карпатите, борът и тишината: как се роди романът',excerpt:'Дървена къща в планините, спящи деца и пълна тишина — мястото, където се появиха първите редове.'},
+        {img:'assets/img/blog-5.jpg',cat:'МАГИЯ',meta:'7 мин',title:'Магията на Четящите: как знанието се влага в умовете на воините',excerpt:'Жреците-маги на рода адаптират забравено оръжие и набиват новото в ума на учениците. Къде са границите на такава сила.'},
+        {img:'assets/img/blog-6.jpg',cat:'ФИЛОСОФИЯ',meta:'10 мин',title:'Дълг, род и съдба: за какво всъщност е тази книга',excerpt:'Под бойните сцени стои въпрос за наследството и личния избор. Защо фентъзито говори за самите нас.'},
+      ],
+      subKicker:'ОСТАНЕТЕ В СВЕТА', subTitle:'Нови глави и бележки — на пощата',
+      subText:'Абонирайте се, за да получавате първи нови истории от света на Толус и новини за следващите книги.',
+      subPlaceholder:'Вашата поща', subBtn:'Абонирай се', subOk:'Готово! Проверете пощата — абонирани сте.',
+      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',
+      footContactTitle:'КОНТАКТ', footCity:'гр. Варна, България', footLangTitle:'ЕЗИК', footRights:'Всички права запазени',
+    },
+  };
+
+  state = { lang:'ru', scrolled:false, cat:'all' };
+
+  constructor(props){ super(props); this.onScroll=this.onScroll.bind(this); }
+  componentDidMount(){
+    try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}
+    window.addEventListener('scroll',this.onScroll,{passive:true});
+  }
+  componentWillUnmount(){ window.removeEventListener('scroll',this.onScroll); }
+  onScroll(){ const s=window.scrollY>40; if(s!==this.state.scrolled) this.setState({scrolled:s}); }
+  setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
+
+  renderVals(){
+    const lang=this.state.lang, t=this.DICT[lang];
+    const langBtns=this.LANGS.map(l=>{
+      const a=l.code===lang;
+      return {label:l.label,onSelect:()=>this.setLang(l.code),
+        style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};
+    });
+    // category chips
+    const cats=['all'];
+    t.posts.forEach(p=>{ if(!cats.includes(p.cat)) cats.push(p.cat); });
+    const chips=cats.map(c=>{
+      const active=this.state.cat===c;
+      const label=c==='all'?t.catAll:c;
+      return {label,onSelect:()=>this.setState({cat:c}),
+        style:'background:'+(active?'#c9a86a':'transparent')+';color:'+(active?'#1a1410':'#a89c84')+';border:1px solid '+(active?'#c9a86a':'rgba(201,168,106,.3)')+';font:400 12px Spectral,serif;letter-spacing:1px;padding:8px 16px;border-radius:2px;'};
+    });
+    const withLink=t.posts.map((p,i)=>Object.assign({},p,{link:'Статья.dc.html?id='+(i+2)}));
+    const gridPosts=this.state.cat==='all'?withLink:withLink.filter(p=>p.cat===this.state.cat);
+    return {
+      t, langBtns, chips, gridPosts,
+      headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),subbed:this.state.subbed,notSubbed:!this.state.subbed,onSub:(e)=>{e.preventDefault();this.setState({subbed:true});},
+      hideImg:(e)=>{e.target.style.display='none';},
+    };
+  }
+}
+</script>
+</body>
+</html>
