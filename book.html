@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +35,6 @@
 <x-dc>
 <helmet>
 
-<meta name="description" content="«Просто вернуться домой» — эпическое фэнтези Ростислава Вишневского: воин рода Даргонов скрывается на Земле под видом антиквара. Боевые искусства, магия, философия долга. Купить книгу или читать отрывок.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -47,7 +46,7 @@
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
 </style>
 </helmet>
 
@@ -58,7 +57,7 @@
   <!-- HERO -->
   <section style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,var(--bg) 60%)">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:64px;align-items:center;flex-wrap:wrap">
-      <div style="position:relative;width:315px;height:420px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,106,.3);box-shadow:0 30px 60px rgba(0,0,0,.6);background:#1c1812">
+      <div style="position:relative;width:315px;height:420px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid var(--line-med);box-shadow:0 30px 60px rgba(0,0,0,.6);background:#1c1812">
         <img src="assets/img/book-1.jpg" alt="Просто вернуться домой" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:300px">
@@ -74,7 +73,7 @@
           <a href="read.html" class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-          <span style="font:300 12px Spectral,serif;color:#7a7060;letter-spacing:1px">{{ t.alsoOn }}</span>
+          <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
           <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:9px 16px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
@@ -88,7 +87,7 @@
   <section style="padding:80px 7vw;border-top:1px solid rgba(201,168,106,.12)">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="text-align:center;margin-bottom:46px">
-        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.insideKicker }}</div>
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.insideKicker }}</div>
         <h2 style="font:400 clamp(28px,4vw,46px) Forum,serif;color:#f0e6d2;margin:0 0 20px">{{ t.insideTitle }}</h2>
         <p style="font:300 17px/1.7 Spectral,serif;color:#a89c84;max-width:640px;margin:0 auto">{{ t.insideText }}</p>
       </div>
@@ -106,7 +105,7 @@
   <!-- TWO WORLDS -->
   <section style="position:relative;background:#100d0a">
     <div style="text-align:center;padding:72px 7vw 8px">
-      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.worldsKicker }}</div>
+      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.worldsKicker }}</div>
       <h2 style="font:400 clamp(28px,4.6vw,50px) Forum,serif;color:#f0e6d2;margin:0">{{ t.worldsTitle }}</h2>
     </div>
     <div style="display:flex;min-height:380px;position:relative;margin-top:34px">
@@ -133,7 +132,7 @@
   <!-- EXCERPT -->
   <section style="padding:90px 7vw;text-align:center">
     <div style="max-width:760px;margin:0 auto">
-      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:24px">{{ t.excKicker }}</div>
+      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:24px">{{ t.excKicker }}</div>
       <div style="font:400 70px Forum,serif;color:var(--gold);line-height:0;height:30px;opacity:.5">“</div>
       <p style="font:300 italic clamp(20px,3vw,30px)/1.5 Spectral,serif;color:var(--text);margin:0 0 34px">{{ t.excQuote }}</p>
       <a href="read.html" class="vbtn" style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
@@ -152,7 +151,7 @@
           <div style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:28px 26px;background:rgba(201,168,106,.02)">
             <div style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:3px;margin-bottom:14px">★★★★★</div>
             <p style="font:300 16px/1.65 Spectral,serif;color:#d8cdb8;font-style:italic;margin:0 0 18px">“{{ r.text }}”</p>
-            <div style="font:400 14px Spectral,serif;color:var(--text)">{{ r.name }} <span style="color:#7a7060">· {{ r.place }}</span></div>
+            <div style="font:400 14px Spectral,serif;color:var(--text)">{{ r.name }} <span style="color:var(--text-faint)">· {{ r.place }}</span></div>
           </div>
         </sc-for>
       </div>
@@ -166,7 +165,7 @@
         <img src="assets/img/author.jpg" alt="Ростислав Вишневский" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:280px">
-        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:14px">{{ t.authKicker }}</div>
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:14px">{{ t.authKicker }}</div>
         <p style="font:300 italic clamp(18px,2.2vw,24px)/1.55 Spectral,serif;color:#e3d6bd;margin:0 0 18px">{{ t.authText }}</p>
         <a href="about.html" class="vlink" style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.authBtn }}</a>
       </div>
@@ -175,8 +174,8 @@
 
   <!-- OFFER -->
   <section id="offer" style="padding:30px 7vw 90px">
-    <div style="max-width:760px;margin:0 auto;border:1px solid rgba(201,168,106,.3);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.07),#16130f)">
-      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.offerKicker }}</div>
+    <div style="max-width:760px;margin:0 auto;border:1px solid var(--line-med);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.07),#16130f)">
+      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.offerKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 8px">{{ t.title }}</h2>
       <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:var(--gold);margin:14px 0 24px">3.99 €</div>
       <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto 30px;text-align:left">
@@ -194,7 +193,7 @@
           <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
         </a>
       </div>
-      <div style="font:300 13px Spectral,serif;color:#7a7060;margin-top:20px">{{ t.offerNote }}</div>
+      <div style="font:300 13px Spectral,serif;color:var(--text-faint);margin-top:20px">{{ t.offerNote }}</div>
     </div>
   </section>
 

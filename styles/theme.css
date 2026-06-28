@@ -13,6 +13,9 @@
   --text:var(--c-paper-100); --text-dim:var(--c-dim-400); --text-mute:var(--c-mute-500);
   --line-soft:rgba(201,168,106,.18); --line-med:rgba(201,168,106,.3); --line-strong:rgba(201,168,106,.7);
   --header-bg:rgba(20,17,13,.72);
+  --gold-text:#b8935a;        /* тёмное золото для мелких подписей/эйчбровов */
+  --text-faint:#7a7060;       /* тусклый текст (примечания) */
+  --text-faintest:#6b6152;    /* самый тусклый (копирайт, мета) */
 
   /* --- Слой / сетка --- */
   --container:1180px; --container-narrow:980px; --measure:760px;

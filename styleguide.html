@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,15 +42,15 @@
   *{box-sizing:border-box}html{scroll-behavior:smooth}
   body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
   .ds-sec{max-width:var(--container);margin:0 auto;padding:54px 7vw;border-top:1px solid rgba(201,168,106,.12)}
-  .ds-h{font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:28px}
+  .ds-h{font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:28px}
   .ds-lead{font:300 15px/1.6 Spectral,serif;color:#a89c84;max-width:560px;margin:0 0 26px}
   .swatch{border-radius:4px;height:96px;border:1px solid rgba(201,168,106,.15)}
   .cap{font:400 13px Spectral,serif;color:var(--text);margin-top:8px}
-  .sub{font:300 12px Spectral,serif;color:#7a7060}
-  .cell{border:1px solid rgba(201,168,106,.18);border-radius:4px;padding:18px 10px;text-align:center;background:rgba(201,168,106,.02)}
+  .sub{font:300 12px Spectral,serif;color:var(--text-faint)}
+  .cell{border:1px solid var(--line-soft);border-radius:4px;padding:18px 10px;text-align:center;background:rgba(201,168,106,.02)}
   .tcell{border:1px solid rgba(201,168,106,.2);border-radius:4px;overflow:hidden;background:rgba(201,168,106,.02)}
   .tcap{padding:12px 14px;border-top:1px solid rgba(201,168,106,.14)}
-  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:var(--gold)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold)}
   .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
   .vbtn{transition:transform .25s}.vbtn:hover{transform:translateY(-2px)}
 </style>
@@ -61,7 +61,7 @@
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <section style="max-width:var(--container);margin:0 auto;padding:140px 7vw 20px">
-    <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+    <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
     <h1 style="font:400 clamp(36px,5.4vw,60px) Forum,serif;color:var(--c-paper-50);margin:0 0 16px">{{ t.title }}</h1>
     <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#a89c84;max-width:620px;margin:0">{{ t.intro }}</p>
   </section>
@@ -82,7 +82,7 @@
       <div style="font:400 16px Forum,serif;color:var(--text);margin-bottom:16px">{{ t.cAccent }}</div>
       <div class="grid4">
         <div><div class="swatch" style="background:var(--gold)"></div><div class="cap">var(--gold)</div><div class="sub">{{ t.cGold }}</div></div>
-        <div><div class="swatch" style="background:#b8935a"></div><div class="cap">#B8935A</div><div class="sub">{{ t.cGoldLbl }}</div></div>
+        <div><div class="swatch" style="background:var(--gold-text)"></div><div class="cap">var(--gold-text)</div><div class="sub">{{ t.cGoldLbl }}</div></div>
         <div><div class="swatch" style="background:var(--gold-soft)"></div><div class="cap">var(--gold-soft)</div><div class="sub">{{ t.cGoldAct }}</div></div>
         <div><div class="swatch" style="background:linear-gradient(135deg,#ffb27a,#d2683f)"></div><div class="cap">#D2683F</div><div class="sub">{{ t.cSun }}</div></div>
       </div>
@@ -93,7 +93,7 @@
         <div><div class="swatch" style="background:var(--text)"></div><div class="cap">var(--text)</div><div class="sub">{{ t.cTxtMain }}</div></div>
         <div><div class="swatch" style="background:var(--text-dim)"></div><div class="cap">var(--text-dim)</div><div class="sub">{{ t.cTxtLink }}</div></div>
         <div><div class="swatch" style="background:#9c917c"></div><div class="cap">#9C917C</div><div class="sub">{{ t.cTxtMute }}</div></div>
-        <div><div class="swatch" style="background:#6b6152"></div><div class="cap">#6B6152</div><div class="sub">{{ t.cTxtFaint }}</div></div>
+        <div><div class="swatch" style="background:var(--text-faintest)"></div><div class="cap">var(--text-faintest)</div><div class="sub">{{ t.cTxtFaint }}</div></div>
       </div>
     </div>
   </section>
@@ -113,7 +113,7 @@
         <div class="sub" style="letter-spacing:2px;margin-bottom:14px">SPECTRAL — {{ t.tySpectral }}</div>
         <p style="font:300 18px/1.8 Spectral,serif;color:#c8bca6;margin:0 0 14px">{{ t.tyBody }}</p>
         <p style="font:300 italic 18px/1.6 Spectral,serif;color:#e3d6bd;margin:0 0 14px">{{ t.tyItalic }}</p>
-        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px">{{ t.tyKicker }}</div>
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px">{{ t.tyKicker }}</div>
       </div>
     </div>
   </section>
@@ -179,10 +179,10 @@
     <div class="ds-h">{{ t.stHead }}</div>
     <p class="ds-lead">{{ t.stNote }}</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px">
-      <div class="cell" style="padding:22px"><div style="font:400 9px Spectral,serif;color:#b8935a;letter-spacing:3px;margin-bottom:10px">{{ t.tyKicker }}</div><div style="font:400 22px Forum,serif;color:var(--text);margin-bottom:14px">{{ t.tyH3 }}</div><div class="sub">{{ t.sbKicker }}</div></div>
-      <div class="cell" style="padding:22px;text-align:left"><div style="border:1px solid rgba(201,168,106,.25);border-radius:3px;padding:14px;margin-bottom:12px"><div style="font:400 9px Spectral,serif;color:#b8935a;letter-spacing:2px;margin-bottom:6px">{{ t.tyKicker }}</div><div style="font:400 16px Forum,serif;color:var(--text)">{{ t.sbCardT }}</div></div><div class="sub" style="text-align:center">{{ t.sbCard }}</div></div>
+      <div class="cell" style="padding:22px"><div style="font:400 9px Spectral,serif;color:var(--gold-text);letter-spacing:3px;margin-bottom:10px">{{ t.tyKicker }}</div><div style="font:400 22px Forum,serif;color:var(--text);margin-bottom:14px">{{ t.tyH3 }}</div><div class="sub">{{ t.sbKicker }}</div></div>
+      <div class="cell" style="padding:22px;text-align:left"><div style="border:1px solid rgba(201,168,106,.25);border-radius:3px;padding:14px;margin-bottom:12px"><div style="font:400 9px Spectral,serif;color:var(--gold-text);letter-spacing:2px;margin-bottom:6px">{{ t.tyKicker }}</div><div style="font:400 16px Forum,serif;color:var(--text)">{{ t.sbCardT }}</div></div><div class="sub" style="text-align:center">{{ t.sbCard }}</div></div>
       <div class="cell" style="padding:22px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div><div style="height:34px;background:#23201b;border-radius:2px"></div></div><div class="sub">{{ t.sbGrid }}</div></div>
-      <div class="cell" style="padding:22px;border-color:rgba(201,168,106,.3);background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.06),transparent)"><div style="font:400 28px Forum,serif;color:var(--gold);margin-bottom:8px">3.99 €</div><div style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 10px Spectral,serif;padding:8px 18px;border-radius:2px;margin-bottom:12px">{{ t.bPrimary }}</div><div class="sub">{{ t.sbOffer }}</div></div>
+      <div class="cell" style="padding:22px;border-color:var(--line-med);background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.06),transparent)"><div style="font:400 28px Forum,serif;color:var(--gold);margin-bottom:8px">3.99 €</div><div style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 10px Spectral,serif;padding:8px 18px;border-radius:2px;margin-bottom:12px">{{ t.bPrimary }}</div><div class="sub">{{ t.sbOffer }}</div></div>
       <div class="cell" style="padding:22px"><div style="font:400 16px Forum,serif;color:#f0e6d2;margin-bottom:12px">{{ t.sbCtaT }}</div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px"><div style="background:var(--gold);height:24px;width:60px;border-radius:2px"></div><div style="border:1px solid rgba(201,168,106,.5);height:24px;width:60px;border-radius:2px"></div></div><div class="sub">{{ t.sbCta }}</div></div>
       <div class="cell" style="padding:22px"><div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start"><div style="font:400 11px Spectral,serif;color:var(--gold)">2026</div><div style="width:9px;height:9px;border-radius:50%;background:var(--gold);margin-top:2px;box-shadow:0 0 0 3px var(--bg)"></div><div style="flex:1;height:36px;background:#23201b;border-radius:3px"></div></div><div class="sub">{{ t.sbTimeline }}</div></div>
       <div class="cell" style="padding:22px;text-align:left"><div style="font:400 12px Spectral,serif;color:var(--gold);letter-spacing:2px;margin-bottom:8px">★★★★★</div><div style="font:300 italic 13px/1.5 Spectral,serif;color:#d8cdb8;margin-bottom:10px">«…»</div><div style="font:400 12px Spectral,serif;color:var(--text);margin-bottom:12px">{{ t.sbReviewName }}</div><div class="sub" style="text-align:center">{{ t.sbReview }}</div></div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +35,6 @@
 <x-dc>
 <helmet>
 
-<meta name="description" content="Ростислав Вишневский — автор эпического фэнтези о мире Толуса: боевые искусства, магия и философия долга. История создания романа «Просто вернуться домой».">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
@@ -46,9 +45,9 @@
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
   .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,106,.18)}
-  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,106,.3);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
-  .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:rgba(201,168,106,.7)}
+  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+  .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
+  .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
 </style>
 </helmet>
 
@@ -63,7 +62,7 @@
         <img src="assets/img/author.jpg" alt="Ростислав Вишневский" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:300px">
-        <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
         <h1 style="font:400 clamp(38px,5.6vw,68px) Forum,serif;color:var(--c-paper-50);margin:0 0 12px;line-height:1.02">{{ t.name }}</h1>
         <div style="font:300 italic 18px Spectral,serif;color:var(--gold);margin-bottom:26px">{{ t.role }}</div>
         <p style="font:300 clamp(16px,2vw,19px)/1.7 Spectral,serif;color:#c8bca6;margin:0;max-width:520px">{{ t.lead }}</p>
@@ -74,7 +73,7 @@
   <!-- STORY -->
   <section style="padding:50px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12);border-bottom:1px solid rgba(201,168,106,.12)">
     <div style="max-width:760px;margin:0 auto">
-      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:24px;text-align:center">{{ t.storyKicker }}</div>
+      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:24px;text-align:center">{{ t.storyKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 28px;text-align:center;line-height:1.15">{{ t.storyTitle }}</h2>
       <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 22px">{{ t.story1 }}</p>
       <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story2 }}</p>
@@ -87,7 +86,7 @@
   <!-- VIDEO -->
   <section style="padding:80px 7vw;border-bottom:1px solid rgba(201,168,106,.12)">
     <div style="max-width:900px;margin:0 auto;text-align:center">
-      <div style="font:400 11px Spectral,serif;color:#b8935a;letter-spacing:5px;margin-bottom:16px">{{ t.videoKicker }}</div>
+      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.videoKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.videoTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 32px">{{ t.videoText }}</p>
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:5px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 24px 56px rgba(0,0,0,.55)">
@@ -101,7 +100,7 @@
     <div style="max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
       <sc-for list="{{ t.facts }}" as="f" hint-placeholder-count="4">
         <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
-          <div style="font:300 11px Spectral,serif;color:#7a7060;letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
+          <div style="font:300 11px Spectral,serif;color:var(--text-faint);letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
           <div style="font:400 20px Forum,serif;color:var(--text)">{{ f.value }}</div>
         </div>
       </sc-for>
