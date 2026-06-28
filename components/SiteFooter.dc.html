@@ -22,7 +22,7 @@
   @media (hover:none) and (pointer:coarse){ .vfsbtn{min-width:44px;min-height:44px} }
 </style>
 </helmet>
-<footer style="background:#0d0b08;padding:60px 7vw 38px;border-top:1px solid rgba(201,168,106,.14);font-family:Spectral,serif">
+<footer style="background:#0d0b08;padding:60px 7vw 38px;border-top:1px solid rgba(var(--gold-rgb),.14);font-family:Spectral,serif">
   <div style="max-width:var(--container);margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px">
     <div style="max-width:330px">
       <div style="font:400 18px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;margin-bottom:14px">{{ c.brand }}</div>
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <div style="max-width:var(--container);margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(201,168,106,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
+  <div style="max-width:var(--container);margin:44px auto 0;padding-top:22px;border-top:1px solid rgba(var(--gold-rgb),.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
     <div style="font:300 12px Spectral,serif;color:var(--text-faintest)">© 2026 · {{ c.footRights }}</div>
     <div role="group" aria-label="{{ fs.label }}" style="display:flex;align-items:center;gap:8px">
       <span style="font:300 12px Spectral,serif;color:var(--text-mute)">{{ fs.label }}</span>
@@ -101,7 +101,7 @@ class Component extends DCLogic {
       aria: fsl.a[i],
       onSelect: ()=>this.setFs(lv.k),
       style: 'cursor:pointer;font-size:'+lv.sz+'px;'+(lv.k===cur
-        ? 'background:rgba(201,168,106,.12);border:1px solid var(--line-strong);color:var(--gold-soft);'
+        ? 'background:rgba(var(--gold-rgb),.12);border:1px solid var(--line-strong);color:var(--gold-soft);'
         : '')
     }));
     return { c:this.CH[lang], fs:{label:fsl.label}, fsBtns };

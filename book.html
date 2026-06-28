@@ -45,8 +45,6 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
 </style>
 </helmet>
 
@@ -69,12 +67,12 @@
           <span style="font:300 13px Spectral,serif;color:#9c917c">{{ t.ratingNote }}</span>
         </a>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-          <a href="#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.25)">{{ t.buyBtn }}</a>
-          <a href="read.html" class="vbtn" style="border:1px solid rgba(201,168,106,.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
+          <a href="#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.25)">{{ t.buyBtn }}</a>
+          <a href="read.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
-          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:9px 16px;text-decoration:none">
+          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:9px 16px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
           </a>
@@ -84,7 +82,7 @@
   </section>
 
   <!-- WHAT'S INSIDE -->
-  <section style="padding:80px 7vw;border-top:1px solid rgba(201,168,106,.12)">
+  <section style="padding:80px 7vw;border-top:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="text-align:center;margin-bottom:46px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.insideKicker }}</div>
@@ -93,7 +91,7 @@
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
         <sc-for list="{{ t.features }}" as="f" hint-placeholder-count="4">
-          <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
+          <div style="border:1px solid rgba(var(--gold-rgb),.2);border-radius:3px;padding:26px 24px;background:rgba(var(--gold-rgb),.02)">
             <div style="font:400 22px Forum,serif;color:var(--gold);margin-bottom:10px">{{ f.title }}</div>
             <p style="font:300 14px/1.6 Spectral,serif;color:#9c917c;margin:0">{{ f.desc }}</p>
           </div>
@@ -125,7 +123,7 @@
           <p style="font:300 17px/1.6 Spectral,serif;color:#f6dcc8;margin:0;max-width:320px;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.tolusDesc }}</p>
         </div>
       </div>
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(var(--gold),transparent 16%,var(--gold) 50%,transparent 84%,var(--gold));box-shadow:0 0 26px 5px rgba(201,168,106,.5)"></div>
+      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(var(--gold),transparent 16%,var(--gold) 50%,transparent 84%,var(--gold));box-shadow:0 0 26px 5px rgba(var(--gold-rgb),.5)"></div>
     </div>
   </section>
 
@@ -140,7 +138,7 @@
   </section>
 
   <!-- REVIEWS SNIPPET -->
-  <section style="padding:70px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12)">
+  <section style="padding:70px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:36px">
         <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0">{{ t.revTitle }}</h2>
@@ -148,7 +146,7 @@
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
         <sc-for list="{{ t.revItems }}" as="r" hint-placeholder-count="2">
-          <div style="border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:28px 26px;background:rgba(201,168,106,.02)">
+          <div style="border:1px solid rgba(var(--gold-rgb),.2);border-radius:4px;padding:28px 26px;background:rgba(var(--gold-rgb),.02)">
             <div style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:3px;margin-bottom:14px">★★★★★</div>
             <p style="font:300 16px/1.65 Spectral,serif;color:#d8cdb8;font-style:italic;margin:0 0 18px">“{{ r.text }}”</p>
             <div style="font:400 14px Spectral,serif;color:var(--text)">{{ r.name }} <span style="color:var(--text-faint)">· {{ r.place }}</span></div>
@@ -161,7 +159,7 @@
   <!-- AUTHOR -->
   <section style="padding:80px 7vw">
     <div style="max-width:980px;margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap">
-      <div style="position:relative;width:200px;height:250px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 18px 40px rgba(0,0,0,.5);background:#1c1812">
+      <div style="position:relative;width:200px;height:250px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 18px 40px rgba(0,0,0,.5);background:#1c1812">
         <img src="assets/img/author.jpg" alt="Ростислав Вишневский" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:280px">
@@ -174,7 +172,7 @@
 
   <!-- OFFER -->
   <section id="offer" style="padding:30px 7vw 90px">
-    <div style="max-width:760px;margin:0 auto;border:1px solid var(--line-med);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.07),#16130f)">
+    <div style="max-width:760px;margin:0 auto;border:1px solid var(--line-med);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),#16130f)">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.offerKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 8px">{{ t.title }}</h2>
       <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:var(--gold);margin:14px 0 24px">3.99 €</div>
@@ -187,8 +185,8 @@
         </sc-for>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
-        <a href="order.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(201,168,106,.28)">{{ t.buyNow }}</a>
-        <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:14px 20px;text-decoration:none">
+        <a href="order.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ t.buyNow }}</a>
+        <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:14px 20px;text-decoration:none">
           <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
         </a>
@@ -268,14 +266,12 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false};
-  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
-  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
-  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  constructor(p){super(p);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
     return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',amazonUrl:this.AMAZON_URL,lang:lang,setLang:(c)=>this.setLang(c)};
   }
 }

@@ -44,8 +44,6 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
   .vfield{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line-med);color:var(--text);font:400 16px Spectral,serif;padding:8px 2px;outline:none;transition:border-color .2s}
@@ -164,14 +162,12 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false,sent:false};
-  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
-  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
-  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  constructor(p){super(p);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
     return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),
       notSent:!this.state.sent,sent:this.state.sent,
       onSubmit:(e)=>{e.preventDefault();this.setState({sent:true});}};

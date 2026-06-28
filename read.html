@@ -44,8 +44,6 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .vdrop::first-letter{font-family:Forum,serif;font-size:62px;line-height:.8;float:left;color:var(--gold);padding:6px 12px 0 0}
 </style>
 </helmet>
@@ -60,7 +58,7 @@
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
       <h1 style="font:400 clamp(32px,5vw,52px) Forum,serif;color:var(--c-paper-50);margin:0 0 10px;line-height:1.06">{{ t.bookTitle }}</h1>
       <div style="font:300 italic 16px Spectral,serif;color:#9c917c">{{ t.chapter }}</div>
-      <div style="width:50px;height:1px;background:rgba(201,168,106,.5);margin:28px auto 0"></div>
+      <div style="width:50px;height:1px;background:rgba(var(--gold-rgb),.5);margin:28px auto 0"></div>
     </div>
 
     <p class="vdrop" style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ t.lead }}</p>
@@ -70,13 +68,13 @@
 
     <!-- gate -->
     <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,rgba(20,17,13,0),var(--bg) 55%)">
-      <div style="text-align:center;border:1px solid rgba(201,168,106,.25);border-radius:4px;padding:44px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+      <div style="text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:4px;padding:44px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.gateKicker }}</div>
         <h2 style="font:400 clamp(24px,3.4vw,34px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.gateTitle }}</h2>
         <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 28px;max-width:420px">{{ t.gateText }}</p>
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
           <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.buyBtn }}</a>
-          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,106,.45);background:rgba(201,168,106,.05);border-radius:3px;padding:13px 20px;text-decoration:none">
+          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:13px 20px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
           </a>
@@ -153,14 +151,12 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false};
-  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
-  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
-  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  constructor(p){super(p);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
     return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),amazonUrl:this.AMAZON_URL};
   }
 }

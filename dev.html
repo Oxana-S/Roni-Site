@@ -50,14 +50,7 @@
 
 <div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden">
 
-  <header style="display:flex;align-items:center;justify-content:space-between;padding:22px 7vw;position:relative;z-index:2">
-    <a href="index.html" style="font:400 18px Forum,serif;color:var(--c-paper-50);letter-spacing:3px;text-decoration:none">{{ t.brand }}</a>
-    <div style="display:flex;align-items:center;gap:3px">
-      <sc-for list="{{ langBtns }}" as="lb" hint-placeholder-count="4">
-        <button onClick="{{ lb.onSelect }}" style="{{ lb.style }}">{{ lb.label }}</button>
-      </sc-for>
-    </div>
-  </header>
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <main style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 7vw 80px;position:relative">
     <div style="position:absolute;top:6%;left:50%;transform:translateX(-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(210,104,63,.28),rgba(210,104,63,0) 70%);animation:vfloat 8s ease-in-out infinite;pointer-events:none"></div>
@@ -67,12 +60,12 @@
       <p style="font:300 clamp(15px,2vw,19px)/1.65 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 38px">{{ t.text }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a href="index.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnHome }}</a>
-        <a href="blog.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnBlog }}</a>
+        <a href="blog.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.btnBlog }}</a>
       </div>
     </div>
   </main>
 
-  <footer style="padding:30px 7vw;border-top:1px solid rgba(201,168,106,.14);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
+  <footer style="padding:30px 7vw;border-top:1px solid rgba(var(--gold-rgb),.14);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
     <div style="font:300 12px Spectral,serif;color:var(--text-faintest)">© 2026 · {{ t.rights }}</div>
     <a href="contacts.html" class="vlink" style="font:300 13px Spectral,serif;color:var(--text-dim);text-decoration:none">{{ t.contact }}</a>
   </footer>
@@ -93,8 +86,7 @@ class Component extends DCLogic {
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';'};});
-    return {t:this.DICT[lang],langBtns};
+    return {t:this.DICT[lang], lang, setLang:(c)=>this.setLang(c)};
   }
 }
 </script>

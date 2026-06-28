@@ -44,8 +44,6 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
 </style>
@@ -58,7 +56,7 @@
   <!-- HERO -->
   <section style="padding:150px 7vw 60px">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:60px;align-items:center;flex-wrap:wrap">
-      <div style="position:relative;width:300px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 22px 50px rgba(0,0,0,.55);background:#1c1812">
+      <div style="position:relative;width:300px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 22px 50px rgba(0,0,0,.55);background:#1c1812">
         <img src="assets/img/author.jpg" alt="Ростислав Вишневский" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:300px">
@@ -71,7 +69,7 @@
   </section>
 
   <!-- STORY -->
-  <section style="padding:50px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12);border-bottom:1px solid rgba(201,168,106,.12)">
+  <section style="padding:50px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:760px;margin:0 auto">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:24px;text-align:center">{{ t.storyKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 28px;text-align:center;line-height:1.15">{{ t.storyTitle }}</h2>
@@ -84,12 +82,12 @@
   </section>
 
   <!-- VIDEO -->
-  <section style="padding:80px 7vw;border-bottom:1px solid rgba(201,168,106,.12)">
+  <section style="padding:80px 7vw;border-bottom:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.videoKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.videoTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 32px">{{ t.videoText }}</p>
-      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:5px;overflow:hidden;border:1px solid rgba(201,168,106,.25);box-shadow:0 24px 56px rgba(0,0,0,.55)">
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:5px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 24px 56px rgba(0,0,0,.55)">
         <iframe src="{{ videoUrl }}" title="{{ t.videoTitle }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
     </div>
@@ -99,7 +97,7 @@
   <section style="padding:64px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
       <sc-for list="{{ t.facts }}" as="f" hint-placeholder-count="4">
-        <div style="border:1px solid rgba(201,168,106,.2);border-radius:3px;padding:26px 24px;background:rgba(201,168,106,.02)">
+        <div style="border:1px solid rgba(var(--gold-rgb),.2);border-radius:3px;padding:26px 24px;background:rgba(var(--gold-rgb),.02)">
           <div style="font:300 11px Spectral,serif;color:var(--text-faint);letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
           <div style="font:400 20px Forum,serif;color:var(--text)">{{ f.value }}</div>
         </div>
@@ -109,12 +107,12 @@
 
   <!-- CTA -->
   <section style="padding:30px 7vw 90px">
-    <div style="max-width:var(--container);margin:0 auto;text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+    <div style="max-width:var(--container);margin:0 auto;text-align:center;border:1px solid rgba(var(--gold-rgb),.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
       <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:460px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
-        <a href="contacts.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaWrite }}</a>
+        <a href="contacts.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaWrite }}</a>
       </div>
     </div>
   </section>
@@ -171,14 +169,12 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false};
-  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}window.addEventListener('scroll',this.onScroll,{passive:true});}
-  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
-  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
+  constructor(p){super(p);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
     return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),videoUrl:'https://www.youtube.com/embed/'+this.VIDEO_ID};
   }
 }

@@ -72,8 +72,10 @@ class Component extends DCLogic {
   };
   state = { scrolled:false, open:false };
   constructor(p){ super(p); this.onScroll=this.onScroll.bind(this); }
-  componentDidMount(){ window.addEventListener('scroll',this.onScroll,{passive:true}); }
+  componentDidMount(){ window.addEventListener('scroll',this.onScroll,{passive:true}); this.syncLang(); }
   componentWillUnmount(){ window.removeEventListener('scroll',this.onScroll); }
+  componentDidUpdate(){ this.syncLang(); }
+  syncLang(){ try{ const l=this.CH[this.props.lang]?this.props.lang:'ru'; if(document.documentElement.lang!==l) document.documentElement.lang=l; }catch(e){} }
   onScroll(){ const s=window.scrollY>40; if(s!==this.state.scrolled) this.setState({scrolled:s}); }
   NAVLABEL = {ru:'Навигация',en:'Navigation',uk:'Навігація',bg:'Навигация'};
   LANGLABEL = {ru:'Язык сайта',en:'Site language',uk:'Мова сайту',bg:'Език на сайта'};
@@ -81,12 +83,11 @@ class Component extends DCLogic {
     const lang = this.CH[this.props.lang] ? this.props.lang : 'ru';
     const active = this.props.active || '';
     const onLang = this.props.onLang || function(){};
-    try { document.documentElement.lang = lang; } catch(e) {}
     const c = this.CH[lang];
     const navItems = this.NAV.map(n=>({href:n.href,label:c.nav[n.key],current:(n.key===active?'page':'false'),
       style:'color:'+(n.key===active?'#f3ece0':'#c9bda8')+';text-decoration:none;'}));
     const langBtns = this.LANGS.map(l=>({label:l.label,pressed:(l.code===lang?'true':'false'),aria:l.label,onSelect:()=>{ onLang(l.code); this.setState({open:false}); },
-      style:'cursor:pointer;background:transparent;font:400 13px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(l.code===lang?'rgba(201,168,106,.7)':'transparent')+';color:'+(l.code===lang?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'}));
+      style:'cursor:pointer;background:transparent;font:400 13px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(l.code===lang?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(l.code===lang?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'}));
     return { brand:c.brand, navItems, langBtns, headScrolled:this.state.scrolled?'scrolled':'',
       navOpen:this.state.open?'open':'', burger:this.state.open?'✕':'☰',
       burgerExpanded:this.state.open?'true':'false', navLabel:this.NAVLABEL[lang], langLabel:this.LANGLABEL[lang],

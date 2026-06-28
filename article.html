@@ -44,8 +44,6 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .vdrop::first-letter{font-family:Forum,serif;font-size:60px;line-height:.8;float:left;color:var(--gold);padding:6px 12px 0 0}
 </style>
 </helmet>
@@ -61,7 +59,7 @@
       <h1 style="font:400 clamp(30px,4.6vw,52px) Forum,serif;color:var(--c-paper-50);margin:0 0 16px;line-height:1.1">{{ a.title }}</h1>
       <div style="font:300 13px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ a.meta }}</div>
     </div>
-    <div style="margin:40px 0;border-radius:5px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);aspect-ratio:3/2;background:#1c1812">
+    <div style="margin:40px 0;border-radius:5px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.2);box-shadow:0 20px 44px rgba(0,0,0,.5);aspect-ratio:3/2;background:#1c1812">
       <img src="{{ a.img }}" alt="{{ a.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
     </div>
 
@@ -69,11 +67,11 @@
     <p style="font:300 18px/1.9 Spectral,serif;color:#c2b6a0;margin:0 0 26px">{{ a.p1 }}</p>
     <p style="font:300 18px/1.9 Spectral,serif;color:#c2b6a0;margin:0 0 26px">{{ a.p2 }}</p>
 
-    <div style="width:60px;height:1px;background:rgba(201,168,106,.5);margin:44px auto"></div>
+    <div style="width:60px;height:1px;background:rgba(var(--gold-rgb),.5);margin:44px auto"></div>
 
     <!-- byline -->
     <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:50px">
-      <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,106,.35);flex-shrink:0;background:#1c1812">
+      <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.35);flex-shrink:0;background:#1c1812">
         <img src="assets/img/author.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="text-align:left">
@@ -83,12 +81,12 @@
     </div>
 
     <!-- CTA -->
-    <div style="text-align:center;border:1px solid rgba(201,168,106,.2);border-radius:4px;padding:40px 28px;background:radial-gradient(120% 100% at 50% 0,rgba(201,168,106,.05),transparent)">
+    <div style="text-align:center;border:1px solid rgba(var(--gold-rgb),.2);border-radius:4px;padding:40px 28px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
       <h2 style="font:400 clamp(22px,3vw,32px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.ctaTitle }}</h2>
       <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 26px;max-width:400px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.ctaBook }}</a>
-        <a href="blog.html" class="vbtn" style="border:1px solid rgba(201,168,106,.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.ctaMore }}</a>
+        <a href="blog.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.ctaMore }}</a>
       </div>
     </div>
   </article>
@@ -157,18 +155,15 @@ class Component extends DCLogic {
     },
   };
   state={lang:'ru',scrolled:false,id:'1'};
-  constructor(p){super(p);this.onScroll=this.onScroll.bind(this);}
+  constructor(p){super(p);}
   componentDidMount(){
     try{const s=localStorage.getItem('vish_lang');if(s&&this.UI[s])this.setState({lang:s});}catch(e){}
     try{const q=new URLSearchParams(location.search).get('id');if(q&&this.ARTICLES[q])this.setState({id:q});}catch(e){}
-    window.addEventListener('scroll',this.onScroll,{passive:true});
   }
-  componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
-  onScroll(){const s=window.scrollY>40;if(s!==this.state.scrolled)this.setState({scrolled:s});}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const x=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(x?'rgba(201,168,106,.7)':'transparent')+';color:'+(x?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
+    const langBtns=this.LANGS.map(l=>{const x=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(x?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(x?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
     const art=this.ARTICLES[this.state.id]||this.ARTICLES['1'];
     return {t:this.UI[lang],a:art[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c)};
   }

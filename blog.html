@@ -50,8 +50,6 @@
   .vpost:hover{transform:translateY(-6px)}
   .vpost:hover .vthumb img{transform:scale(1.05)}
   .vthumb img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-  .vhead{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
-  .vhead.scrolled{background:rgba(18,14,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .vchip{cursor:pointer;transition:color .2s,border-color .2s,background .2s}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
@@ -64,7 +62,7 @@
   <dc-import name="SiteHeader" lang="{{ lang }}" active="blog" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <!-- PAGE HERO -->
-  <section style="padding:160px 7vw 50px;text-align:center;border-bottom:1px solid rgba(201,168,106,.12)">
+  <section style="padding:160px 7vw 50px;text-align:center;border-bottom:1px solid rgba(var(--gold-rgb),.12)">
     <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.blogKicker }}</div>
     <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:var(--c-paper-50);margin:0;line-height:1.04">{{ t.blogTitle }}</h1>
     <p style="font:300 clamp(15px,2vw,19px)/1.6 Spectral,serif;color:#a89c84;max-width:620px;margin:20px auto 0">{{ t.blogIntro }}</p>
@@ -73,7 +71,7 @@
   <!-- FEATURED -->
   <section style="padding:64px 7vw 30px">
     <a href="article.html?id=1" class="vpost" style="max-width:var(--container);margin:0 auto;display:flex;gap:48px;align-items:center;flex-wrap:wrap;text-decoration:none">
-      <div class="vthumb" style="flex:1;min-width:320px;aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(201,168,106,.2);box-shadow:0 20px 44px rgba(0,0,0,.5);background:#1c1812">
+      <div class="vthumb" style="flex:1;min-width:320px;aspect-ratio:3/2;border-radius:4px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.2);box-shadow:0 20px 44px rgba(0,0,0,.5);background:#1c1812">
         <img src="assets/img/blog-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:300px">
@@ -83,7 +81,7 @@
         </div>
         <h2 style="font:400 clamp(26px,3.4vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 16px;line-height:1.12">{{ t.featured.title }}</h2>
         <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 22px;max-width:460px">{{ t.featured.excerpt }}</p>
-        <span class="vbtn" style="display:inline-block;font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;border-bottom:1px solid rgba(201,168,106,.4);padding-bottom:3px">{{ t.readMore }} →</span>
+        <span class="vbtn" style="display:inline-block;font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;border-bottom:1px solid rgba(var(--gold-rgb),.4);padding-bottom:3px">{{ t.readMore }} →</span>
       </div>
     </a>
   </section>
@@ -91,7 +89,7 @@
   <!-- FILTER + GRID -->
   <section style="padding:30px 7vw 80px">
     <div style="max-width:var(--container);margin:0 auto">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px;border-bottom:1px solid rgba(201,168,106,.12);padding-bottom:24px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px;border-bottom:1px solid rgba(var(--gold-rgb),.12);padding-bottom:24px">
         <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="6">
           <button class="vchip" onClick="{{ ch.onSelect }}" style="{{ ch.style }}">{{ ch.label }}</button>
         </sc-for>
@@ -115,7 +113,7 @@
   </section>
 
   <!-- NEWSLETTER -->
-  <section style="padding:74px 7vw;background:#100d0a;border-top:1px solid rgba(201,168,106,.12)">
+  <section style="padding:74px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:680px;margin:0 auto;text-align:center">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.subKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.subTitle }}</h2>
@@ -234,13 +232,10 @@ class Component extends DCLogic {
 
   state = { lang:'ru', scrolled:false, cat:'all' };
 
-  constructor(props){ super(props); this.onScroll=this.onScroll.bind(this); }
+  constructor(props){ super(props); }
   componentDidMount(){
     try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}
-    window.addEventListener('scroll',this.onScroll,{passive:true});
   }
-  componentWillUnmount(){ window.removeEventListener('scroll',this.onScroll); }
-  onScroll(){ const s=window.scrollY>40; if(s!==this.state.scrolled) this.setState({scrolled:s}); }
   setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
 
   renderVals(){
@@ -248,7 +243,7 @@ class Component extends DCLogic {
     const langBtns=this.LANGS.map(l=>{
       const a=l.code===lang;
       return {label:l.label,onSelect:()=>this.setLang(l.code),
-        style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(201,168,106,.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};
+        style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};
     });
     // category chips
     const cats=['all'];
@@ -257,7 +252,7 @@ class Component extends DCLogic {
       const active=this.state.cat===c;
       const label=c==='all'?t.catAll:c;
       return {label,onSelect:()=>this.setState({cat:c}),
-        style:'background:'+(active?'#c9a86a':'transparent')+';color:'+(active?'#1a1410':'#a89c84')+';border:1px solid '+(active?'#c9a86a':'rgba(201,168,106,.3)')+';font:400 12px Spectral,serif;letter-spacing:1px;padding:8px 16px;border-radius:2px;'};
+        style:'background:'+(active?'#c9a86a':'transparent')+';color:'+(active?'#1a1410':'#a89c84')+';border:1px solid '+(active?'#c9a86a':'rgba(var(--gold-rgb),.3)')+';font:400 12px Spectral,serif;letter-spacing:1px;padding:8px 16px;border-radius:2px;'};
     });
     const withLink=t.posts.map((p,i)=>Object.assign({},p,{link:'article.html?id='+(i+2)}));
     const gridPosts=this.state.cat==='all'?withLink:withLink.filter(p=>p.cat===this.state.cat);
