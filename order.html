@@ -60,7 +60,7 @@
 
       <sc-if value="{{ notPaid }}" hint-placeholder-val="{{ true }}">
         <div style="margin-bottom:40px">
-          <a href="book.html" style="font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.back }}</a>
+          <a href="{{ backHref }}" style="font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.back }}</a>
           <h1 style="font:400 clamp(30px,4.4vw,48px) Forum,serif;color:var(--c-paper-50);margin:14px 0 0">{{ t.title }}</h1>
         </div>
 
@@ -104,7 +104,7 @@
           <div style="flex:1;min-width:260px;border:1px solid rgba(var(--gold-rgb),.22);border-radius:4px;padding:28px;background:rgba(var(--gold-rgb),.02)">
             <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:3px;margin-bottom:20px">{{ t.summary }}</div>
             <div style="display:flex;gap:16px;margin-bottom:22px">
-              <div style="width:74px;height:110px;flex-shrink:0;border-radius:2px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);background:#1c1812"><img src="assets/img/book-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+              <div style="width:74px;height:110px;flex-shrink:0;border-radius:2px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);background:#1c1812"><img src="{{ cover }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
               <div>
                 <div style="font:400 18px Forum,serif;color:var(--text);line-height:1.15">{{ t.bookTitle }}</div>
                 <div style="font:300 13px Spectral,serif;color:#9c917c;margin-top:6px">{{ t.format }}</div>
@@ -128,7 +128,7 @@
           <div style="font:400 15px Spectral,serif;color:var(--gold);margin-bottom:34px">{{ email }}</div>
           <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
             <a href="index.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okHome }}</a>
-            <a href="read.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okRead }}</a>
+            <a href="{{ readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okRead }}</a>
           </div>
         </div>
       </sc-if>
@@ -172,13 +172,25 @@ class Component extends DCLogic {
       price:'Цена',vat:'Данък',included:'включен',total:'Общо',
       okTitle:'Благодарим за поръчката!',okText:'„Просто да се върнеш у дома“ е изпратена на вашата поща:',okHome:'Към начало',okRead:'Чети откъса'},
   };
+  // order.html?book=ghost — «Призрачный детектив»; без параметра — «Просто вернуться домой»
+  GHOST = {
+    ru:{bookTitle:'Призрачный детектив',okText:'Книга «Призрачный детектив» отправлена на вашу почту:'},
+    en:{bookTitle:'The Ghost Detective',okText:'“The Ghost Detective” has been sent to your email:'},
+    uk:{bookTitle:'Примарний детектив',okText:'Книгу «Примарний детектив» надіслано на вашу пошту:'},
+    bg:{bookTitle:'Призрачният детектив',okText:'„Призрачният детектив“ е изпратена на вашата поща:'},
+  };
   state = { lang:'ru', paid:false, email:'', method:'card' };
-  componentDidMount(){ try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){} }
+  componentDidMount(){ try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){} try{ if(/[?&]book=ghost(&|$)/.test(window.location.search)) document.title='Заказать книгу — «Призрачный детектив»'; }catch(e){} }
   setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
   renderVals(){
     const lang = this.DICT[this.state.lang] ? this.state.lang : 'ru';
+    let ghost = false; try{ ghost = /[?&]book=ghost(&|$)/.test(window.location.search); }catch(e){}
     return {
-      t:this.DICT[lang], lang:lang, setLang:(c)=>this.setLang(c),
+      t: ghost ? Object.assign({}, this.DICT[lang], this.GHOST[lang]) : this.DICT[lang],
+      cover: ghost ? 'assets/GhostDetective.jpg' : 'assets/img/book-1.jpg',
+      backHref: ghost ? 'index.html#ghost' : 'book.html',
+      readHref: ghost ? 'read-detective.html' : 'read.html',
+      lang:lang, setLang:(c)=>this.setLang(c),
       notPaid:!this.state.paid, paid:this.state.paid, email:this.state.email,
       isCard:this.state.method==='card', isPaypal:this.state.method==='paypal',
       payCard:this.state.method==='card'?'on':'', payPaypal:this.state.method==='paypal'?'on':'',

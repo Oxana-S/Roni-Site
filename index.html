@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ростислав Вишневский — эпическое фэнтези, магия и долг</title>
-<meta name="description" content="Официальный сайт писателя Ростислава Вишневского. Эпическое фэнтези о долге, наследии и судьбе — мир Толус и хроники рода Даргонов. Книги, аудио, блог.">
-<meta name="keywords" content="Ростислав Вишневский, эпическое фэнтези, фэнтези книги, Просто вернуться домой, Толус, Даргоны, писатель фэнтези">
+<title>Ростислав Вишневский — мистический детектив «Призрачный детектив»</title>
+<meta name="description" content="Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.">
+<meta name="keywords" content="Ростислав Вишневский, мистический детектив, Призрачный детектив, Лукас Палао, детектив книга, писатель">
 <meta name="author" content="Ростислав Вишневский">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://oxana-s.github.io/Roni-Site/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ростислав Вишневский">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Ростислав Вишневский — эпическое фэнтези, магия и долг">
-<meta property="og:description" content="Официальный сайт писателя Ростислава Вишневского. Эпическое фэнтези о долге, наследии и судьбе — мир Толус и хроники рода Даргонов. Книги, аудио, блог.">
+<meta property="og:title" content="Ростислав Вишневский — мистический детектив «Призрачный детектив»">
+<meta property="og:description" content="Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.">
 <meta property="og:url" content="https://oxana-s.github.io/Roni-Site/">
 <meta property="og:image" content="https://oxana-s.github.io/Roni-Site/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ростислав Вишневский — эпическое фэнтези, магия и долг">
-<meta name="twitter:description" content="Официальный сайт писателя Ростислава Вишневского. Эпическое фэнтези о долге, наследии и судьбе — мир Толус и хроники рода Даргонов. Книги, аудио, блог.">
+<meta name="twitter:title" content="Ростислав Вишневский — мистический детектив «Призрачный детектив»">
+<meta name="twitter:description" content="Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.">
 <meta name="twitter:image" content="https://oxana-s.github.io/Roni-Site/assets/og-image.jpg">
 <meta name="theme-color" content="#14110d">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
@@ -59,6 +59,7 @@
   .vlex:hover{transform:translateY(-4px);border-color:rgba(var(--gold-rgb),.55);background:rgba(var(--gold-rgb),.05)}
   .wbar{width:3px;border-radius:2px;background:var(--gold);transform-origin:center;animation:vwave 900ms ease-in-out infinite;animation-play-state:paused;opacity:.55}
   .wave.on .wbar{animation-play-state:running;opacity:1}
+  @media(max-width:700px){.vduo{flex-direction:column}.vduo .vpanel{min-height:360px}.vduo .vline{display:none}}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
 </style>
@@ -79,7 +80,6 @@
       <div style="position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(180deg,transparent,var(--bg) 86%);clip-path:polygon(0 62%,14% 34%,28% 56%,44% 22%,58% 50%,72% 28%,86% 52%,100% 36%,100% 100%,0 100%)"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 38%,transparent 38%,rgba(8,6,4,.62) 100%)"></div>
       <div style="position:absolute;bottom:0;left:0;right:0;height:46%;background:linear-gradient(180deg,transparent,rgba(20,17,13,.85) 70%,var(--bg))"></div>
-      
     </div>
 
     <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14vh 7vw 12vh">
@@ -93,59 +93,54 @@
 
   <!-- ============ OPENING LINES (HOOK) ============ -->
   <section id="read" data-screen-label="Opening" style="background:var(--bg);padding:100px 7vw;border-bottom:1px solid rgba(var(--gold-rgb),.12)">
-    <div style="max-width:880px;margin:0 auto;text-align:center">
+    <div style="max-width:var(--measure);margin:0 auto;text-align:center">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:30px">{{ t.openKicker }}</div>
       <div style="font:400 88px Forum,serif;color:var(--gold);line-height:0;height:34px;opacity:.55">“</div>
-      <p style="font:300 clamp(22px,3.2vw,34px)/1.5 Spectral,serif;color:var(--text);margin:0 0 36px;font-style:italic">{{ t.openQuote }}</p>
+      <p style="font:300 italic clamp(17px,1.9vw,20px)/1.8 Spectral,serif;color:var(--text);margin:0 0 40px;text-align:left;hyphens:auto">{{ t.openQuote }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="read.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openCta }}</a>
+        <a href="read-detective.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openCta }}</a>
         <a href="#books" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openSecondary }}</a>
       </div>
     </div>
   </section>
 
-  <!-- ============ TWO WORLDS ============ -->
+  <!-- ============ TWO HEROES: LUCAS / OLIVIA ============ -->
   <section data-screen-label="Two Worlds" style="position:relative;background:#100d0a">
-    <div style="text-align:center;padding:80px 7vw 8px">
-      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.worldsKicker }}</div>
-      <h2 style="font:400 clamp(30px,5vw,56px) Forum,serif;color:#f0e6d2;margin:0">{{ t.worldsTitle }}</h2>
-    </div>
-    <div style="display:flex;min-height:460px;position:relative;margin-top:36px">
-      <div style="flex:1;position:relative;overflow:hidden;background:linear-gradient(160deg,#23262b,#15171b)">
-        <img src="assets/img/world-earth.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.9">
-        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,9,11,.25),rgba(8,9,11,.66))"></div>
+    <div class="vduo" style="display:flex;min-height:520px;position:relative">
+      <!-- A: Лукас — день, улица Нью-Йорка -->
+      <div class="vpanel" style="flex:1;position:relative;overflow:hidden;background:#cfc8ba">
+        <img src="assets/img/world-lucas.jpg" alt="{{ t.lucasAlt }}" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% center;display:block">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,0) 35%,rgba(8,9,11,.72))"></div>
         <div style="position:absolute;inset:0;padding:50px;display:flex;flex-direction:column;justify-content:flex-end">
-          <div style="font:400 11px Spectral,serif;color:#9fb0c3;letter-spacing:4px;margin-bottom:12px">{{ t.earthName }}</div>
-          <p style="font:300 18px/1.6 Spectral,serif;color:#dde4ee;margin:0;max-width:340px;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.earthDesc }}</p>
+          <div style="font:400 11px Spectral,serif;color:#c9d2dc;letter-spacing:4px;margin-bottom:10px">{{ t.lucasRole }}</div>
+          <div style="font:400 clamp(26px,3vw,36px) Forum,serif;color:#f3ece0;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.lucasName }}</div>
         </div>
-        <div style="position:absolute;top:14px;left:16px;font:300 10px Spectral,serif;color:rgba(255,255,255,.18)">world-earth.jpg</div>
       </div>
-      <div style="flex:1;position:relative;overflow:hidden;background:linear-gradient(160deg,#4a2418,#6a3320)">
-        <img src="assets/img/world-tolus.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.92">
-        <div style="position:absolute;top:-40px;right:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#ffb27a,#c25e38 58%,transparent 74%);opacity:.8"></div>
-        <div style="position:absolute;inset:0;background:linear-gradient(270deg,rgba(20,8,4,.22),rgba(20,8,4,.6))"></div>
+      <!-- Б: Оливия — тёмная комната, лунный свет -->
+      <div class="vpanel" style="flex:1;position:relative;overflow:hidden;background:#070a12">
+        <img src="assets/img/world-olivia.jpg" alt="{{ t.oliviaAlt }}" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:58% center;display:block">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,10,0) 40%,rgba(4,6,10,.7))"></div>
         <div style="position:absolute;inset:0;padding:50px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;text-align:right">
-          <div style="font:400 11px Spectral,serif;color:#f3bd9b;letter-spacing:4px;margin-bottom:12px">{{ t.tolusName }}</div>
-          <p style="font:300 18px/1.6 Spectral,serif;color:#f6dcc8;margin:0;max-width:340px;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.tolusDesc }}</p>
+          <div style="font:400 11px Spectral,serif;color:#a9b8d8;letter-spacing:4px;margin-bottom:10px">{{ t.oliviaRole }}</div>
+          <div style="font:400 clamp(26px,3vw,36px) Forum,serif;color:#e6ecf8;text-shadow:0 2px 12px rgba(0,0,0,.6)">{{ t.oliviaName }}</div>
         </div>
-        <div style="position:absolute;top:14px;right:16px;font:300 10px Spectral,serif;color:rgba(255,255,255,.2)">world-tolus.jpg</div>
       </div>
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(var(--gold),transparent 16%,var(--gold) 50%,transparent 84%,var(--gold));box-shadow:0 0 26px 5px rgba(var(--gold-rgb),.5)"></div>
+      <div class="vline" style="position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:linear-gradient(var(--gold),transparent 16%,var(--gold) 50%,transparent 84%,var(--gold));box-shadow:0 0 26px 5px rgba(var(--gold-rgb),.5)"></div>
     </div>
   </section>
 
-  <!-- ============ LEXICON ============ -->
-  <section data-screen-label="Lexicon" style="background:var(--bg);padding:86px 7vw">
+  <!-- ============ CAST ============ -->
+  <section data-screen-label="Cast" style="background:var(--bg);padding:86px 7vw">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="text-align:center;margin-bottom:46px">
-        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.lexKicker }}</div>
-        <h2 style="font:400 clamp(26px,4vw,44px) Forum,serif;color:#f0e6d2;margin:0">{{ t.lexTitle }}</h2>
+        <h2 style="font:400 clamp(26px,4vw,44px) Forum,serif;color:#f0e6d2;margin:0">{{ t.castTitle }}</h2>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
-        <sc-for list="{{ t.lexTerms }}" as="lx" hint-placeholder-count="4">
+        <sc-for list="{{ t.cast }}" as="lx" hint-placeholder-count="4">
           <div class="vlex" style="border:1px solid rgba(var(--gold-rgb),.22);border-radius:3px;padding:28px 24px;background:rgba(var(--gold-rgb),.02)">
             <div style="font:400 36px Forum,serif;color:var(--gold);opacity:.32;line-height:1">{{ lx.no }}</div>
-            <div style="font:400 22px Forum,serif;color:var(--text);margin:12px 0 10px">{{ lx.term }}</div>
+            <div style="font:400 22px Forum,serif;color:var(--text);margin:12px 0 4px">{{ lx.name }}</div>
+            <div style="font:300 italic 13px Spectral,serif;color:var(--gold-text);margin-bottom:12px">{{ lx.role }}</div>
             <p style="font:300 14px/1.6 Spectral,serif;color:#9c917c;margin:0">{{ lx.desc }}</p>
           </div>
         </sc-for>
@@ -154,19 +149,19 @@
   </section>
 
   <!-- ============ FEATURED / OFFER ============ -->
-  <section data-screen-label="Offer" style="background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12);padding:78px 7vw">
+  <section id="ghost" data-screen-label="Offer" style="background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12);padding:78px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:56px;align-items:center;justify-content:center;flex-wrap:wrap">
-      <div style="position:relative;width:236px;height:315px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid var(--line-med);box-shadow:0 22px 48px rgba(0,0,0,.55)">
-        <img src="assets/img/book-1.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-        
+      <div style="position:relative;width:236px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid var(--line-med);box-shadow:0 22px 48px rgba(0,0,0,.55)">
+        <img src="assets/GhostDetective.jpg" alt="{{ t.ghostTitle }}" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="max-width:480px;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.featLabel }}</div>
-        <h2 style="font:400 clamp(30px,4vw,48px) Forum,serif;color:#f0e6d2;margin:0 0 16px;line-height:1.05">{{ t.book1Title }}</h2>
-        <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 26px;max-width:460px">{{ t.heroBlurb }}</p>
+        <h2 style="font:400 clamp(30px,4vw,48px) Forum,serif;color:#f0e6d2;margin:0 0 8px;line-height:1.05">{{ t.ghostTitle }}</h2>
+        <div style="font:300 italic 15px Spectral,serif;color:var(--gold-text);letter-spacing:1px;margin-bottom:18px">{{ t.ghostSub }}</div>
+        <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 26px;max-width:460px">{{ t.ghostBlurb }}</p>
         <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
-          <a href="book.html#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(var(--gold-rgb),.22)">{{ t.buyBtn }}</a>
-          <a href="read.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
+          <a href="order.html?book=ghost" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(var(--gold-rgb),.22)">{{ t.buyBtn }}</a>
+          <a href="read-detective.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
@@ -206,7 +201,7 @@
             </div>
           </div>
         </div>
-        <audio ref="{{ audioRef }}" src="assets/audio/chapter-1.mp3" preload="none"></audio>
+        <audio ref="{{ audioRef }}" src="assets/liveReadingDetective.m4a" preload="metadata"></audio>
         <div style="font:300 12px Spectral,serif;color:var(--text-faintest);margin-top:12px">{{ t.readsHint }}</div>
       </div>
     </div>
@@ -220,17 +215,24 @@
         <div style="font:300 13px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.collectionNote }}</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;gap:34px">
-        <a href="book.html" class="vcard" style="text-decoration:none;display:block">
-          <div class="vcover" style="position:relative;aspect-ratio:3/4;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
+        <a href="#ghost" class="vcard" style="text-decoration:none;display:block">
+          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
+            <img src="assets/GhostDetective.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+          </div>
+          <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.ghostTitle }}</div>
+          <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.ghostTag }}</div>
+          <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
+        </a>
+        <a href="return-home.html" class="vcard" style="text-decoration:none;display:block">
+          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
             <img src="assets/img/book-1.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            
           </div>
           <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.book1Title }}</div>
           <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.book1Tag }}</div>
           <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
         </a>
         <a href="dev.html" class="vcard" style="text-decoration:none;display:block">
-          <div class="vcover" style="position:relative;aspect-ratio:3/4;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#262b26,#262b26 6px,#1f231f 6px,#1f231f 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
+          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#262b26,#262b26 6px,#1f231f 6px,#1f231f 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
             <img src="assets/img/book-2.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:300 11px Spectral,serif;color:#6f6552">book-2.jpg</div>
           </div>
@@ -238,7 +240,7 @@
           <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.book2Tag }}</div>
           <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
         </a>
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:3/4;border:1px dashed var(--line-med);border-radius:3px;color:var(--text-faintest);text-align:center">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:2/3;border:1px dashed var(--line-med);border-radius:3px;color:var(--text-faintest);text-align:center">
           <div style="font:400 40px Forum,serif;color:#8a7a5a">+</div>
           <div style="font:300 13px Spectral,serif;letter-spacing:2px;margin-top:6px">{{ t.soon }}</div>
         </div>
@@ -251,7 +253,6 @@
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:60px;align-items:center;flex-wrap:wrap">
       <div style="position:relative;width:260px;height:320px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#221d17,#221d17 6px,#1c1812 6px,#1c1812 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 18px 40px rgba(0,0,0,.5)">
         <img src="assets/img/author.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-        
       </div>
       <div style="flex:1;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.aboutKicker }}</div>
@@ -278,164 +279,152 @@ class Component extends DCLogic {
 
   DICT = {
     ru: {
-      brand:'Р·ВИШНЕВСКИЙ',
-      navBooks:'Книги', navAuthor:'Автор', navListen:'Слушать', navBlog:'Блог', navNews:'Новости', navContact:'Контакты',
-      heroKicker:'ЭПИЧЕСКОЕ ФЭНТЕЗИ · МАГИЯ · ДОЛГ',
+      heroKicker:'МИСТИЧЕСКИЙ ДЕТЕКТИВ · РЕАЛЬНОЕ И ПОТУСТОРОННЕЕ',
       heroName:'Ростислав Вишневский',
-      heroTagline:'Воин двух миров. Романы для тех, кто читает сердцем.',
+      heroTagline:'Они разные, но цель одна. Романы для тех, кто читает сердцем.',
       heroCta:'ВОЙТИ В МИР', scrollHint:'ЛИСТАЙТЕ ВНИЗ',
       openKicker:'ПЕРВЫЕ СТРОКИ',
-      openQuote:'Кил сидел на веранде своего загородного дома и раздражённо смотрел на звёзды. Уже которую ночь его мучила бессонница, а теперь добавилось и смутное чувство тревоги.',
+      openQuote:'Детектив 44-го участка нью-йоркской полиции Лукас Палао сидел в своей квартире в Бронксе на Уолтон-авеню и пил виски. Имя Лукас ему дала мама — француженка, а фамилию Палао он получил от папы — полинезийца. Свою квартиру в Бронксе — не очень большую, но свою — Лукас тоже получил благодаря родителям. Он неплохо зарабатывал, молодому несемейному мужчине вполне хватало, но родители, живущие на Гавайях в Гонолулу, всё равно баловали своё единственное чадо, каждый месяц присылая ему немаленькую сумму. Лукас много не пил, по пивным и стрип-барам с коллегами не ходил, почти всё время отдавая работе и чтению книг в тишине. Отношение коллег к нему было в диапазоне от равнодушия до откровенной нелюбви — Палао имел гипертрофированное чувство справедливости, взяток не брал, на сделки с собственной совестью не шёл.',
       openCta:'Читать первую главу', openSecondary:'Все книги',
-      worldsKicker:'МЕЖДУ ЗЕМЛЁЙ И ТОЛУСОМ', worldsTitle:'Два мира одного воина',
-      earthName:'ЗЕМЛЯ', earthDesc:'Антикварная лавка, бессонные ночи, холодное оружие под лицензией.',
-      tolusName:'ТОЛУС', tolusDesc:'Красное солнце, горы клоссов, род воинов, чьё единственное занятие — война.',
-      lexKicker:'ЛЕКСИКОН МИРА', lexTitle:'Загляните за порог',
-      lexTerms:[
-        {no:'01',term:'Род Даргонов',desc:'Воины, чьё единственное ремесло — война.'},
-        {no:'02',term:'Толус',desc:'Мир под красным солнцем, где нет луны.'},
-        {no:'03',term:'Чтущие',desc:'Жрецы-маги, что вкладывают знание в умы воинов.'},
-        {no:'04',term:'Ищущие',desc:'Мудрецы рода, хранители забытого оружия.'},
+      lucasRole:'ПОЛИЦЕЙСКИЙ', lucasName:'Лукас Палао',
+      oliviaRole:'ПРИЗРАК', oliviaName:'Оливия Холден',
+      lucasAlt:'Детектив Лукас Палао идёт по дневной улице Нью-Йорка', oliviaAlt:'Призрачный силуэт Оливии Холден в лунном свете тёмной комнаты',
+      castTitle:'Действующие — и сильнодействующие — лица',
+      cast:[
+        {no:'01',name:'Лукас Палао',role:'детектив',desc:'Спокойный, наблюдательный, обладающий необычными способностями. Хозяин кота Конфуция.'},
+        {no:'02',name:'Конфуций',role:'кот породы мейн-кун',desc:'К людям относится с саркастичной терпимостью. К призракам — настороженно, но лучше.'},
+        {no:'03',name:'Мозес «Носорог» Пирс',role:'гангстер',desc:'Большой, опасный, но внезапно оказавшийся довольно адекватным.'},
+        {no:'04',name:'Оливия Холден',role:'призрак',desc:'Мертва, но с характером.'},
       ],
       featLabel:'КНИГА ПЕРВАЯ',
-      heroBlurb:'Воин рода Даргонов торгует древним оружием на чужой Земле — пока прошлое не приходит за ним.',
+      ghostTitle:'Призрачный детектив', ghostSub:'Виски, кот и призрак',
+      ghostBlurb:'Полицейский сорок четвёртого участка города Нью-Йорк Лукас Палао каждый день сталкивается с преступлениями и расследует их. Но появление в его квартире нежданной гостьи заставляет иначе посмотреть на рутинную работу.',
       buyBtn:'Купить · 3.99 €', readBtn:'Читать главу',
-      offerNote:'После оплаты книга придёт на вашу почту.',
-      alsoOn:'Также доступна на', amazonBtn:'Amazon Kindle',
+      alsoOn:'Английская версия скоро на', amazonBtn:'Amazon Kindle',
+      offerNote:'После оплаты книга придёт вам на почту.',
       readsKicker:'ГОЛОС АВТОРА', readsTitle:'Автор читает свою книгу',
-      readsDesc:'Первая глава — голосом самого Ростислава. Закройте глаза и войдите в мир Толуса.',
-      readsTrack:'Глава 1 · Просто вернуться домой', readsDuration:'12:40',
-      readsHint:'Аудио появится здесь после загрузки записи.',
-      collectionTitle:'Книги', collectionNote:'серия пополняется',
+      readsDesc:'Первая глава — голосом самого Ростислава. Сядьте удобнее и откройте папку с уголовным делом.',
+      readsTrack:'Глава 1 · Призрачный детектив', readsDuration:'16:13',
+      readsHint:'Аудио начнёт воспроизводиться после загрузки записи.',
+      collectionTitle:'Книги', collectionNote:'серии пополняются',
+      ghostTag:'Книга первая · История пропавшего шедевра',
       book1Title:'Просто вернуться домой', book1Tag:'Том I · Род Даргонов',
       book2Title:'Вторая книга', book2Tag:'Том II · скоро',
       openArrow:'Открыть →', soon:'СКОРО',
-      aboutKicker:'ОБ АВТОРЕ',
-      aboutText:'«Глубокие, многослойные истории с боевыми искусствами, магией и философией. Эту книгу я начал писать в Карпатах — деревянный дом, запах сосны, тишина гор».',
+      aboutKicker:'ОТ АВТОРА',
+      aboutText:'«Признаюсь честно: идеи — именно чёткого плана — для написания мистического детектива изначально не было. Всё произошло внезапно, в процессе написания продолжения фэнтези-романа. Почему детектив и отчего мистический — не знаю. Вот так пришло в голову. Надеюсь, что не зря».',
       aboutRole:'Писатель',
-      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',
-      footContactTitle:'КОНТАКТ', footCity:'г. Варна, Болгария',
-      footLangTitle:'ЯЗЫК', footRights:'Все права защищены',
     },
     en: {
-      brand:'R·VYSHNEVSKYI',
-      navBooks:'Books', navAuthor:'Author', navListen:'Listen', navBlog:'Blog', navNews:'News', navContact:'Contact',
-      heroKicker:'EPIC FANTASY · MAGIC · DUTY',
+      heroKicker:'MYSTICAL DETECTIVE · THE REAL AND THE OTHERWORLDLY',
       heroName:'Rostyslav Vyshnevskyi',
-      heroTagline:'A warrior of two worlds. Novels for those who read with the heart.',
+      heroTagline:'They are different, but the goal is one. Novels for those who read with the heart.',
       heroCta:'ENTER THE WORLD', scrollHint:'SCROLL DOWN',
       openKicker:'FIRST LINES',
-      openQuote:'Kil sat on the veranda of his country house, glaring at the stars in irritation. Night after night insomnia had tormented him — and now a vague sense of dread had joined it.',
+      openQuote:'Detective Lucas Palao of the NYPD’s 44th Precinct sat in his apartment on Walton Avenue in the Bronx, drinking whisky. His first name came from his mother, who was French; his surname, Palao, from his father, who was Polynesian. The apartment in the Bronx — not very big, but his own — he also owed to his parents. He earned decently, more than enough for a young single man, yet his parents, who lived in Honolulu, Hawaii, still spoiled their only child, sending him a sizeable sum every month. Lucas drank little and never went to pubs or strip clubs with his colleagues, giving nearly all his time to work and to reading books in silence. His colleagues’ attitude towards him ranged from indifference to open dislike: Palao had an overdeveloped sense of justice, took no bribes and made no deals with his own conscience.',
       openCta:'Read the first chapter', openSecondary:'All books',
-      worldsKicker:'BETWEEN EARTH AND TOLUS', worldsTitle:'Two worlds, one warrior',
-      earthName:'EARTH', earthDesc:'An antique shop, sleepless nights, edged weapons under licence.',
-      tolusName:'TOLUS', tolusDesc:'A red sun, the mountains of the closs, a clan whose only craft is war.',
-      lexKicker:'LEXICON OF THE WORLD', lexTitle:'A glimpse beyond the threshold',
-      lexTerms:[
-        {no:'01',term:'The Dargon Clan',desc:'Warriors whose only craft is war.'},
-        {no:'02',term:'Tolus',desc:'A world beneath a red sun, with no moon.'},
-        {no:'03',term:'The Heeding',desc:'Priest-mages who instil knowledge into warriors’ minds.'},
-        {no:'04',term:'The Seeking',desc:'Sages of the clan, keepers of forgotten weapons.'},
+      lucasRole:'POLICE OFFICER', lucasName:'Lucas Palao',
+      oliviaRole:'GHOST', oliviaName:'Olivia Holden',
+      lucasAlt:'Detective Lucas Palao walking down a New York street by day', oliviaAlt:'The ghostly figure of Olivia Holden in the moonlight of a dark room',
+      castTitle:'Dramatis personae — some of them rather potent',
+      cast:[
+        {no:'01',name:'Lucas Palao',role:'detective',desc:'Calm, observant and possessed of unusual abilities. Owner of Confucius the cat.'},
+        {no:'02',name:'Confucius',role:'a Maine Coon cat',desc:'Treats people with sarcastic tolerance. Ghosts — warily, but better.'},
+        {no:'03',name:'Moses “Rhino” Pierce',role:'gangster',desc:'Big and dangerous — yet, unexpectedly, quite reasonable.'},
+        {no:'04',name:'Olivia Holden',role:'ghost',desc:'Dead, but with character.'},
       ],
       featLabel:'BOOK ONE',
-      heroBlurb:'A warrior of the Dargon clan trades ancient weapons on an alien Earth — until his past comes for him.',
+      ghostTitle:'The Ghost Detective', ghostSub:'Whisky, a cat and a ghost',
+      ghostBlurb:'Lucas Palao, an officer of New York’s 44th Precinct, faces crime every day and investigates it. But an unexpected guest turning up in his apartment makes him see his routine work in a different light.',
       buyBtn:'Buy · €3.99', readBtn:'Read a chapter',
+      alsoOn:'English edition coming soon on', amazonBtn:'Amazon Kindle',
       offerNote:'After payment the book is sent straight to your inbox.',
-      alsoOn:'Also available on', amazonBtn:'Amazon Kindle',
       readsKicker:'THE AUTHOR’S VOICE', readsTitle:'The author reads his book',
-      readsDesc:'The first chapter, in Rostyslav’s own voice. Close your eyes and step into Tolus.',
-      readsTrack:'Chapter 1 · Just to Return Home', readsDuration:'12:40',
-      readsHint:'Audio will appear here once the recording is uploaded.',
-      collectionTitle:'The Books', collectionNote:'the series is growing',
+      readsDesc:'The first chapter, in Rostyslav’s own voice. Get comfortable and open the case file.',
+      readsTrack:'Chapter 1 · The Ghost Detective', readsDuration:'16:13',
+      readsHint:'The audio will start playing once the recording has loaded.',
+      collectionTitle:'The Books', collectionNote:'the series are growing',
+      ghostTag:'Book one · The Case of the Missing Masterpiece',
       book1Title:'Just to Return Home', book1Tag:'Vol. I · The Dargon Clan',
       book2Title:'The Second Book', book2Tag:'Vol. II · coming soon',
       openArrow:'Open →', soon:'SOON',
-      aboutKicker:'ABOUT THE AUTHOR',
-      aboutText:'“Deep, many-layered stories of martial arts, magic and philosophy. I began this book in the Carpathians — a wooden house, the scent of pine, the silence of the mountains.”',
+      aboutKicker:'FROM THE AUTHOR',
+      aboutText:'“I’ll be honest: at first there was no idea — no clear plan, that is — for writing a mystical detective story. It all happened suddenly, while I was writing the sequel to a fantasy novel. Why a detective story, and why a mystical one — I don’t know. That’s simply what came to mind. I hope not in vain.”',
       aboutRole:'Writer',
-      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',
-      footContactTitle:'CONTACT', footCity:'Varna, Bulgaria',
-      footLangTitle:'LANGUAGE', footRights:'All rights reserved',
     },
     uk: {
-      brand:'Р·ВИШНЕВСЬКИЙ',
-      navBooks:'Книги', navAuthor:'Автор', navListen:'Слухати', navBlog:'Блог', navNews:'Новини', navContact:'Контакти',
-      heroKicker:'ЕПІЧНЕ ФЕНТЕЗІ · МАГІЯ · ОБОВ’ЯЗОК',
+      heroKicker:'МІСТИЧНИЙ ДЕТЕКТИВ · РЕАЛЬНЕ Й ПОТОЙБІЧНЕ',
       heroName:'Ростислав Вишневський',
-      heroTagline:'Воїн двох світів. Романи для тих, хто читає серцем.',
+      heroTagline:'Вони різні, але мета одна. Романи для тих, хто читає серцем.',
       heroCta:'УВІЙТИ У СВІТ', scrollHint:'ГОРТАЙТЕ ВНИЗ',
       openKicker:'ПЕРШІ РЯДКИ',
-      openQuote:'Кіл сидів на веранді свого заміського будинку й роздратовано дивився на зорі. Котру вже ніч його мучило безсоння, а тепер додалося й невиразне відчуття тривоги.',
+      openQuote:'Детектив 44-ї дільниці нью-йоркської поліції Лукас Палао сидів у своїй квартирі в Бронксі на Волтон-авеню й пив віскі. Ім’я Лукас йому дала мама — француженка, а прізвище Палао він отримав від тата — полінезійця. Свою квартиру в Бронксі — не дуже велику, але свою — Лукас теж отримав завдяки батькам. Він непогано заробляв, молодому неодруженому чоловікові цілком вистачало, але батьки, які жили на Гаваях у Гонолулу, все одно балували своє єдине чадо, щомісяця надсилаючи йому чималу суму. Лукас пив небагато, по пивних і стрип-барах із колегами не ходив, майже весь час віддаючи роботі й читанню книжок у тиші. Ставлення колег до нього коливалося від байдужості до відвертої неприязні — Палао мав гіпертрофоване почуття справедливості, хабарів не брав, на угоди з власним сумлінням не йшов.',
       openCta:'Читати перший розділ', openSecondary:'Усі книги',
-      worldsKicker:'МІЖ ЗЕМЛЕЮ І ТОЛУСОМ', worldsTitle:'Два світи одного воїна',
-      earthName:'ЗЕМЛЯ', earthDesc:'Антикварна крамниця, безсонні ночі, холодна зброя за ліцензією.',
-      tolusName:'ТОЛУС', tolusDesc:'Червоне сонце, гори клоссів, рід воїнів, чиє єдине заняття — війна.',
-      lexKicker:'ЛЕКСИКОН СВІТУ', lexTitle:'Зазирніть за поріг',
-      lexTerms:[
-        {no:'01',term:'Рід Даргонів',desc:'Воїни, чиє єдине ремесло — війна.'},
-        {no:'02',term:'Толус',desc:'Світ під червоним сонцем, де немає місяця.'},
-        {no:'03',term:'Чтущі',desc:'Жерці-маги, що вкладають знання в розум воїнів.'},
-        {no:'04',term:'Шукачі',desc:'Мудреці роду, хранителі забутої зброї.'},
+      lucasRole:'ПОЛІЦЕЙСЬКИЙ', lucasName:'Лукас Палао',
+      oliviaRole:'ПРИВИД', oliviaName:'Олівія Холден',
+      lucasAlt:'Детектив Лукас Палао йде денною вулицею Нью-Йорка', oliviaAlt:'Примарний силует Олівії Холден у місячному світлі темної кімнати',
+      castTitle:'Дійові — і сильнодійні — особи',
+      cast:[
+        {no:'01',name:'Лукас Палао',role:'детектив',desc:'Спокійний, спостережливий, має незвичайні здібності. Господар кота Конфуція.'},
+        {no:'02',name:'Конфуцій',role:'кіт породи мейн-кун',desc:'До людей ставиться із саркастичною терпимістю. До привидів — насторожено, але краще.'},
+        {no:'03',name:'Мозес «Носоріг» Пірс',role:'гангстер',desc:'Великий, небезпечний, але несподівано виявився доволі адекватним.'},
+        {no:'04',name:'Олівія Холден',role:'привид',desc:'Мертва, але з характером.'},
       ],
       featLabel:'КНИГА ПЕРША',
-      heroBlurb:'Воїн роду Даргонів торгує древньою зброєю на чужій Землі — доки минуле не приходить за ним.',
+      ghostTitle:'Примарний детектив', ghostSub:'Віскі, кіт і привид',
+      ghostBlurb:'Поліцейський сорок четвертої дільниці міста Нью-Йорк Лукас Палао щодня стикається зі злочинами й розслідує їх. Але поява в його квартирі несподіваної гості змушує інакше поглянути на рутинну роботу.',
       buyBtn:'Купити · 3.99 €', readBtn:'Читати розділ',
+      alsoOn:'Англійська версія незабаром на', amazonBtn:'Amazon Kindle',
       offerNote:'Після оплати книга надійде на вашу пошту.',
-      alsoOn:'Також доступна на', amazonBtn:'Amazon Kindle',
       readsKicker:'ГОЛОС АВТОРА', readsTitle:'Автор читає свою книгу',
-      readsDesc:'Перший розділ — голосом самого Ростислава. Заплющте очі та увійдіть у світ Толуса.',
-      readsTrack:'Розділ 1 · Просто повернутися додому', readsDuration:'12:40',
-      readsHint:'Аудіо з’явиться тут після завантаження запису.',
-      collectionTitle:'Книги', collectionNote:'серія поповнюється',
+      readsDesc:'Перший розділ — голосом самого Ростислава. Сядьте зручніше й відкрийте теку з кримінальною справою.',
+      readsTrack:'Розділ 1 · Примарний детектив', readsDuration:'16:13',
+      readsHint:'Аудіо почне відтворюватися після завантаження запису.',
+      collectionTitle:'Книги', collectionNote:'серії поповнюються',
+      ghostTag:'Книга перша · Історія зниклого шедевра',
       book1Title:'Просто повернутися додому', book1Tag:'Том I · Рід Даргонів',
       book2Title:'Друга книга', book2Tag:'Том II · скоро',
       openArrow:'Відкрити →', soon:'СКОРО',
-      aboutKicker:'ПРО АВТОРА',
-      aboutText:'«Глибокі, багатошарові історії з бойовими мистецтвами, магією та філософією. Цю книгу я почав писати в Карпатах — дерев’яний дім, запах сосни, тиша гір».',
+      aboutKicker:'ВІД АВТОРА',
+      aboutText:'«Зізнаюся чесно: ідеї — саме чіткого плану — для написання містичного детективу спочатку не було. Усе сталося раптово, у процесі написання продовження фентезі-роману. Чому детектив і чому містичний — не знаю. Ось так спало на думку. Сподіваюся, що не марно».',
       aboutRole:'Письменник',
-      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',
-      footContactTitle:'КОНТАКТ', footCity:'м. Варна, Болгарія',
-      footLangTitle:'МОВА', footRights:'Усі права захищені',
     },
     bg: {
-      brand:'Р·ВИШНЕВСКИ',
-      navBooks:'Книги', navAuthor:'Автор', navListen:'Слушай', navBlog:'Блог', navNews:'Новини', navContact:'Контакти',
-      heroKicker:'ЕПИЧНО ФЕНТЕЗИ · МАГИЯ · ДЪЛГ',
+      heroKicker:'МИСТИЧЕН ДЕТЕКТИВ · РЕАЛНОТО И ОТВЪДНОТО',
       heroName:'Ростислав Вишневски',
-      heroTagline:'Воин на два свята. Романи за тези, които четат със сърце.',
+      heroTagline:'Те са различни, но целта е една. Романи за тези, които четат със сърце.',
       heroCta:'ВЛЕЗ В СВЕТА', scrollHint:'ПЛЪЗНЕТЕ НАДОЛУ',
       openKicker:'ПЪРВИ РЕДОВЕ',
-      openQuote:'Кил седеше на верандата на крайградската си къща и раздразнено гледаше звездите. Поредна нощ безсънието го измъчваше, а сега се прибави и смътно чувство на тревога.',
+      openQuote:'Детективът от 44-ти участък на нюйоркската полиция Лукас Палао седеше в апартамента си в Бронкс на Уолтън Авеню и пиеше уиски. Името Лукас му беше дала майка му — французойка, а фамилията Палао беше получил от баща си — полинезиец. Апартамента си в Бронкс — не много голям, но свой — Лукас също дължеше на родителите си. Печелеше добре, на млад неженен мъж му стигаше напълно, но родителите му, които живееха на Хаваите, в Хонолулу, все пак глезеха единственото си чедо, като всеки месец му пращаха немалка сума. Лукас не пиеше много, не ходеше с колегите по кръчми и стриптийз барове и отдаваше почти цялото си време на работата и на четенето на книги в тишина. Отношението на колегите към него варираше от безразличие до открита неприязън — Палао имаше хипертрофирано чувство за справедливост, не вземаше подкупи и не правеше сделки със собствената си съвест.',
       openCta:'Прочети първа глава', openSecondary:'Всички книги',
-      worldsKicker:'МЕЖДУ ЗЕМЯТА И ТОЛУС', worldsTitle:'Два свята, един воин',
-      earthName:'ЗЕМЯ', earthDesc:'Антикварна лавка, безсънни нощи, хладно оръжие с лиценз.',
-      tolusName:'ТОЛУС', tolusDesc:'Червено слънце, планините на клосите, род воини, чието единствено занятие е войната.',
-      lexKicker:'ЛЕКСИКОН НА СВЕТА', lexTitle:'Надникнете отвъд прага',
-      lexTerms:[
-        {no:'01',term:'Родът Даргон',desc:'Воини, чийто единствен занаят е войната.'},
-        {no:'02',term:'Толус',desc:'Свят под червено слънце, без луна.'},
-        {no:'03',term:'Четящите',desc:'Жреци-маги, които влагат знание в умовете на воините.'},
-        {no:'04',term:'Търсещите',desc:'Мъдреци на рода, пазители на забравено оръжие.'},
+      lucasRole:'ПОЛИЦАЙ', lucasName:'Лукас Палао',
+      oliviaRole:'ПРИЗРАК', oliviaName:'Оливия Холдън',
+      lucasAlt:'Детектив Лукас Палао върви по дневна улица в Ню Йорк', oliviaAlt:'Призрачният силует на Оливия Холдън на лунна светлина в тъмна стая',
+      castTitle:'Действащи — и силнодействащи — лица',
+      cast:[
+        {no:'01',name:'Лукас Палао',role:'детектив',desc:'Спокоен, наблюдателен, с необичайни способности. Стопанин на котарака Конфуций.'},
+        {no:'02',name:'Конфуций',role:'котарак от породата мейн-кун',desc:'Към хората се отнася със саркастична търпимост. Към призраците — предпазливо, но по-добре.'},
+        {no:'03',name:'Мозес „Носорога“ Пиърс',role:'гангстер',desc:'Едър, опасен, но неочаквано се оказва доста адекватен.'},
+        {no:'04',name:'Оливия Холдън',role:'призрак',desc:'Мъртва, но с характер.'},
       ],
       featLabel:'КНИГА ПЪРВА',
-      heroBlurb:'Воин от рода Даргон търгува с древно оръжие на чужда Земя — докато миналото не дойде за него.',
+      ghostTitle:'Призрачният детектив', ghostSub:'Уиски, котарак и призрак',
+      ghostBlurb:'Полицаят от четиридесет и четвърти участък на Ню Йорк Лукас Палао всеки ден се сблъсква с престъпления и ги разследва. Но появата на неочаквана гостенка в апартамента му го кара да погледне по различен начин на рутинната си работа.',
       buyBtn:'Купи · 3.99 €', readBtn:'Прочети глава',
+      alsoOn:'Английското издание скоро в', amazonBtn:'Amazon Kindle',
       offerNote:'След плащане книгата идва директно на вашата поща.',
-      alsoOn:'Също така на', amazonBtn:'Amazon Kindle',
       readsKicker:'ГЛАСЪТ НА АВТОРА', readsTitle:'Авторът чете своята книга',
-      readsDesc:'Първата глава — с гласа на самия Ростислав. Затворете очи и влезте в света на Толус.',
-      readsTrack:'Глава 1 · Просто да се върнеш у дома', readsDuration:'12:40',
-      readsHint:'Аудиото ще се появи тук след качване на записа.',
-      collectionTitle:'Книгите', collectionNote:'поредицата расте',
+      readsDesc:'Първата глава — с гласа на самия Ростислав. Настанете се удобно и отворете папката с наказателното дело.',
+      readsTrack:'Глава 1 · Призрачният детектив', readsDuration:'16:13',
+      readsHint:'Аудиото ще започне да се възпроизвежда след зареждане на записа.',
+      collectionTitle:'Книгите', collectionNote:'поредиците растат',
+      ghostTag:'Книга първа · Историята на изчезналия шедьовър',
       book1Title:'Просто да се върнеш у дома', book1Tag:'Том I · Родът Даргон',
       book2Title:'Втора книга', book2Tag:'Том II · скоро',
       openArrow:'Отвори →', soon:'СКОРО',
-      aboutKicker:'ЗА АВТОРА',
-      aboutText:'„Дълбоки, многопластови истории с бойни изкуства, магия и философия. Започнах тази книга в Карпатите — дървена къща, дъх на бор, тишината на планините.“',
+      aboutKicker:'ОТ АВТОРА',
+      aboutText:'„Признавам честно: идея — по-точно ясен план — за мистичен детектив в началото нямаше. Всичко се случи внезапно, докато пишех продължението на фентъзи роман. Защо детектив и защо мистичен — не знам. Просто така ми дойде наум. Надявам се, че не напразно.“',
       aboutRole:'Писател',
-      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',
-      footContactTitle:'КОНТАКТ', footCity:'гр. Варна, България',
-      footLangTitle:'ЕЗИК', footRights:'Всички права запазени',
     },
   };
 
