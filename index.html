@@ -26,6 +26,7 @@
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
+<link rel="preload" as="image" href="assets/img/hero-detective.jpg" fetchpriority="high">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
@@ -36,13 +37,12 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+  body{margin:0;background:#101116;-webkit-font-smoothing:antialiased}
   section{scroll-margin-top:84px}
-  @keyframes vfloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-14px)}}
   @keyframes vrise{from{transform:translateY(26px)}to{transform:translateY(0)}}
   @keyframes vbob{0%,100%{transform:translateX(-50%) translateY(0);opacity:.5}50%{transform:translateX(-50%) translateY(7px);opacity:1}}
   @keyframes vwave{0%,100%{transform:scaleY(.32)}50%{transform:scaleY(1)}}
@@ -62,33 +62,53 @@
   @media(max-width:700px){.vduo{flex-direction:column}.vduo .vpanel{min-height:360px}.vduo .vline{display:none}}
   .vsoc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-med);color:var(--gold);text-decoration:none;transition:transform .25s,color .25s,border-color .25s}
   .vsoc:hover{transform:translateY(-2px);color:var(--gold-soft);border-color:var(--line-strong)}
+  /* --- «Нуар» под атмосферу «Призрачного детектива» (только главная): чернильный фон, янтарь виски, зерно плёнки --- */
+  .noir{--bg:#101116;--bg-2:#0b0c10;--gold:#cf9a57;--gold-soft:#f0cf9e;--gold-rgb:207,154,87;--gold-text:#c08a4c;--line-soft:rgba(207,154,87,.18);--line-med:rgba(207,154,87,.3);--line-strong:rgba(207,154,87,.7);--focus-ring:2px solid #cf9a57}
+  .noir::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .noir .vhead.scrolled{background:rgba(11,12,16,.92)}
+  .noir footer{background:#090a0d !important}
+  @media(max-width:900px){.noir .vh-nav{background:rgba(11,12,16,.98)}}
+  /* первый экран: туман за стеклом и «дыхание» с надписью призрака */
+  .vhero-img{object-position:50% 62%}
+  @keyframes vdrift{from{transform:translate3d(-5%,0,0)}to{transform:translate3d(5%,0,0)}}
+  .vfog{position:absolute;inset:-10% -25%;pointer-events:none}
+  .vfog-a{background:radial-gradient(ellipse 28% 16% at 22% 72%,rgba(160,175,205,.16),transparent 70%),radial-gradient(ellipse 24% 12% at 74% 80%,rgba(160,175,205,.13),transparent 70%);animation:vdrift 60s ease-in-out infinite alternate}
+  .vfog-b{background:radial-gradient(ellipse 34% 18% at 62% 30%,rgba(150,165,200,.09),transparent 70%),radial-gradient(ellipse 22% 14% at 28% 42%,rgba(150,165,200,.08),transparent 70%);animation:vdrift 85s ease-in-out infinite alternate-reverse}
+  @keyframes vbreath{0%,6%{opacity:0;transform:rotate(-7deg) scale(.94)}20%,58%{opacity:1;transform:rotate(-7deg) scale(1)}82%,100%{opacity:0;transform:rotate(-7deg) scale(1.03)}}
+  .vbreath{position:absolute;left:8%;top:10%;width:clamp(260px,21vw,400px);height:clamp(110px,9vw,170px);display:flex;align-items:center;justify-content:center;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse 50% 46% at 50% 50%,rgba(208,218,236,.30),rgba(208,218,236,.13) 55%,transparent 76%);transform:rotate(-7deg);animation:vbreath 16s ease-in-out 2s infinite both}
+  .vbreath span{font:500 clamp(30px,2.4vw,46px) Caveat,cursive;color:rgba(12,16,26,.62);letter-spacing:.5px;text-shadow:0 0 2px rgba(12,16,26,.35),0 1px 0 rgba(228,234,246,.22);filter:blur(.35px);white-space:nowrap}
+  .vcta:hover{background:rgba(var(--gold-rgb),.16) !important;border-color:var(--gold) !important}
+  @media(max-width:700px){.vhero-img{top:-7% !important;height:112% !important;object-position:57% 50%}.vbreath{left:50%;top:auto;bottom:13%;margin-left:-130px}}
+  @media(prefers-reduced-motion:reduce){.vbreath{animation:none;opacity:.85}.vfog{animation:none}}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden">
+<div class="noir" style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden">
 
   <!-- ============ STICKY HEADER ============ -->
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
-  <!-- ============ HERO ============ -->
-  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:#1a0f09">
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,#2a1208 0%,#5a2a18 42%,#7a3a22 60%,var(--bg-2) 100%);overflow:hidden">
-      <img src="assets/img/hero.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-      <div style="position:absolute;inset:0;background:rgba(18,13,8,.58)"></div>
-      <div style="position:absolute;inset:0;background:repeating-linear-gradient(95deg,rgba(0,0,0,.10) 0 2px,transparent 2px 11px)"></div>
-      <div style="position:absolute;top:11%;left:50%;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,#ffc093,#d2683f 52%,rgba(210,104,63,0) 73%);animation:vfloat 9s ease-in-out infinite"></div>
-      <div style="position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(180deg,transparent,var(--bg) 86%);clip-path:polygon(0 62%,14% 34%,28% 56%,44% 22%,58% 50%,72% 28%,86% 52%,100% 36%,100% 100%,0 100%)"></div>
-      <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 38%,transparent 38%,rgba(8,6,4,.62) 100%)"></div>
-      <div style="position:absolute;bottom:0;left:0;right:0;height:46%;background:linear-gradient(180deg,transparent,rgba(20,17,13,.85) 70%,var(--bg))"></div>
+  <!-- ============ HERO: ночной Бронкс через запотевшее окно Лукаса ============ -->
+  <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:#07090e">
+    <div style="position:absolute;inset:0;overflow:hidden">
+      <img class="vhero-img" src="assets/img/hero-detective.jpg" alt="" fetchpriority="high" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      <div class="vfog vfog-b"></div>
+      <div class="vfog vfog-a"></div>
+      <div class="vbreath" aria-hidden="true"><span>{{ t.ghostWrite }}</span></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 38% at 50% 44%,rgba(5,7,11,.66),rgba(5,7,11,.3) 55%,rgba(5,7,11,0) 82%)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:9%;background:linear-gradient(180deg,rgba(16,17,22,0),var(--bg))"></div>
     </div>
 
-    <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14vh 7vw 12vh">
-      <div class="vrise" style="font:400 13px Spectral,serif;color:#f3cda2;letter-spacing:6px;margin-bottom:22px;text-shadow:0 2px 12px rgba(0,0,0,.7)">{{ t.heroKicker }}</div>
-      <h1 class="vrise" style="font:400 clamp(48px,8.4vw,108px) Forum,serif;color:#fbf2e4;letter-spacing:1px;line-height:.98;margin:0;text-shadow:0 4px 34px rgba(0,0,0,.78)">{{ t.heroName }}</h1>
-      <div class="vrise" style="font:300 italic clamp(15px,2vw,21px) Spectral,serif;color:#ecd2b6;margin-top:24px;max-width:580px;text-shadow:0 2px 14px rgba(0,0,0,.6)">{{ t.heroTagline }}</div>
-      <a href="#read" class="vbtn vrise" style="margin-top:40px;display:inline-block;border:1px solid rgba(243,201,154,.7);color:#f9ecda;font:400 14px Spectral,serif;letter-spacing:3px;padding:17px 42px;text-decoration:none;background:rgba(18,11,7,.35);backdrop-filter:blur(2px)">{{ t.heroCta }}</a>
+    <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12vh 7vw 18vh">
+      <div class="vrise" style="font:400 13px Spectral,serif;color:#c9d3e4;letter-spacing:6px;margin-bottom:22px;text-shadow:0 2px 12px rgba(0,0,0,.8)">{{ t.heroKicker }}</div>
+      <h1 class="vrise" style="font:400 clamp(48px,8.4vw,108px) Forum,serif;color:#f6f0e6;letter-spacing:1px;line-height:.98;margin:0;text-shadow:0 4px 34px rgba(0,0,0,.85)">{{ t.heroName }}</h1>
+      <sc-if value="{{ t.heroAlias }}" hint-placeholder-val="{{ false }}">
+        <div class="vrise" style="font:400 clamp(20px,2.6vw,32px) Forum,serif;color:#cfd6e2;letter-spacing:2px;margin-top:12px;text-shadow:0 2px 18px rgba(0,0,0,.8)">{{ t.heroAlias }}</div>
+      </sc-if>
+      <div class="vrise" style="font:300 italic clamp(15px,2vw,21px) Spectral,serif;color:#d9dde6;margin-top:24px;max-width:580px;text-shadow:0 2px 14px rgba(0,0,0,.75)">{{ t.heroTagline }}</div>
+      <a href="#read" class="vbtn vcta vrise" style="margin-top:40px;display:inline-block;border:1px solid rgba(var(--gold-rgb),.75);color:#f6ead8;font:400 14px Spectral,serif;letter-spacing:3px;padding:17px 42px;text-decoration:none;background:rgba(8,10,15,.5);backdrop-filter:blur(3px)">{{ t.heroCta }}</a>
     </div>
-    <div style="position:absolute;bottom:26px;left:50%;z-index:2;font:400 10px Spectral,serif;color:#d8b483;letter-spacing:3px;animation:vbob 2.4s ease-in-out infinite;text-shadow:0 2px 8px rgba(0,0,0,.6)">{{ t.scrollHint }}</div>
+    <div style="position:absolute;bottom:26px;left:50%;z-index:2;font:400 10px Spectral,serif;color:#aab6cc;letter-spacing:3px;animation:vbob 2.4s ease-in-out infinite;text-shadow:0 2px 8px rgba(0,0,0,.7)">{{ t.scrollHint }}</div>
   </section>
 
   <!-- ============ OPENING LINES (HOOK) ============ -->
@@ -105,7 +125,7 @@
   </section>
 
   <!-- ============ TWO HEROES: LUCAS / OLIVIA ============ -->
-  <section data-screen-label="Two Worlds" style="position:relative;background:#100d0a">
+  <section data-screen-label="Two Worlds" style="position:relative;background:var(--bg-2)">
     <div class="vduo" style="display:flex;min-height:520px;position:relative">
       <!-- A: Лукас — день, улица Нью-Йорка -->
       <div class="vpanel" style="flex:1;position:relative;overflow:hidden;background:#cfc8ba">
@@ -149,10 +169,10 @@
   </section>
 
   <!-- ============ FEATURED / OFFER ============ -->
-  <section id="ghost" data-screen-label="Offer" style="background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12);padding:78px 7vw">
+  <section id="ghost" data-screen-label="Offer" style="background:var(--bg-2);border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12);padding:78px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:56px;align-items:center;justify-content:center;flex-wrap:wrap">
       <div style="position:relative;width:236px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid var(--line-med);box-shadow:0 22px 48px rgba(0,0,0,.55)">
-        <img src="assets/GhostDetective.jpg" alt="{{ t.ghostTitle }}" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+        <img src="{{ ghostCover }}" alt="{{ t.ghostTitle }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="max-width:480px;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.featLabel }}</div>
@@ -208,7 +228,7 @@
   </section>
 
   <!-- ============ COLLECTION ============ -->
-  <section id="books" data-screen-label="Books" style="background:#100d0a;padding:84px 7vw;border-top:1px solid rgba(var(--gold-rgb),.12)">
+  <section id="books" data-screen-label="Books" style="background:var(--bg-2);padding:84px 7vw;border-top:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:42px;gap:8px">
         <h2 style="font:400 clamp(28px,4vw,46px) Forum,serif;color:#f0e6d2;margin:0">{{ t.collectionTitle }}</h2>
@@ -217,7 +237,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;gap:34px">
         <a href="#ghost" class="vcard" style="text-decoration:none;display:block">
           <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-            <img src="assets/GhostDetective.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+            <img src="{{ ghostCover }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
           </div>
           <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.ghostTitle }}</div>
           <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.ghostTag }}</div>
@@ -257,7 +277,7 @@
       <div style="flex:1;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.aboutKicker }}</div>
         <p style="font:300 italic clamp(19px,2.4vw,26px)/1.55 Spectral,serif;color:#e3d6bd;margin:0 0 26px">{{ t.aboutText }}</p>
-        <div style="font:400 18px Forum,serif;color:#f0e6d2;letter-spacing:1px">{{ t.heroName }}</div>
+        <div style="font:400 18px Forum,serif;color:#f0e6d2;letter-spacing:1px">{{ t.aboutName }}</div>
         <div style="font:300 13px Spectral,serif;color:#9c917c;margin-top:3px">{{ t.aboutRole }}</div>
       </div>
     </div>
@@ -280,9 +300,10 @@ class Component extends DCLogic {
   DICT = {
     ru: {
       heroKicker:'МИСТИЧЕСКИЙ ДЕТЕКТИВ · РЕАЛЬНОЕ И ПОТУСТОРОННЕЕ',
-      heroName:'Ростислав Вишневский',
+      heroName:'Ростислав Вишневский', heroAlias:'', aboutName:'Ростислав Вишневский',
       heroTagline:'Они разные, но цель одна. Романы для тех, кто читает сердцем.',
       heroCta:'ВОЙТИ В МИР', scrollHint:'ЛИСТАЙТЕ ВНИЗ',
+      ghostWrite:'Помоги мне',
       openKicker:'ПЕРВЫЕ СТРОКИ',
       openQuote:'Детектив 44-го участка нью-йоркской полиции Лукас Палао сидел в своей квартире в Бронксе на Уолтон-авеню и пил виски. Имя Лукас ему дала мама — француженка, а фамилию Палао он получил от папы — полинезийца. Свою квартиру в Бронксе — не очень большую, но свою — Лукас тоже получил благодаря родителям. Он неплохо зарабатывал, молодому несемейному мужчине вполне хватало, но родители, живущие на Гавайях в Гонолулу, всё равно баловали своё единственное чадо, каждый месяц присылая ему немаленькую сумму. Лукас много не пил, по пивным и стрип-барам с коллегами не ходил, почти всё время отдавая работе и чтению книг в тишине. Отношение коллег к нему было в диапазоне от равнодушия до откровенной нелюбви — Палао имел гипертрофированное чувство справедливости, взяток не брал, на сделки с собственной совестью не шёл.',
       openCta:'Читать первую главу', openSecondary:'Все книги',
@@ -316,47 +337,49 @@ class Component extends DCLogic {
       aboutRole:'Писатель',
     },
     en: {
-      heroKicker:'MYSTICAL DETECTIVE · THE REAL AND THE OTHERWORLDLY',
-      heroName:'Rostyslav Vyshnevskyi',
-      heroTagline:'They are different, but the goal is one. Novels for those who read with the heart.',
+      heroKicker:'MYSTERY & DETECTIVE FICTION · REAL AND SUPERNATURAL',
+      heroName:'Rostyslav Vishnevsky', heroAlias:'(Ronny Cherry)', aboutName:'Rostyslav Vishnevsky (Ronny Cherry)',
+      heroTagline:'They are different, but they share one goal. Stories for those who read with their hearts.',
       heroCta:'ENTER THE WORLD', scrollHint:'SCROLL DOWN',
+      ghostWrite:'Help me',
       openKicker:'FIRST LINES',
-      openQuote:'Detective Lucas Palao of the NYPD’s 44th Precinct sat in his apartment on Walton Avenue in the Bronx, drinking whisky. His first name came from his mother, who was French; his surname, Palao, from his father, who was Polynesian. The apartment in the Bronx — not very big, but his own — he also owed to his parents. He earned decently, more than enough for a young single man, yet his parents, who lived in Honolulu, Hawaii, still spoiled their only child, sending him a sizeable sum every month. Lucas drank little and never went to pubs or strip clubs with his colleagues, giving nearly all his time to work and to reading books in silence. His colleagues’ attitude towards him ranged from indifference to open dislike: Palao had an overdeveloped sense of justice, took no bribes and made no deals with his own conscience.',
+      openQuote:'Detective Lucas Palao of the NYPD’s 44th Precinct sat in his apartment on Walton Avenue in the Bronx, sipping whiskey. His mother, a Frenchwoman, had given him the name Lucas. His father, a Polynesian, had passed down the surname Palao. The apartment—modest but his own—had also come from them. Lucas earned a decent living, enough for a young, unmarried man, yet his parents, living in Honolulu, still treated him like a boy, sending him a generous sum every month. He rarely drank and never joined his colleagues at bars or strip clubs, spending most of his time working or reading in silence. His coworkers’ attitudes toward him ranged from indifference to open hostility. Palao had an uncompromising sense of justice: he took no bribes and refused to bargain with his conscience.',
       openCta:'Read the first chapter', openSecondary:'All books',
-      lucasRole:'POLICE OFFICER', lucasName:'Lucas Palao',
+      lucasRole:'POLICE DETECTIVE', lucasName:'Lucas Palao',
       oliviaRole:'GHOST', oliviaName:'Olivia Holden',
-      lucasAlt:'Detective Lucas Palao walking down a New York street by day', oliviaAlt:'The ghostly figure of Olivia Holden in the moonlight of a dark room',
-      castTitle:'Dramatis personae — some of them rather potent',
+      lucasAlt:'Police detective Lucas Palao walking down a New York street by day', oliviaAlt:'The ghost of Olivia Holden in the moonlight of a dark room',
+      castTitle:'Active — and highly active — characters',
       cast:[
-        {no:'01',name:'Lucas Palao',role:'detective',desc:'Calm, observant and possessed of unusual abilities. Owner of Confucius the cat.'},
-        {no:'02',name:'Confucius',role:'a Maine Coon cat',desc:'Treats people with sarcastic tolerance. Ghosts — warily, but better.'},
-        {no:'03',name:'Moses “Rhino” Pierce',role:'gangster',desc:'Big and dangerous — yet, unexpectedly, quite reasonable.'},
-        {no:'04',name:'Olivia Holden',role:'ghost',desc:'Dead, but with character.'},
+        {no:'01',name:'Lucas Palao',role:'detective',desc:'Calm, observant and gifted with unusual abilities. Owner of the cat Confucius.'},
+        {no:'02',name:'Confucius',role:'Maine Coon cat',desc:'Treats humans with sarcastic patience. As for ghosts — he remains wary, but he’s getting better.'},
+        {no:'03',name:'Moses “Rhino” Pierce',role:'gangster',desc:'Big, dangerous, yet surprisingly reasonable.'},
+        {no:'04',name:'Olivia Holden',role:'ghost',desc:'Dead, but still full of character.'},
       ],
-      featLabel:'BOOK ONE',
-      ghostTitle:'The Ghost Detective', ghostSub:'Whisky, a cat and a ghost',
-      ghostBlurb:'Lucas Palao, an officer of New York’s 44th Precinct, faces crime every day and investigates it. But an unexpected guest turning up in his apartment makes him see his routine work in a different light.',
-      buyBtn:'Buy · €3.99', readBtn:'Read a chapter',
-      alsoOn:'English edition coming soon on', amazonBtn:'Amazon Kindle',
-      offerNote:'After payment the book is sent straight to your inbox.',
-      readsKicker:'THE AUTHOR’S VOICE', readsTitle:'The author reads his book',
-      readsDesc:'The first chapter, in Rostyslav’s own voice. Get comfortable and open the case file.',
-      readsTrack:'Chapter 1 · The Ghost Detective', readsDuration:'16:13',
+      featLabel:'BOOK FIRST',
+      ghostTitle:'A Detective for the Dead', ghostSub:'Whiskey, a Cat and a Ghost',
+      ghostBlurb:'Lucas Palao, a police detective with New York City’s 44th Precinct, faces crimes every day and investigates them. But when an unexpected visitor appears in his apartment, he is forced to look at his routine work in a very different way.',
+      buyBtn:'Buy · $2.99', readBtn:'Read the first chapter',
+      alsoOn:'Available on', amazonBtn:'Amazon Kindle',
+      offerNote:'After payment, the book will be delivered to your email.',
+      readsKicker:'THE AUTHOR’S VOICE', readsTitle:'Read by the Author',
+      readsDesc:'Chapter One — Ronny reads.',
+      readsTrack:'Chapter 1 · A Detective for the Dead', readsDuration:'16:13',
       readsHint:'The audio will start playing once the recording has loaded.',
-      collectionTitle:'The Books', collectionNote:'the series are growing',
-      ghostTag:'Book one · The Case of the Missing Masterpiece',
+      collectionTitle:'Books', collectionNote:'the series continues',
+      ghostTag:'Book first · Whiskey, a Cat and a Ghost',
       book1Title:'Just to Return Home', book1Tag:'Vol. I · The Dargon Clan',
       book2Title:'The Second Book', book2Tag:'Vol. II · coming soon',
       openArrow:'Open →', soon:'SOON',
       aboutKicker:'FROM THE AUTHOR',
-      aboutText:'“I’ll be honest: at first there was no idea — no clear plan, that is — for writing a mystical detective story. It all happened suddenly, while I was writing the sequel to a fantasy novel. Why a detective story, and why a mystical one — I don’t know. That’s simply what came to mind. I hope not in vain.”',
+      aboutText:'“I’ll be honest: there was no clear plan—no specific idea—to write a mystery novel with a supernatural twist. It all happened unexpectedly, while I was writing the continuation of a fantasy novel. Why a detective story, and why a supernatural one? I have no idea. That’s simply how it came to me. I hope it wasn’t for nothing.”',
       aboutRole:'Writer',
     },
     uk: {
       heroKicker:'МІСТИЧНИЙ ДЕТЕКТИВ · РЕАЛЬНЕ Й ПОТОЙБІЧНЕ',
-      heroName:'Ростислав Вишневський',
+      heroName:'Ростислав Вишневський', heroAlias:'', aboutName:'Ростислав Вишневський',
       heroTagline:'Вони різні, але мета одна. Романи для тих, хто читає серцем.',
       heroCta:'УВІЙТИ У СВІТ', scrollHint:'ГОРТАЙТЕ ВНИЗ',
+      ghostWrite:'Допоможи мені',
       openKicker:'ПЕРШІ РЯДКИ',
       openQuote:'Детектив 44-ї дільниці нью-йоркської поліції Лукас Палао сидів у своїй квартирі в Бронксі на Волтон-авеню й пив віскі. Ім’я Лукас йому дала мама — француженка, а прізвище Палао він отримав від тата — полінезійця. Свою квартиру в Бронксі — не дуже велику, але свою — Лукас теж отримав завдяки батькам. Він непогано заробляв, молодому неодруженому чоловікові цілком вистачало, але батьки, які жили на Гаваях у Гонолулу, все одно балували своє єдине чадо, щомісяця надсилаючи йому чималу суму. Лукас пив небагато, по пивних і стрип-барах із колегами не ходив, майже весь час віддаючи роботі й читанню книжок у тиші. Ставлення колег до нього коливалося від байдужості до відвертої неприязні — Палао мав гіпертрофоване почуття справедливості, хабарів не брав, на угоди з власним сумлінням не йшов.',
       openCta:'Читати перший розділ', openSecondary:'Усі книги',
@@ -391,9 +414,10 @@ class Component extends DCLogic {
     },
     bg: {
       heroKicker:'МИСТИЧЕН ДЕТЕКТИВ · РЕАЛНОТО И ОТВЪДНОТО',
-      heroName:'Ростислав Вишневски',
+      heroName:'Ростислав Вишневски', heroAlias:'', aboutName:'Ростислав Вишневски',
       heroTagline:'Те са различни, но целта е една. Романи за тези, които четат със сърце.',
       heroCta:'ВЛЕЗ В СВЕТА', scrollHint:'ПЛЪЗНЕТЕ НАДОЛУ',
+      ghostWrite:'Помогни ми',
       openKicker:'ПЪРВИ РЕДОВЕ',
       openQuote:'Детективът от 44-ти участък на нюйоркската полиция Лукас Палао седеше в апартамента си в Бронкс на Уолтън Авеню и пиеше уиски. Името Лукас му беше дала майка му — французойка, а фамилията Палао беше получил от баща си — полинезиец. Апартамента си в Бронкс — не много голям, но свой — Лукас също дължеше на родителите си. Печелеше добре, на млад неженен мъж му стигаше напълно, но родителите му, които живееха на Хаваите, в Хонолулу, все пак глезеха единственото си чедо, като всеки месец му пращаха немалка сума. Лукас не пиеше много, не ходеше с колегите по кръчми и стриптийз барове и отдаваше почти цялото си време на работата и на четенето на книги в тишина. Отношението на колегите към него варираше от безразличие до открита неприязън — Палао имаше хипертрофирано чувство за справедливост, не вземаше подкупи и не правеше сделки със собствената си съвест.',
       openCta:'Прочети първа глава', openSecondary:'Всички книги',
@@ -478,6 +502,7 @@ class Component extends DCLogic {
       waveBars: this.WAVE || [],
       audioRef: this.audioRef,
       amazonUrl: this.AMAZON_URL,
+      ghostCover: this.state.lang === 'en' ? 'assets/GhostDetective-en.jpg' : 'assets/GhostDetective.jpg',
       lang: this.state.lang,
       setLang: (c) => this.setLang(c),
     };

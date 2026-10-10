@@ -14,9 +14,9 @@
       ru: { t: "Ростислав Вишневский — мистический детектив «Призрачный детектив»",
             d: "Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.",
             k: "Ростислав Вишневский, мистический детектив, Призрачный детектив, Лукас Палао, детектив книга, писатель" },
-      en: { t: "Rostyslav Vyshnevskyi — The Ghost Detective, a mystical detective novel",
-            d: "Official site of author Rostyslav Vyshnevskyi. The Ghost Detective: NYPD officer Lucas Palao, Confucius the cat and the ghost of Olivia Holden.",
-            k: "Rostyslav Vyshnevskyi, mystical detective, The Ghost Detective, Lucas Palao, detective novel, author" },
+      en: { t: "Rostyslav Vishnevsky (Ronny Cherry) — A Detective for the Dead",
+            d: "Official site of author Rostyslav Vishnevsky (Ronny Cherry). A Detective for the Dead: NYPD detective Lucas Palao, Confucius the cat and the ghost of Olivia Holden.",
+            k: "Rostyslav Vishnevsky, Ronny Cherry, A Detective for the Dead, mystery, supernatural detective, Lucas Palao, author" },
       uk: { t: "Ростислав Вишневський — містичний детектив «Примарний детектив»",
             d: "Офіційний сайт письменника Ростислава Вишневського. «Примарний детектив»: нью-йоркський поліцейський Лукас Палао, кіт Конфуцій і привид Олівія Холден.",
             k: "Ростислав Вишневський, містичний детектив, Примарний детектив, Лукас Палао, детектив книга, письменник" },
@@ -52,7 +52,7 @@
     },
     "read-detective.html": {
       ru: { t: "Читать онлайн — «Призрачный детектив»", d: "Первая глава мистического детектива «Призрачный детектив» — читать онлайн.", k: "читать онлайн, первая глава, Призрачный детектив, мистический детектив" },
-      en: { t: "Read online — The Ghost Detective", d: "Chapter one of the mystical detective novel The Ghost Detective — read online.", k: "read online, chapter one, The Ghost Detective, mystical detective" },
+      en: { t: "Read online — A Detective for the Dead", d: "Chapter one of A Detective for the Dead by Ronny Cherry — a mystery with a supernatural twist. Read online.", k: "read online, chapter one, A Detective for the Dead, Ronny Cherry, supernatural mystery" },
       uk: { t: "Читати онлайн — «Примарний детектив»", d: "Перший розділ містичного детективу «Примарний детектив» — читати онлайн.", k: "читати онлайн, перший розділ, Примарний детектив, містичний детектив" },
       bg: { t: "Чети онлайн — „Призрачният детектив“", d: "Първа глава от мистичния детектив „Призрачният детектив“ — чети онлайн.", k: "чети онлайн, първа глава, Призрачният детектив, мистичен детектив" }
     },

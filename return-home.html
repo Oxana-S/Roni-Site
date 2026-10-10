@@ -222,7 +222,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;gap:34px">
         <a href="index.html#ghost" class="vcard" style="text-decoration:none;display:block">
           <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-            <img src="assets/GhostDetective.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+            <img src="{{ ghostCover }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
           </div>
           <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.ghostTitle }}</div>
           <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.ghostTag }}</div>
@@ -357,7 +357,7 @@ class Component extends DCLogic {
       readsHint:'Audio will appear here once the recording is uploaded.',
       collectionTitle:'The Books', collectionNote:'the series is growing',
       book1Title:'Just to Return Home', book1Tag:'Vol. I · The Dargon Clan',
-      ghostTitle:'The Ghost Detective', ghostTag:'Book one · The Case of the Missing Masterpiece',
+      ghostTitle:'A Detective for the Dead', ghostTag:'Book first · Whiskey, a Cat and a Ghost',
       book2Title:'The Second Book', book2Tag:'Vol. II · coming soon',
       openArrow:'Open →', soon:'SOON',
       aboutKicker:'ABOUT THE AUTHOR',
@@ -501,6 +501,7 @@ class Component extends DCLogic {
       waveBars: this.WAVE || [],
       audioRef: this.audioRef,
       amazonUrl: this.AMAZON_URL,
+      ghostCover: this.state.lang === 'en' ? 'assets/GhostDetective-en.jpg' : 'assets/GhostDetective.jpg',
       lang: this.state.lang,
       setLang: (c) => this.setLang(c),
     };

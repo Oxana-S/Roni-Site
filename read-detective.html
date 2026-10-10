@@ -26,6 +26,7 @@
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
+<link rel="preload" as="image" href="assets/img/hero-detective.jpg">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
@@ -40,45 +41,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+  body{margin:0;background:#101116;-webkit-font-smoothing:antialiased}
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
-  .vdrop::first-letter{font-family:Forum,serif;font-size:62px;line-height:.8;float:left;color:var(--gold);padding:6px 12px 0 0}
+  .vdrop::first-letter{font-family:Forum,serif;font-size:78px;line-height:.78;float:left;color:var(--gold);padding:8px 14px 0 0;text-shadow:0 0 24px rgba(var(--gold-rgb),.25)}
+  /* --- «Нуар», как на главной: чернильный фон, янтарь виски, зерно плёнки --- */
+  .noir{--bg:#101116;--bg-2:#0b0c10;--gold:#cf9a57;--gold-soft:#f0cf9e;--gold-rgb:207,154,87;--gold-text:#c08a4c;--line-soft:rgba(207,154,87,.18);--line-med:rgba(207,154,87,.3);--line-strong:rgba(207,154,87,.7);--focus-ring:2px solid #cf9a57}
+  .noir::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .noir .vhead.scrolled{background:rgba(11,12,16,.92)}
+  .noir footer{background:#090a0d !important}
+  @media(max-width:900px){.noir .vh-nav{background:rgba(11,12,16,.98)}}
+  /* полоса прогресса чтения (где браузер поддерживает scroll-timeline) */
+  .vprog{display:none}
+  @supports (animation-timeline: scroll()){
+    @keyframes vprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .vprog{display:block;position:fixed;top:0;left:0;right:0;height:2px;z-index:70;transform-origin:0 50%;background:linear-gradient(90deg,rgba(var(--gold-rgb),.4),var(--gold));animation:vprog linear both;animation-timeline:scroll(root)}
+  }
+  /* текст главы */
+  .vtxt{font:300 19px/1.95 Spectral,serif;color:#dcd3c3;margin:0 0 24px;hyphens:auto}
+  .vtxt.vdlg{padding-left:18px;border-left:1px solid rgba(var(--gold-rgb),.22);color:#e9e2d4}
+  @keyframes vdrift{from{transform:translate3d(-5%,0,0)}to{transform:translate3d(5%,0,0)}}
+  .vfog{position:absolute;inset:-10% -25%;pointer-events:none;background:radial-gradient(ellipse 30% 18% at 25% 70%,rgba(160,175,205,.14),transparent 70%),radial-gradient(ellipse 26% 14% at 72% 60%,rgba(160,175,205,.11),transparent 70%);animation:vdrift 60s ease-in-out infinite alternate}
+  .vcase-img{object-position:50% 58%}
+  @media(max-width:700px){.vtxt{font-size:18px;line-height:1.85}.vtxt.vdlg{padding-left:12px}.vcase-img{object-position:57% 50%}.vgate{flex-direction:column;text-align:center}.vgate .vgate-btns{justify-content:center}}
+  @media(prefers-reduced-motion:reduce){.vfog{animation:none}}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
+<div class="noir" style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
+  <div class="vprog" aria-hidden="true"></div>
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
-  <!-- READER -->
-  <article style="max-width:720px;margin:0 auto;padding:140px 28px 40px">
-    <div style="text-align:center;margin-bottom:50px">
-      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
-      <h1 style="font:400 clamp(32px,5vw,52px) Forum,serif;color:var(--c-paper-50);margin:0 0 10px;line-height:1.06">{{ t.bookTitle }}</h1>
-      <div style="font:300 italic 16px Spectral,serif;color:#9c917c">{{ t.chapter }}</div>
-      <div style="font:300 13px Spectral,serif;color:var(--text-faint);margin-top:12px">{{ t.langNote }}</div>
-      <div style="width:50px;height:1px;background:rgba(var(--gold-rgb),.5);margin:28px auto 0"></div>
+  <!-- ШАПКА ГЛАВЫ: ночной вид из окна Лукаса -->
+  <header style="position:relative;min-height:62vh;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:#07090e">
+    <img class="vcase-img" src="assets/img/hero-detective.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.75">
+    <div class="vfog"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 62%,rgba(5,7,11,.7),rgba(5,7,11,.25) 70%,transparent 100%)"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(180deg,rgba(16,17,22,0),var(--bg))"></div>
+    <div style="position:relative;z-index:2;text-align:center;padding:120px 24px 56px;max-width:760px">
+      <div style="font:400 12px Spectral,serif;color:#c9d3e4;letter-spacing:5px;margin-bottom:18px;text-shadow:0 2px 12px rgba(0,0,0,.8)">{{ t.kicker }}</div>
+      <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:#f6f0e6;margin:0 0 12px;line-height:1.04;text-shadow:0 4px 30px rgba(0,0,0,.85)">{{ t.bookTitle }}</h1>
+      <div style="font:300 italic 17px Spectral,serif;color:#d9dde6;text-shadow:0 2px 12px rgba(0,0,0,.8)">{{ t.chapter }}</div>
+      <div style="font:300 13px Spectral,serif;color:#aab6cc;margin-top:12px">{{ t.langNote }}</div>
+      <div style="width:56px;height:1px;background:rgba(var(--gold-rgb),.6);margin:26px auto 0"></div>
     </div>
+  </header>
 
-    <p class="vdrop" style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ t.lead }}</p>
-    <sc-for list="{{ t.paras }}" as="para" hint-placeholder-count="3">
-      <p style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ para }}</p>
+  <!-- READER -->
+  <article style="max-width:700px;margin:0 auto;padding:30px 24px 40px">
+    <p class="vtxt vdrop">{{ t.lead }}</p>
+    <sc-for list="{{ paras }}" as="para" hint-placeholder-count="3">
+      <p class="{{ para.cls }}">{{ para.text }}</p>
     </sc-for>
 
     <!-- gate -->
-    <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,rgba(20,17,13,0),var(--bg) 55%)">
-      <div style="text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:4px;padding:44px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
+    <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,rgba(16,17,22,0),var(--bg) 55%)">
+      <div class="vgate" style="display:flex;gap:30px;align-items:center;border:1px solid rgba(var(--gold-rgb),.28);border-radius:4px;padding:36px 32px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),transparent)">
+        <img src="{{ cover }}" alt="{{ t.bookTitle }}" style="width:140px;height:auto;flex-shrink:0;border-radius:2px;box-shadow:0 16px 36px rgba(0,0,0,.6);border:1px solid rgba(var(--gold-rgb),.25)">
+        <div style="flex:1;min-width:0">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.gateKicker }}</div>
         <h2 style="font:400 clamp(24px,3.4vw,34px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.gateTitle }}</h2>
-        <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 28px;max-width:420px">{{ t.gateText }}</p>
-        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
+        <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 0 24px">{{ t.gateText }}</p>
+        <div class="vgate-btns" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
           <a href="order.html?book=ghost" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.buyBtn }}</a>
           <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:13px 20px;text-decoration:none">
-            <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#cf9a57" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#cf9a57" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
           </a>
+        </div>
         </div>
       </div>
     </div>
@@ -93,7 +125,7 @@
 class Component extends DCLogic {
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
   AMAZON_URL='https://www.amazon.com/dp/REPLACE_WITH_ASIN';
-  // Текст главы пока только на русском — для всех языков используется CHAPTER_RU.
+  // Английский перевод главы — CHAPTER_EN; для остальных языков пока русский текст (CHAPTER_RU).
   CHAPTER_RU = {
     lead:"Детектив 44-го участка нью-йоркской полиции Лукас Палао сидел в своей квартире в Бронксе на Уолтон-авеню и пил виски. Имя Лукас ему дала мама — француженка, а фамилию Палао он получил от папы — полинезийца. Свою квартиру в Бронксе — не очень большую, но свою — Лукас тоже получил благодаря родителям. Он неплохо зарабатывал, молодому несемейному мужчине вполне хватало, но родители, живущие на Гавайях в Гонолулу, все равно баловали свое единственное чадо, каждый месяц присылая ему немаленькую сумму. Лукас много не пил, по пивным и стрип-барам с коллегами не ходил, почти все время отдавая работе и чтению книг в тишине. Отношение коллег к нему было в диапазоне от равнодушия до откровенной нелюбви — Палао имел гипертрофированное чувство справедливости, взяток не брал, на сделки с собственной совестью не шел. Если перед ним за столом сидел закоренелый преступник, но в данное время непричастный к какому-либо преступлению, Палао разговаривал с ним, как с самым обыкновенным честным обывателем. Ни прошлые прегрешения, ни прошлые заслуги его не интересовали — только то, что расследовалось здесь и сейчас. В отделе он поддерживал приятельские отношения с двумя коллегами, Питером Смоллеттом, детективом такого же третьего класса, как и Лукас, и с офицером Анхелем Мартинесом — мексиканцем. С Питером Лукас иногда ходил играть в бильярд, а Анхель всегда таскал его обедать в мексиканскую забегаловку «Такос Эль Койот». Но один настоящий друг у Лукаса все-таки был — большущий рыжий кот породы мейн-кун по кличке Конфуций. Котяра был философ, любил порядок и тишину, так что кличке полностью соответствовал.",
     paras:[
@@ -167,9 +199,95 @@ class Component extends DCLogic {
       "— Пожалуй Вы правы. Это и к лучшему, я быстро.",
     ],
   };
+  CHAPTER_EN = {
+    lead:"Detective Lucas Palao of the New York Police Department’s 44th Precinct sat in his apartment on Walton Avenue in the Bronx, sipping whiskey. His mother, a Frenchwoman, had given him the name Lucas, and his father, a Polynesian, had passed down the surname Palao. His apartment in the Bronx—modest but his own—was also thanks to his parents. He earned a decent living, enough for a young, unmarried man, yet his parents, living in Honolulu, Hawaii, still spoiled their only child, sending him a generous sum every month. Lucas didn’t drink much, never went to beer halls or strip bars with colleagues, spending almost all his time working and reading in silence.",
+    paras:[
+      "His coworkers’ attitudes toward him ranged from indifferent to openly hostile—Palao had an exaggerated sense of justice, took no bribes, and would not compromise his conscience. If a hardened criminal sat across from him, but was currently uninvolved in any crime, Palao spoke to him as if he were just an ordinary, honest citizen. Past sins or past merits did not interest him—only what was being investigated here and now.",
+      "At the precinct, he maintained friendly relations with two colleagues: Peter Smollett, a third-class detective like Lucas, and Officer Angel Martinez, a Mexican. Lucas occasionally went to play pool with Peter, while Angel always dragged him to eat at the Mexican joint “Tacos El Coyote.” But Lucas had one true friend—a massive Maine Coon cat named Confucius. The cat was a philosopher, fond of order and silence, perfectly suited to his name.",
+      "Lucas sipped his whiskey. He was hungry, but today’s case had exhausted him physically and mentally, leaving him with no strength even to reach the fridge. Confucius stared at his friend and owner with his usual philosophical perplexity—as all smart animals do, the cat recognized the smell of alcohol and hated it.",
+      "Today’s case was nasty in every way: completely illogical, excessively bloody for its illogic, and absurdity was compounded by witness and informant statements. Here’s how it looked, based on what was seen and the collected evidence.",
+      "South Bronx. In an abandoned factory building, notorious New York drug dealer Caesar Torres had set up a lab to produce some crystalline junk. And he had done it very recently, as informants swore and vowed; otherwise, of course, they would have reported it long ago. Well, that was plausible—working with informants was always tricky, and for incorruptible Lucas, who had nothing to offer the “snitches” in return, it was the highest skill.",
+      "So, the underground drug lab was raided. Brutally, with automatic gunfire: two guards were killed in the yard, two inside, and eight workers were shot right at their “workstations.” And then the oddities began—no one took the “stuff,” they didn’t burn the lab, they just left the dead behind and walked away. Palao was exhausted, squatting a hundred times, measuring angles of fire, collecting shell casings, and sketching diagrams.",
+      "The strangest part was the witnesses’ statements claiming the raid was the work of Rhino. And that was the most illogical thing—Moses “Rhino” Pierce was a gangster, a very dangerous thug, but he never dealt with drug lords, couldn’t stand drug addicts according to numerous rumors, and, by the same rumors, had never crossed paths with or fought Caesar. Yet people claiming to work for him were spotted at the scene, so Lucas had to pursue that one lead—at least for today. Other overlaps were possible too—maybe Caesar borrowed money from Moe (though unlikely, knowing where it would end up).",
+      "Lucas sighed, took a long swig, and leaned back on the sofa, stroking Confucius. The cat purred contentedly…",
+      "Lucas dozed off. He woke up when the cat under his hand suddenly leapt, arched its back, and hissed loudly. Lucas placed his hand on the cat’s neck, trying to calm him—Confucius’s fur stood on end. Palao tried to see what had so disturbed the cat, but there was nothing in the spot Confucius was staring at.",
+      "— Calm down, calm down, buddy, what’s the matter? There’s nothing there.",
+      "The cat looked at him with what seemed like disdain, jumped off the couch, and, keeping low to the floor, crept toward the corner where the bathroom door was. Shifting from paw to paw as if preparing to leap, the cat waited a few seconds and then darted from behind the corner. The bathroom door was closed. Confucius hissed at it, looked at Lucas as if beckoning him, and hissed again. Standing on full stretch—long enough that his paws reached Lucas’s collarbones—he began scratching the door.",
+      "— Step aside, let me see what’s there.",
+      "The detective glanced at the coat hanging on the rack, the pistol in its pocket, smirked, and pulled out a wrench from the drawer. Carefully moving the feline philosopher aside, he yanked open the door. As expected, no one was in the bathroom.",
+      "— Well, what was all the fuss about? Come in.",
+      "The cat didn’t enter, lying instead on the floor before the door, watching his owner closely. The phone rang; it was Peter.",
+      "— Hello, hey, Pete.",
+      "— Hey, Lou. Any news?",
+      "— What news?! I’m trying to figure out who exactly was seen at the scene—we can’t just pin “tall black guy, athletic build” who “I think I saw with Moe” to the case. Waiting for info; I need at least one name.",
+      "— One? There were several of Moe’s guys?",
+      "— We don’t even know if Moe’s guys were there at all. I don’t recall any unreliable junkies in Rhino’s gang. But another thing—the lab was producing drugs, not selling them. What could black guys not from Caesar’s crew be doing there? Pete, pull your “sources,” maybe something useful will come up.",
+      "— Okay, I’ll call you after I talk to them. Not before an hour though—they don’t like being seen, I’ll have to go to the “spot.”",
+      "All detectives and officers had secure meeting points with informants—it was crucial that no one from the criminal world could find out. Any snitch caught slipping would be dead within a couple of hours somewhere in an abandoned South Bronx building.",
+      "— Alright, talk to you later!",
+      "Lucas tossed the phone on the couch and returned to the bathroom. The cat remained lying on the threshold, not entering but calmer than before. He watched his owner intently, ears forward—something in the bathroom clearly piqued his interest.",
+      "Lucas inspected the small space: everything was in place, towels hung as he had left them after his shower. What had caught Confucius’s attention? As Lucas prepared to leave, his eyes landed on smudged streaks on the mirror. Young but meticulous and detail-oriented, he wouldn’t leave such marks. Water, shaving foam, or toothpaste could have splattered, but not that high.",
+      "He approached the mirror, looked at the streaks, and instinctively breathed on the glass. Words appeared: two words —“Help me.”",
+      "Lucas shuddered, stepped back. He had read countless books on the mystical, on ghosts, lost souls, and vengeful spirits. He had read about messages appearing on steamed mirrors, but usually they were threats, not pleas for help. And reading it in a book was one thing—reading it on your own mirror was quite another.",
+      "Lucas glanced around the sparse bathroom again, watching the letters fade, then returned to the cat and squatted down.",
+      "— Buddy, did you sense a ghost?",
+      "He rolled his friend onto his side, stroking his belly and scratching him.",
+      "— My little guard, just like a watchdog!",
+      "Confucius squinted contentedly. Suddenly, the cat leapt up like he had on the couch earlier, arched his back, and hissed, staring into the bathroom. Lucas stood, stepped into the doorway, scanning every inch—but saw and felt nothing.",
+      "“Alright, stay calm,” he thought. He looked at the wrench in his hand, imagining how ridiculous it looked as a “weapon.” He put it back in the drawer, turned, and suddenly remembered a scene from an old mystical film. Fighting off a chill, he thought, “Who knows what kind of ghost this is,” and turned on the hot water. The mirror fogged slowly. Lucas stepped back, leaning against the shower cabin, and waited.",
+      "As in movies and books, words began to form on the misted surface:",
+      "— I beg you, help me…",
+      "— Who are you?",
+      "Lucas noticed that the unseen presence addressed him respectfully, capitalizing “You,” so he decided to respond in kind.",
+      "— How may I help You?",
+      "The next message appeared:",
+      "— My name, or rather, my former name, is Olivia Holden. I need Your help, as a detective.",
+      "Lucas was flustered—he had never imagined investigating a crime where the main witness was a ghost.",
+      "— Pardon my ignorance, Mrs. Olivia—or Miss? You’re a ghost?",
+      "— Detective, your Polynesian grandmother was a witch, her blood flows in you. You can speak with spirits as she did. With Your permission, I can appear and explain. Simply seeing Olivia is enough.",
+      "— Pleased to meet you, Olivia. My name is Lucas, though you probably already know that. My cat is unsettled by your presence, but I hope it won’t disturb You. If you don’t mind, let’s talk in the room.",
+      "Lucas stepped out, looked at the cat—ears twitching, but overall Confucius seemed calm. He took a step into the room and flinched, instinctively reaching for the gun normally strapped to his back. In the room stood a woman—or rather, her silhouette—but it was not blurry; the detective could even make out her facial features. Around 50–55 years old, long dress below the knees, simple sweater draped over, long hair. The ghostly figure was colorless, like in old cartoons, milk-white, but Lucas’s imagination added color: blonde hair, blue dress, beige sweater.",
+      "The ghost spoke—her voice soft, barely audible, but Lucas heard every word:",
+      "— Hello, Lucas. Yes, you could say I’m a ghost, though I hate to admit it. I died thirteen days ago but lingered—why this happens, I won’t try to explain. I think it all stems from what I am about to tell You.",
+      "— I died suddenly, a blood clot. My husband had long passed, so consider me Miss…",
+      "Lucas thought Olivia laughed.",
+      "— I have a son, Robert Holden, twenty-nine years old. This is what I need Your help with. I didn’t manage to make a will, so everything I owned automatically went to my son. The most valuable item was a painting, kept in the basement, wrapped in burlap—I tried to hang it in the room or living room, but never got around to it. Only he and my elder brother, Jack, knew about it. Two days after my death, my son went to the basement, but the painting was gone. He went to his uncle to check if he had it, but something happened—Jack was found dead in the evening, and my son was arrested on suspicion of murder. Neighbors claimed to have heard screams and a struggle. I can guarantee, 100 to 1000 percent, that my son did not kill anyone.",
+      "— Just a moment, ma’am. Let’s sort out the details before I can give you an answer. What kind of painting is it?",
+      "— It’s one of the lesser-known works by Claude Monet, “Dandelions.”",
+      "— What’s its value?",
+      "— The estimated value is about five million dollars.",
+      "Lucas whistled in surprise.",
+      "— And you claim it was stolen?",
+      "— I am certain of that. You’ll ask anyway, so I’ll anticipate your question: the painting cannot exist without its documents — the certificate of authenticity, the proof of ownership, several independent expert reports. These documents were not stolen along with the painting, but someone is trying to find them now.",
+      "— How do you know this?",
+      "Lucas was no longer a man on vacation; he was fully in detective mode — focused and attentive.",
+      "— Two days after my brother’s death and my son’s arrest, I… went to our home. The house wasn’t sealed…",
+      "— It wouldn’t need to be; it’s not a crime scene.",
+      "Lucas automatically interrupted Olivia, reflecting on her words.",
+      "— …and that night, two people broke in.",
+      "— Can you describe them?",
+      "Here it was — the excitement of a bloodhound!",
+      "— Both were white. One was tall, like you, a brunette; the other slightly shorter, a blond. The blond spoke with a British accent, though whispering, but I heard him. They went through the whole house, but thank God didn’t break any furniture, so the documents are still inside. Only my son and I know where the hiding place is; it’s not easy to find.",
+      "— So, so, so…",
+      "Lucas rubbed his hands in impatience — he had completely pushed aside the fact of who he was talking to.",
+      "— Who arrested your son? How was your brother killed?",
+      "— Detective Jeremy McCallough. From what I could overhear, he was strangled… by hand.",
+      "— So, they did search the house?",
+      "— They did.",
+      "— Strange, the murder weapon isn’t there. What does your son do?",
+      "— He’s a jack-of-all-trades, fixes everything — from glasses to refrigerators. He has his own workshop.",
+      "— Ma’am, let’s take a short break — I’m as hungry as a wolf, actually, as a pack of wolves. Will it be a problem if you wait a bit?",
+      "— Don’t worry, detective, I have nowhere to rush to.",
+      "Her voice trembled; Lucas noticed a sad smile.",
+      "— I understand your worry, ma’am. From what you’ve told me, I can already assume your son is innocent. I’ll come back and we’ll continue. By the way, your cat stopped hissing at you — what’s that about?",
+      "— Mystics believe cats are conduits between the living and the otherworldly. I think he senses my intentions.",
+      "As if responding to Olivia, Confucius entered the room, looking straight at the ghost, jumped onto the sofa, and lay down, tucking his paws under himself. He showed no aggression.",
+      "— Perhaps you’re right. That’s for the better. I’ll be quick.",
+    ],
+  };
   DICT = {
     ru:{kicker:"ЧИТАТЬ ОНЛАЙН · ПЕРВАЯ ГЛАВА",bookTitle:"Призрачный детектив",chapter:"Глава первая",langNote:"",gateKicker:"КОНЕЦ ПЕРВОЙ ГЛАВЫ",gateTitle:"Продолжение — в книге",gateText:"Кто украл «Одуванчики» Моне и кто на самом деле задушил Джека Холдена? Лукасу, Конфуцию и Оливии предстоит это выяснить. Прочитайте всю историю целиком.",buyBtn:"Купить книгу · 3.99 €"},
-    en:{kicker:"READ ONLINE · CHAPTER ONE",bookTitle:"The Ghost Detective",chapter:"Chapter One",langNote:"This chapter is currently available in Russian only.",gateKicker:"END OF CHAPTER ONE",gateTitle:"The rest is in the book",gateText:"Who stole Monet’s “Dandelions”, and who really strangled Jack Holden? Lucas, Confucius and Olivia are about to find out. Read the whole story.",buyBtn:"Buy the book · €3.99"},
+    en:{kicker:"READ ONLINE · CHAPTER ONE",bookTitle:"A Detective for the Dead",chapter:"Chapter One · Whiskey, the Cat, and the Ghost",langNote:"",gateKicker:"END OF CHAPTER ONE",gateTitle:"The rest is in the book",gateText:"Who stole Monet’s “Dandelions”, and who really strangled Jack Holden? Lucas, Confucius and Olivia are about to find out. Read the whole story.",buyBtn:"Buy the book · $2.99"},
     uk:{kicker:"ЧИТАТИ ОНЛАЙН · ПЕРШИЙ РОЗДІЛ",bookTitle:"Примарний детектив",chapter:"Розділ перший",langNote:"Цей розділ поки доступний лише російською мовою.",gateKicker:"КІНЕЦЬ ПЕРШОГО РОЗДІЛУ",gateTitle:"Продовження — у книзі",gateText:"Хто вкрав «Кульбаби» Моне і хто насправді задушив Джека Холдена? Лукасу, Конфуцію та Олівії належить це з’ясувати. Прочитайте всю історію повністю.",buyBtn:"Купити книгу · 3.99 €"},
     bg:{kicker:"ЧЕТИ ОНЛАЙН · ПЪРВА ГЛАВА",bookTitle:"Призрачният детектив",chapter:"Първа глава",langNote:"Тази глава засега е достъпна само на руски език.",gateKicker:"КРАЙ НА ПЪРВА ГЛАВА",gateTitle:"Продължението е в книгата",gateText:"Кой открадна „Глухарчета“ на Моне и кой всъщност е удушил Джак Холдън? Лукас, Конфуций и Оливия ще трябва да разберат. Прочетете цялата история.",buyBtn:"Купи книгата · 3.99 €"},
   };
@@ -180,7 +298,9 @@ class Component extends DCLogic {
   renderVals(){
     const lang=this.state.lang;
     const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
-    return {t:Object.assign({},this.CHAPTER_RU,this.DICT[lang]),langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),amazonUrl:this.AMAZON_URL};
+    const ch=lang==='en'?this.CHAPTER_EN:this.CHAPTER_RU;
+    const paras=ch.paras.map(x=>({text:x,cls:/^[—–-]\s/.test(x)?'vtxt vdlg':'vtxt'}));
+    return {paras,cover:lang==='en'?'assets/GhostDetective-en.jpg':'assets/GhostDetective.jpg',t:Object.assign({},ch,this.DICT[lang]),langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),amazonUrl:this.AMAZON_URL};
   }
 }
 </script>

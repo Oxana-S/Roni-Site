@@ -111,9 +111,9 @@
               </div>
             </div>
             <div style="border-top:1px solid rgba(var(--gold-rgb),.15);padding-top:16px;display:flex;flex-direction:column;gap:10px">
-              <div style="display:flex;justify-content:space-between;font:300 14px Spectral,serif;color:#a89c84"><span>{{ t.price }}</span><span>3.99 €</span></div>
+              <div style="display:flex;justify-content:space-between;font:300 14px Spectral,serif;color:#a89c84"><span>{{ t.price }}</span><span>{{ price }}</span></div>
               <div style="display:flex;justify-content:space-between;font:300 14px Spectral,serif;color:#a89c84"><span>{{ t.vat }}</span><span>{{ t.included }}</span></div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(var(--gold-rgb),.15);padding-top:14px;margin-top:6px"><span style="font:400 15px Spectral,serif;color:var(--text)">{{ t.total }}</span><span style="font:400 26px Forum,serif;color:var(--gold)">3.99 €</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(var(--gold-rgb),.15);padding-top:14px;margin-top:6px"><span style="font:400 15px Spectral,serif;color:var(--text)">{{ t.total }}</span><span style="font:400 26px Forum,serif;color:var(--gold)">{{ price }}</span></div>
             </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ class Component extends DCLogic {
   // order.html?book=ghost — «Призрачный детектив»; без параметра — «Просто вернуться домой»
   GHOST = {
     ru:{bookTitle:'Призрачный детектив',okText:'Книга «Призрачный детектив» отправлена на вашу почту:'},
-    en:{bookTitle:'The Ghost Detective',okText:'“The Ghost Detective” has been sent to your email:'},
+    en:{bookTitle:'A Detective for the Dead',okText:'“A Detective for the Dead” has been sent to your email:',payBtn:'Pay · $2.99'},
     uk:{bookTitle:'Примарний детектив',okText:'Книгу «Примарний детектив» надіслано на вашу пошту:'},
     bg:{bookTitle:'Призрачният детектив',okText:'„Призрачният детектив“ е изпратена на вашата поща:'},
   };
@@ -187,7 +187,8 @@ class Component extends DCLogic {
     let ghost = false; try{ ghost = /[?&]book=ghost(&|$)/.test(window.location.search); }catch(e){}
     return {
       t: ghost ? Object.assign({}, this.DICT[lang], this.GHOST[lang]) : this.DICT[lang],
-      cover: ghost ? 'assets/GhostDetective.jpg' : 'assets/img/book-1.jpg',
+      cover: ghost ? (lang === 'en' ? 'assets/GhostDetective-en.jpg' : 'assets/GhostDetective.jpg') : 'assets/img/book-1.jpg',
+      price: ghost && lang === 'en' ? '$2.99' : '3.99 €',
       backHref: ghost ? 'index.html#ghost' : 'book.html',
       readHref: ghost ? 'read-detective.html' : 'read.html',
       lang:lang, setLang:(c)=>this.setLang(c),
