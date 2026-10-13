@@ -3,9 +3,7 @@
   "pages": {
     "index.html": {
       "free": {},
-      "hidden": [
-        "read"
-      ]
+      "hidden": []
     }
   }
 }
