@@ -27,8 +27,11 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
+<script src="assets/books.js"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -45,18 +48,27 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
+  /* --- «Нуар» (поле «Оформление» книги): чернильный фон, янтарь виски, зерно плёнки — как на странице главы --- */
+  .noir{--bg:#101116;--bg-2:#0b0c10;--gold:#cf9a57;--gold-soft:#f0cf9e;--gold-rgb:207,154,87;--gold-text:#c08a4c;--line-soft:rgba(207,154,87,.18);--line-med:rgba(207,154,87,.3);--line-strong:rgba(207,154,87,.7);--focus-ring:2px solid #cf9a57}
+  .noir::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .noir .vhead.scrolled{background:rgba(11,12,16,.92)}
+  .noir footer{background:#090a0d !important}
+  @media(max-width:900px){.noir .vh-nav{background:rgba(11,12,16,.98)}}
+  .noir .vb-hero{background:radial-gradient(120% 80% at 70% 0,#1d2333,var(--bg) 60%) !important}
+  .noir .vb-alt{background:#0b0c10 !important}
+  .noir .vb-offer{background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),#101116) !important}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden">
+<div class="{{ themeCls }}" style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden">
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="books" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
   <!-- HERO -->
-  <section style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,var(--bg) 60%)">
+  <section class="vb-hero" style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,var(--bg) 60%)">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:64px;align-items:center;flex-wrap:wrap">
       <div style="position:relative;width:315px;height:420px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1px solid var(--line-med);box-shadow:0 30px 60px rgba(0,0,0,.6);background:#1c1812">
-        <img src="assets/img/book-1.jpg" alt="Просто вернуться домой" style="width:100%;height:100%;object-fit:cover;display:block">
+        <img src="{{ book.cover }}" alt="{{ t.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:300px">
         <div style="font:400 11px Spectral,serif;color:#f3cda2;letter-spacing:5px;margin-bottom:18px">{{ t.heroKicker }}</div>
@@ -68,11 +80,11 @@
         </a>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
           <a href="#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.25)">{{ t.buyBtn }}</a>
-          <a href="read.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
+          <a href="{{ book.readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
-          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:9px 16px;text-decoration:none">
+          <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:9px 16px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
           </a>
@@ -101,7 +113,7 @@
   </section>
 
   <!-- TWO WORLDS -->
-  <section style="position:relative;background:#100d0a">
+  <section class="vb-alt" style="position:relative;background:#100d0a">
     <div style="text-align:center;padding:72px 7vw 8px">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.worldsKicker }}</div>
       <h2 style="font:400 clamp(28px,4.6vw,50px) Forum,serif;color:#f0e6d2;margin:0">{{ t.worldsTitle }}</h2>
@@ -133,12 +145,12 @@
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:24px">{{ t.excKicker }}</div>
       <div style="font:400 70px Forum,serif;color:var(--gold);line-height:0;height:30px;opacity:.5">“</div>
       <p style="font:300 italic clamp(20px,3vw,30px)/1.5 Spectral,serif;color:var(--text);margin:0 0 34px">{{ t.excQuote }}</p>
-      <a href="read.html" class="vbtn" style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
+      <a href="{{ book.readHref }}" class="vbtn" style="display:inline-block;background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 34px;text-decoration:none;border-radius:2px">{{ t.excBtn }}</a>
     </div>
   </section>
 
   <!-- REVIEWS SNIPPET -->
-  <section style="padding:70px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12)">
+  <section class="vb-alt" style="padding:70px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:var(--container);margin:0 auto">
       <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:36px">
         <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0">{{ t.revTitle }}</h2>
@@ -172,10 +184,10 @@
 
   <!-- OFFER -->
   <section id="offer" style="padding:30px 7vw 90px">
-    <div style="max-width:760px;margin:0 auto;border:1px solid var(--line-med);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),#16130f)">
+    <div class="vb-offer" style="max-width:760px;margin:0 auto;border:1px solid var(--line-med);border-radius:5px;padding:50px 40px;text-align:center;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),#16130f)">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.offerKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 8px">{{ t.title }}</h2>
-      <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:var(--gold);margin:14px 0 24px">3.99 €</div>
+      <div style="font:400 clamp(40px,6vw,60px) Forum,serif;color:var(--gold);margin:14px 0 24px">{{ book.price }}</div>
       <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto 30px;text-align:left">
         <sc-for list="{{ t.includes }}" as="inc" hint-placeholder-count="4">
           <div style="display:flex;align-items:center;gap:12px">
@@ -185,8 +197,8 @@
         </sc-for>
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
-        <a href="order.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ t.buyNow }}</a>
-        <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:14px 20px;text-decoration:none">
+        <a href="{{ book.orderHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ t.buyNow }}</a>
+        <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:14px 20px;text-decoration:none">
           <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
         </a>
@@ -202,11 +214,12 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
-  AMAZON_URL='https://www.amazon.com/dp/REPLACE_WITH_ASIN';
+  // Название, подзаголовок, обложка, цена, Amazon — из data/books.json (книга «home»; правятся на сайте в режиме ?edit)
+  BOOK_ID=(function(){try{return new URLSearchParams(location.search).get('id')||'home';}catch(e){return 'home';}})();
   DICT = {
     ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',navReviews:'Отзывы',
-      heroKicker:'БЕСТСЕЛЛЕР · ЭПИЧЕСКОЕ ФЭНТЕЗИ',title:'Просто вернуться домой',tagline:'Роман для тех, кто читает сердцем. Том I хроник рода Даргонов.',
-      ratingNote:'4,8 · отзывы читателей',buyBtn:'Купить · 3.99 €',readBtn:'Читать главу',alsoOn:'Также на',
+      heroKicker:'БЕСТСЕЛЛЕР · ЭПИЧЕСКОЕ ФЭНТЕЗИ',
+      ratingNote:'4,8 · отзывы читателей',buyBtn:'Купить',readBtn:'Читать главу',alsoOn:'Также на',
       insideKicker:'О КНИГЕ',insideTitle:'Глубокая, многослойная история',insideText:'Старший сын главы рода воинов скрывается на нашей Земле под видом антиквара-оружейника. Но прошлое и долг приходят за ним — и открывают дорогу между двумя мирами.',
       features:[{title:'Боевые искусства',desc:'Выверенные сцены боя, оружие и стиль, выкованные веками.'},{title:'Магия',desc:'Сила Чтущих и забытые знания рода Даргонов.'},{title:'Философия долга',desc:'Наследие, род и личная судьба — под каждым сюжетным поворотом.'},{title:'Два мира',desc:'Земля и Толус, красное солнце и горы клоссов.'}],
       worldsKicker:'МЕЖДУ ЗЕМЛЁЙ И ТОЛУСОМ',worldsTitle:'Два мира одного воина',
@@ -217,11 +230,11 @@ class Component extends DCLogic {
       revItems:[{text:'Не ожидала, что фэнтези может быть таким душевным. За боями — настоящая философия.',name:'Елена',place:'Варна'},{text:'Идея воина-антиквара на Земле гениальна. Читается на одном дыхании.',name:'Дмитрий',place:'Киев'}],
       authKicker:'ОБ АВТОРЕ',authText:'«Эту книгу я начал писать в Карпатах — деревянный дом, запах сосны, тишина гор».',authBtn:'Больше об авторе →',
       offerKicker:'ЗАКАЗАТЬ ЭЛЕКТРОННУЮ КНИГУ',includes:['Электронная книга: PDF и EPUB','Мгновенно на вашу почту','Также доступно на Amazon Kindle','Чтение на любом устройстве'],
-      buyNow:'Купить за 3.99 €',offerNote:'После оплаты книга придёт на вашу почту. Безопасная оплата.',
+      buyNow:'Купить за',offerNote:'После оплаты книга придёт на вашу почту. Безопасная оплата.',
       footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
     en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',navReviews:'Reviews',
-      heroKicker:'BESTSELLER · EPIC FANTASY',title:'Just to Return Home',tagline:'A novel for those who read with the heart. Volume I of the Dargon clan chronicles.',
-      ratingNote:'4.8 · reader reviews',buyBtn:'Buy · €3.99',readBtn:'Read a chapter',alsoOn:'Also on',
+      heroKicker:'BESTSELLER · EPIC FANTASY',
+      ratingNote:'4.8 · reader reviews',buyBtn:'Buy',readBtn:'Read a chapter',alsoOn:'Also on',
       insideKicker:'ABOUT THE BOOK',insideTitle:'A deep, many-layered story',insideText:'The eldest son of a warrior clan’s head hides on our Earth as a dealer in antique weapons. But his past and his duty come for him — and open a road between two worlds.',
       features:[{title:'Martial arts',desc:'Precise fight scenes, weapons and a style forged over centuries.'},{title:'Magic',desc:'The power of the Heeding and the lost knowledge of the Dargons.'},{title:'Philosophy of duty',desc:'Heritage, clan and personal fate beneath every turn of the plot.'},{title:'Two worlds',desc:'Earth and Tolus, a red sun and the mountains of the closs.'}],
       worldsKicker:'BETWEEN EARTH AND TOLUS',worldsTitle:'Two worlds, one warrior',
@@ -232,11 +245,11 @@ class Component extends DCLogic {
       revItems:[{text:'I didn’t expect fantasy to be this heartfelt. Behind the fights lies a real philosophy.',name:'Elena',place:'Varna'},{text:'The idea of a warrior-antiquarian on Earth is brilliant. I read it in one breath.',name:'Dmytro',place:'Kyiv'}],
       authKicker:'ABOUT THE AUTHOR',authText:'“I began this book in the Carpathians — a wooden house, the scent of pine, the silence of the mountains.”',authBtn:'More about the author →',
       offerKicker:'ORDER THE EBOOK',includes:['Ebook: PDF and EPUB','Instantly to your inbox','Also available on Amazon Kindle','Read on any device'],
-      buyNow:'Buy for €3.99',offerNote:'After payment the book is sent to your inbox. Secure checkout.',
+      buyNow:'Buy for',offerNote:'After payment the book is sent to your inbox. Secure checkout.',
       footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
     uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',navReviews:'Відгуки',
-      heroKicker:'БЕСТСЕЛЕР · ЕПІЧНЕ ФЕНТЕЗІ',title:'Просто повернутися додому',tagline:'Роман для тих, хто читає серцем. Том I хронік роду Даргонів.',
-      ratingNote:'4,8 · відгуки читачів',buyBtn:'Купити · 3.99 €',readBtn:'Читати розділ',alsoOn:'Також на',
+      heroKicker:'БЕСТСЕЛЕР · ЕПІЧНЕ ФЕНТЕЗІ',
+      ratingNote:'4,8 · відгуки читачів',buyBtn:'Купити',readBtn:'Читати розділ',alsoOn:'Також на',
       insideKicker:'ПРО КНИГУ',insideTitle:'Глибока, багатошарова історія',insideText:'Старший син голови роду воїнів ховається на нашій Землі під виглядом антиквара-зброяра. Та минуле й обов’язок приходять за ним — і відкривають дорогу між двома світами.',
       features:[{title:'Бойові мистецтва',desc:'Вивірені сцени бою, зброя і стиль, викувані століттями.'},{title:'Магія',desc:'Сила Чтущих і забуті знання роду Даргонів.'},{title:'Філософія обов’язку',desc:'Спадок, рід і власна доля — під кожним поворотом сюжету.'},{title:'Два світи',desc:'Земля і Толус, червоне сонце й гори клоссів.'}],
       worldsKicker:'МІЖ ЗЕМЛЕЮ І ТОЛУСОМ',worldsTitle:'Два світи одного воїна',
@@ -247,11 +260,11 @@ class Component extends DCLogic {
       revItems:[{text:'Не очікувала, що фентезі може бути таким душевним. За боями — справжня філософія.',name:'Олена',place:'Варна'},{text:'Ідея воїна-антиквара на Землі геніальна. Читається на одному диханні.',name:'Дмитро',place:'Київ'}],
       authKicker:'ПРО АВТОРА',authText:'«Цю книгу я почав писати в Карпатах — дерев’яний дім, запах сосни, тиша гір».',authBtn:'Більше про автора →',
       offerKicker:'ЗАМОВИТИ ЕЛЕКТРОННУ КНИГУ',includes:['Електронна книга: PDF і EPUB','Миттєво на вашу пошту','Також доступно на Amazon Kindle','Читання на будь-якому пристрої'],
-      buyNow:'Купити за 3.99 €',offerNote:'Після оплати книга надійде на вашу пошту. Безпечна оплата.',
+      buyNow:'Купити за',offerNote:'Після оплати книга надійде на вашу пошту. Безпечна оплата.',
       footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
     bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',navReviews:'Отзиви',
-      heroKicker:'БЕСТСЕЛЪР · ЕПИЧНО ФЕНТЪЗИ',title:'Просто да се върнеш у дома',tagline:'Роман за тези, които четат със сърце. Том I от хрониките на рода Даргон.',
-      ratingNote:'4,8 · читателски отзиви',buyBtn:'Купи · 3.99 €',readBtn:'Прочети глава',alsoOn:'Също на',
+      heroKicker:'БЕСТСЕЛЪР · ЕПИЧНО ФЕНТЪЗИ',
+      ratingNote:'4,8 · читателски отзиви',buyBtn:'Купи',readBtn:'Прочети глава',alsoOn:'Също на',
       insideKicker:'ЗА КНИГАТА',insideTitle:'Дълбока, многопластова история',insideText:'Най-големият син на главата на воински род се крие на нашата Земя под маската на антиквар-оръжейник. Но миналото и дългът идват за него — и отварят път между два свята.',
       features:[{title:'Бойни изкуства',desc:'Премерени бойни сцени, оръжия и стил, ковани през вековете.'},{title:'Магия',desc:'Силата на Четящите и забравените знания на рода Даргон.'},{title:'Философия на дълга',desc:'Наследство, род и лична съдба под всеки обрат на сюжета.'},{title:'Два свята',desc:'Земята и Толус, червено слънце и планините на клосите.'}],
       worldsKicker:'МЕЖДУ ЗЕМЯТА И ТОЛУС',worldsTitle:'Два свята, един воин',
@@ -262,17 +275,23 @@ class Component extends DCLogic {
       revItems:[{text:'Не очаквах, че фентъзито може да е толкова сърдечно. Зад битките — истинска философия.',name:'Елена',place:'Варна'},{text:'Идеята за воина-антиквар на Земята е гениална. Чете се на един дъх.',name:'Димитър',place:'Киев'}],
       authKicker:'ЗА АВТОРА',authText:'„Започнах тази книга в Карпатите — дървена къща, дъх на бор, тишината на планините.“',authBtn:'Повече за автора →',
       offerKicker:'ПОРЪЧАЙ ЕЛЕКТРОННАТА КНИГА',includes:['Електронна книга: PDF и EPUB','Мигновено на вашата поща','Също на Amazon Kindle','Четене на всяко устройство'],
-      buyNow:'Купи за 3.99 €',offerNote:'След плащане книгата идва на вашата поща. Сигурно плащане.',
+      buyNow:'Купи за',offerNote:'След плащане книгата идва на вашата поща. Сигурно плащане.',
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false};
-  constructor(p){super(p);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
+  // имя файла — ключ правок страницы (у копий для новых книг — свой файл book-<код>.html)
+  constructor(p){super(p); window.RoniTexts&&RoniTexts.register(this,(location.pathname.split('/').pop()||'book.html'),['DICT']);}
+  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}
+    window.RoniBooks.findOrTemplate(this.BOOK_ID).then(b=>{if(b)this.setState({book:b});}).catch(()=>{});}
+  componentDidUpdate(){ if(this.BOOK_ID!=='home'&&this.state.book){ const s='«'+window.RoniBooks.view(this.state.book,this.state.lang).title+'» — Ростислав Вишневский'; if(document.title!==s) document.title=s; } }
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
     const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
-    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',amazonUrl:this.AMAZON_URL,lang:lang,setLang:(c)=>this.setLang(c)};
+    const book=window.RoniBooks.view(this.state.book,lang)||{cover:'',price:'',amazon:'',orderHref:'order.html?book='+this.BOOK_ID,readHref:'read.html?book='+this.BOOK_ID};
+    const d=this.DICT[lang], pr=book.price?' '+book.price:'';
+    const t=Object.assign({},d,{title:book.title||'',tagline:book.subtitle||'',buyBtn:d.buyBtn+(book.price?' · '+book.price:''),buyNow:d.buyNow+pr});
+    return {t,book,themeCls:book.noir?'noir':'',langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:lang,setLang:(c)=>this.setLang(c)};
   }
 }
 </script>

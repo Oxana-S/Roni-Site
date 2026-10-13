@@ -71,7 +71,7 @@ class Component extends DCLogic {
     bg:{brand:'Р·ВИШНЕВСКИ',nav:{books:'Книги',author:'Автор',blog:'Блог',news:'Новини',contact:'Контакти'}},
   };
   state = { scrolled:false, open:false };
-  constructor(p){ super(p); this.onScroll=this.onScroll.bind(this); }
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'SiteHeader',['CH']); this.onScroll=this.onScroll.bind(this); }
   componentDidMount(){ window.addEventListener('scroll',this.onScroll,{passive:true}); this.syncLang(); }
   componentWillUnmount(){ window.removeEventListener('scroll',this.onScroll); }
   componentDidUpdate(){ this.syncLang(); }

@@ -27,6 +27,8 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
 <script src="assets/analytics.js" defer></script>
@@ -75,6 +77,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'404.html',['DICT']); }
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
   DICT = {
     ru:{brand:'Р·ВИШНЕВСКИЙ',kicker:'СТРАНИЦА НЕ НАЙДЕНА',title:'Вы свернули не в тот мир',text:'Этой страницы не существует — как города, который не найти без проводника. Но дорога домой всегда открыта.',btnHome:'Вернуться домой',btnBook:'К книге',rights:'Все права защищены',contact:'Написать автору →'},

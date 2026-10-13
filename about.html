@@ -27,6 +27,8 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
 <script src="assets/analytics.js" defer></script>
@@ -72,9 +74,13 @@
   <section style="padding:50px 7vw;background:#100d0a;border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12)">
     <div style="max-width:760px;margin:0 auto">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:24px;text-align:center">{{ t.storyKicker }}</div>
-      <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 28px;text-align:center;line-height:1.15">{{ t.storyTitle }}</h2>
-      <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 22px">{{ t.story1 }}</p>
-      <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story2 }}</p>
+      <sc-if value="{{ t.storyTitle }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font:400 clamp(26px,3.6vw,40px) Forum,serif;color:#f0e6d2;margin:0 0 28px;text-align:center;line-height:1.15">{{ t.storyTitle }}</h2>
+      </sc-if>
+      <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story1 }}</p>
+      <sc-if value="{{ t.story2 }}" hint-placeholder-val="{{ false }}">
+        <p style="font:300 17px/1.85 Spectral,serif;color:#bdb19c;margin:0 0 30px">{{ t.story2 }}</p>
+      </sc-if>
       <div style="text-align:right">
         <div style="font:600 30px Caveat,cursive;color:var(--gold)">{{ t.name }}</div>
       </div>
@@ -86,29 +92,27 @@
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:16px">{{ t.videoKicker }}</div>
       <h2 style="font:400 clamp(26px,3.6vw,42px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.videoTitle }}</h2>
-      <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 32px">{{ t.videoText }}</p>
+      <sc-if value="{{ t.videoText }}" hint-placeholder-val="{{ false }}">
+        <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 32px">{{ t.videoText }}</p>
+      </sc-if>
+      <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:5px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 24px 56px rgba(0,0,0,.55)">
         <iframe src="{{ videoUrl }}" title="{{ t.videoTitle }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-    </div>
-  </section>
-
-  <!-- FACTS -->
-  <section style="padding:64px 7vw">
-    <div style="max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
-      <sc-for list="{{ t.facts }}" as="f" hint-placeholder-count="4">
-        <div style="border:1px solid rgba(var(--gold-rgb),.2);border-radius:3px;padding:26px 24px;background:rgba(var(--gold-rgb),.02)">
-          <div style="font:300 11px Spectral,serif;color:var(--text-faint);letter-spacing:2px;margin-bottom:10px">{{ f.label }}</div>
-          <div style="font:400 20px Forum,serif;color:var(--text)">{{ f.value }}</div>
-        </div>
-      </sc-for>
+      </sc-if>
+      <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
+        <!-- ролика пока нет: пустая рамка (VIDEO_ID в логике страницы) -->
+        <div style="position:relative;padding-bottom:56.25%;height:0;margin-top:18px;border-radius:5px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.2);background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.04),#120f0c)"></div>
+      </sc-if>
     </div>
   </section>
 
   <!-- CTA -->
   <section style="padding:30px 7vw 90px">
     <div style="max-width:var(--container);margin:0 auto;text-align:center;border:1px solid rgba(var(--gold-rgb),.2);border-radius:4px;padding:54px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
-      <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
+      <sc-if value="{{ t.ctaTitle }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font:400 clamp(24px,3.4vw,38px) Forum,serif;color:#f0e6d2;margin:0 0 14px">{{ t.ctaTitle }}</h2>
+      </sc-if>
       <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 30px;max-width:460px">{{ t.ctaText }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.ctaRead }}</a>
@@ -125,57 +129,57 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
-  VIDEO_ID = 'DePmzRg5h4g'; // ← вставьте сюда ID ролика с YouTube (часть после v= или youtu.be/)
+  VIDEO_ID = 'DePmzRg5h4g'; // ← ID ролика с YouTube (часть после v= или youtu.be/); пусто — пустая рамка
   DICT = {
     ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
-      kicker:'ОБ АВТОРЕ',name:'Ростислав Вишневский',role:'Писатель · эпическое фэнтези',
-      lead:'Автор глубоких, многослойных историй, где боевые искусства и магия встречаются с философией долга, наследия и личной судьбы. Создатель мира Толуса и хроник рода Даргонов.',
-      storyKicker:'ИСТОРИЯ СОЗДАНИЯ',storyTitle:'Вдохновение в горах',
-      story1:'Эту книгу я начал писать довольно давно. Мы поехали с детьми отдыхать в Карпаты, в маленький городок, окружённый горами и лесом. Деревянный дом, пахнущий сосной, спящие детки, полная тишина, прерываемая только шумом деревьев на вершине.',
-      story2:'Именно там, в этой тишине, появились первые строки — и мир, в котором воин древнего рода живёт под чужим именем на нашей Земле. С тех пор истории о долге и судьбе не отпускают меня.',
+      kicker:'ОБ АВТОРЕ',name:'Ростислав Вишневский',role:'Писатель · мистические детективы · эпическое фэнтези',
+      lead:'Автор глубоких, многослойных историй. На грани реального и потустороннего разворачиваются загадочные, полные неожиданных поворотов события.',
+      storyKicker:'ИСТОРИЯ СОЗДАНИЯ',storyTitle:'',
+      story1:'Как я уже говорил выше, идея написания «Призрачного детектива» — абсолютный экспромт. Если первая часть фэнтези романа «Просто вернуться домой» долго вынашивалась, потом неоднократно переписывалась, то детектив писал буквально на лету. Образы возникали и лихо вписывались в текст.',
+      story2:'',
       videoKicker:'ВИДЕО',videoTitle:'Слово автора',videoText:'Видео-приветствие Ростислава и рассказ о мире книги. Новые ролики выходят на его YouTube-канале.',
       facts:[{label:'ЖАНР',value:'Эпическое фэнтези'},{label:'МИР',value:'Толус · Род Даргонов'},{label:'ЯЗЫКИ ИЗДАНИЯ',value:'4 языка'},{label:'ГОРОД',value:'Варна, Болгария'}],
-      ctaTitle:'Войдите в мир Толуса',ctaText:'Начните с первого романа — или напишите автору напрямую.',ctaRead:'К книге',ctaWrite:'Написать автору',
+      ctaTitle:'',ctaText:'Начните с первого романа — или напишите автору напрямую.',ctaRead:'К книге',ctaWrite:'Написать автору',
       footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
     en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
-      kicker:'ABOUT THE AUTHOR',name:'Rostyslav Vyshnevskyi',role:'Writer · epic fantasy',
-      lead:'Author of deep, many-layered stories where martial arts and magic meet a philosophy of duty, heritage and personal fate. Creator of the world of Tolus and the chronicles of the Dargon clan.',
-      storyKicker:'HOW IT BEGAN',storyTitle:'Inspiration in the mountains',
-      story1:'I began this book a long time ago. We took the children on holiday to the Carpathians, to a small town ringed by mountains and forest. A wooden house that smelled of pine, the children asleep, complete silence broken only by the rustle of trees at the summit.',
-      story2:'It was there, in that silence, that the first lines appeared — and a world where a warrior of an ancient clan lives under a borrowed name here on our Earth. Ever since, stories of duty and fate have never let me go.',
+      kicker:'ABOUT THE AUTHOR',name:'Rostyslav Vyshnevskyi',role:'Writer · supernatural mysteries · epic fantasy',
+      lead:'Author of deep, many-layered stories. On the edge between the real and the otherworldly, mysterious events unfold, full of unexpected twists.',
+      storyKicker:'HOW IT BEGAN',storyTitle:'',
+      story1:'As I said above, the idea of writing “A Detective for the Dead” was pure improvisation. While the first part of the fantasy novel “Just to Return Home” took a long time to mature and was rewritten many times, the detective story I wrote literally on the fly. The characters appeared and slipped neatly into the text.',
+      story2:'',
       videoKicker:'VIDEO',videoTitle:'A word from the author',videoText:'Rostyslav’s video greeting and a glimpse into the world of the book. New videos appear on his YouTube channel.',
       facts:[{label:'GENRE',value:'Epic fantasy'},{label:'WORLD',value:'Tolus · The Dargon Clan'},{label:'PUBLISHED IN',value:'4 languages'},{label:'CITY',value:'Varna, Bulgaria'}],
-      ctaTitle:'Step into the world of Tolus',ctaText:'Start with the first novel — or write to the author directly.',ctaRead:'To the book',ctaWrite:'Write to the author',
+      ctaTitle:'',ctaText:'Start with the first novel — or write to the author directly.',ctaRead:'To the book',ctaWrite:'Write to the author',
       footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
     uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
-      kicker:'ПРО АВТОРА',name:'Ростислав Вишневський',role:'Письменник · епічне фентезі',
-      lead:'Автор глибоких, багатошарових історій, де бойові мистецтва й магія зустрічаються з філософією обов’язку, спадку та власної долі. Творець світу Толуса й хронік роду Даргонів.',
-      storyKicker:'ІСТОРІЯ СТВОРЕННЯ',storyTitle:'Натхнення в горах',
-      story1:'Цю книгу я почав писати досить давно. Ми поїхали з дітьми відпочивати в Карпати, у маленьке містечко, оточене горами й лісом. Дерев’яний дім, що пахнув сосною, сплячі дітки, цілковита тиша, яку переривав лише шум дерев на вершині.',
-      story2:'Саме там, у цій тиші, з’явилися перші рядки — і світ, де воїн древнього роду живе під чужим іменем на нашій Землі. Відтоді історії про обов’язок і долю не відпускають мене.',
+      kicker:'ПРО АВТОРА',name:'Ростислав Вишневський',role:'Письменник · містичні детективи · епічне фентезі',
+      lead:'Автор глибоких, багатошарових історій. На межі реального й потойбічного розгортаються загадкові події, сповнені несподіваних поворотів.',
+      storyKicker:'ІСТОРІЯ СТВОРЕННЯ',storyTitle:'',
+      story1:'Як я вже казав вище, ідея написати «Примарний детектив» — абсолютний експромт. Якщо першу частину фентезі-роману «Просто повернутися додому» я довго виношував, а потім не раз переписував, то детектив писав буквально на льоту. Образи виникали й легко вписувалися в текст.',
+      story2:'',
       videoKicker:'ВІДЕО',videoTitle:'Слово автора',videoText:'Відео-привітання Ростислава й розповідь про світ книги. Нові ролики виходять на його YouTube-каналі.',
       facts:[{label:'ЖАНР',value:'Епічне фентезі'},{label:'СВІТ',value:'Толус · Рід Даргонів'},{label:'МОВИ ВИДАННЯ',value:'4 мови'},{label:'МІСТО',value:'Варна, Болгарія'}],
-      ctaTitle:'Увійдіть у світ Толуса',ctaText:'Почніть із першого роману — або напишіть авторові напряму.',ctaRead:'До книги',ctaWrite:'Написати авторові',
+      ctaTitle:'',ctaText:'Почніть із першого роману — або напишіть авторові напряму.',ctaRead:'До книги',ctaWrite:'Написати авторові',
       footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
     bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
-      kicker:'ЗА АВТОРА',name:'Ростислав Вишневски',role:'Писател · епично фентъзи',
-      lead:'Автор на дълбоки, многопластови истории, където бойните изкуства и магията се срещат с философията на дълга, наследството и личната съдба. Създател на света Толус и хрониките на рода Даргон.',
-      storyKicker:'КАК СЕ РОДИ',storyTitle:'Вдъхновение в планините',
-      story1:'Започнах тази книга доста отдавна. Заведохме децата на почивка в Карпатите, в малко градче, обградено от планини и гора. Дървена къща, ухаеща на бор, спящи деца, пълна тишина, прекъсвана само от шума на дърветата по върха.',
-      story2:'Точно там, в тази тишина, се появиха първите редове — и свят, в който воин от древен род живее под чуждо име тук, на нашата Земя. Оттогава историите за дълг и съдба не ме оставят.',
+      kicker:'ЗА АВТОРА',name:'Ростислав Вишневски',role:'Писател · мистични детективи · епично фентъзи',
+      lead:'Автор на дълбоки, многопластови истории. На границата между реалното и отвъдното се разгръщат загадъчни събития, пълни с неочаквани обрати.',
+      storyKicker:'КАК СЕ РОДИ',storyTitle:'',
+      story1:'Както вече казах по-горе, идеята да напиша „Призрачният детектив“ беше чиста импровизация. Ако първата част на фентъзи романа „Просто да се върнеш у дома“ дълго узряваше и после многократно беше пренаписвана, детективът го писах буквално в движение. Образите се появяваха и ловко се вписваха в текста.',
+      story2:'',
       videoKicker:'ВИДЕО',videoTitle:'Дума от автора',videoText:'Видео-поздрав от Ростислав и поглед към света на книгата. Нови видеа излизат в неговия YouTube канал.',
       facts:[{label:'ЖАНР',value:'Епично фентъзи'},{label:'СВЯТ',value:'Толус · Родът Даргон'},{label:'ИЗДАНИЯ НА',value:'4 езика'},{label:'ГРАД',value:'Варна, България'}],
-      ctaTitle:'Влезте в света на Толус',ctaText:'Започнете с първия роман — или пишете на автора директно.',ctaRead:'Към книгата',ctaWrite:'Пишете на автора',
+      ctaTitle:'',ctaText:'Започнете с първия роман — или пишете на автора директно.',ctaRead:'Към книгата',ctaWrite:'Пишете на автора',
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false};
-  constructor(p){super(p);}
+  constructor(p){super(p); window.RoniTexts&&RoniTexts.register(this,'about.html',['DICT']);}
   componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
     const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
-    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),videoUrl:'https://www.youtube.com/embed/'+this.VIDEO_ID};
+    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),videoUrl:'https://www.youtube.com/embed/'+this.VIDEO_ID,hasVideo:!!this.VIDEO_ID,noVideo:!this.VIDEO_ID};
   }
 }
 </script>

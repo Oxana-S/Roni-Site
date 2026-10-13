@@ -27,8 +27,11 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
+<script src="assets/books.js"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -96,7 +99,7 @@
                 <div style="font:300 14px/1.6 Spectral,serif;color:#a89c84;padding:6px 2px">{{ t.paypalNote }}</div>
               </sc-if>
             </div>
-            <button type="submit" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px;border:none;border-radius:3px;cursor:pointer;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ t.payBtn }}</button>
+            <button type="submit" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px;border:none;border-radius:3px;cursor:pointer;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ payLabel }}</button>
             <div style="font:300 12px Spectral,serif;color:var(--text-faint);text-align:center">{{ t.secure }}</div>
           </form>
 
@@ -106,7 +109,7 @@
             <div style="display:flex;gap:16px;margin-bottom:22px">
               <div style="width:74px;height:110px;flex-shrink:0;border-radius:2px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);background:#1c1812"><img src="{{ cover }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
               <div>
-                <div style="font:400 18px Forum,serif;color:var(--text);line-height:1.15">{{ t.bookTitle }}</div>
+                <div style="font:400 18px Forum,serif;color:var(--text);line-height:1.15">{{ book.title }}</div>
                 <div style="font:300 13px Spectral,serif;color:#9c917c;margin-top:6px">{{ t.format }}</div>
               </div>
             </div>
@@ -124,7 +127,7 @@
         <div style="max-width:560px;margin:30px auto;text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:5px;padding:60px 36px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.06),transparent)">
           <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(var(--gold-rgb),.5);display:flex;align-items:center;justify-content:center;font:400 28px Spectral,serif;color:var(--gold)">✓</div>
           <h1 style="font:400 clamp(28px,3.6vw,40px) Forum,serif;color:var(--c-paper-50);margin:0 0 14px">{{ t.okTitle }}</h1>
-          <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 auto 18px;max-width:400px">{{ t.okText }}</p>
+          <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 auto 18px;max-width:400px">{{ okText }}</p>
           <div style="font:400 15px Spectral,serif;color:var(--gold);margin-bottom:34px">{{ email }}</div>
           <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
             <a href="index.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okHome }}</a>
@@ -142,55 +145,64 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'order.html',['DICT']); }
   DICT = {
-    ru:{back:'← Назад к книге',title:'Оформление заказа',
+    ru:{back:'← Назад к книге',title:'Оформление заказа',docTitle:'Заказать книгу',
       step1:'1 · ВАША ПОЧТА',emailPh:'you@email.com',emailNote:'На этот адрес придёт электронная книга сразу после оплаты.',
       step2:'2 · СПОСОБ ОПЛАТЫ',payCard:'Банковская карта',cardName:'Имя на карте',paypalNote:'Вы перейдёте в PayPal для завершения оплаты.',
-      payBtn:'Оплатить · 3.99 €',secure:'🔒 Безопасный платёж. Данные карты не сохраняются.',
-      summary:'ВАШ ЗАКАЗ',bookTitle:'Просто вернуться домой',format:'Электронная книга · PDF + EPUB',
+      payBtn:'Оплатить',secure:'🔒 Безопасный платёж. Данные карты не сохраняются.',
+      summary:'ВАШ ЗАКАЗ',format:'Электронная книга · PDF + EPUB',
       price:'Цена',vat:'Налог',included:'включён',total:'Итого',
-      okTitle:'Спасибо за заказ!',okText:'Книга «Просто вернуться домой» отправлена на вашу почту:',okHome:'На главную',okRead:'Читать отрывок'},
-    en:{back:'← Back to the book',title:'Checkout',
+      okTitle:'Спасибо за заказ!',okText:'Книга «{title}» отправлена на вашу почту:',okHome:'На главную',okRead:'Читать отрывок'},
+    en:{back:'← Back to the book',title:'Checkout',docTitle:'Order the book',
       step1:'1 · YOUR EMAIL',emailPh:'you@email.com',emailNote:'The ebook will be sent to this address right after payment.',
       step2:'2 · PAYMENT METHOD',payCard:'Card',cardName:'Name on card',paypalNote:'You will be redirected to PayPal to complete the payment.',
-      payBtn:'Pay · €3.99',secure:'🔒 Secure payment. Card details are not stored.',
-      summary:'YOUR ORDER',bookTitle:'Just to Return Home',format:'Ebook · PDF + EPUB',
+      payBtn:'Pay',secure:'🔒 Secure payment. Card details are not stored.',
+      summary:'YOUR ORDER',format:'Ebook · PDF + EPUB',
       price:'Price',vat:'Tax',included:'included',total:'Total',
-      okTitle:'Thank you for your order!',okText:'“Just to Return Home” has been sent to your email:',okHome:'Home',okRead:'Read the excerpt'},
-    uk:{back:'← Назад до книги',title:'Оформлення замовлення',
+      okTitle:'Thank you for your order!',okText:'“{title}” has been sent to your email:',okHome:'Home',okRead:'Read the excerpt'},
+    uk:{back:'← Назад до книги',title:'Оформлення замовлення',docTitle:'Замовити книгу',
       step1:'1 · ВАША ПОШТА',emailPh:'you@email.com',emailNote:'На цю адресу надійде електронна книга одразу після оплати.',
       step2:'2 · СПОСІБ ОПЛАТИ',payCard:'Банківська картка',cardName:'Ім’я на картці',paypalNote:'Ви перейдете в PayPal для завершення оплати.',
-      payBtn:'Сплатити · 3.99 €',secure:'🔒 Безпечний платіж. Дані картки не зберігаються.',
-      summary:'ВАШЕ ЗАМОВЛЕННЯ',bookTitle:'Просто повернутися додому',format:'Електронна книга · PDF + EPUB',
+      payBtn:'Сплатити',secure:'🔒 Безпечний платіж. Дані картки не зберігаються.',
+      summary:'ВАШЕ ЗАМОВЛЕННЯ',format:'Електронна книга · PDF + EPUB',
       price:'Ціна',vat:'Податок',included:'включено',total:'Разом',
-      okTitle:'Дякуємо за замовлення!',okText:'Книгу «Просто повернутися додому» надіслано на вашу пошту:',okHome:'На головну',okRead:'Читати уривок'},
-    bg:{back:'← Назад към книгата',title:'Оформяне на поръчка',
+      okTitle:'Дякуємо за замовлення!',okText:'Книгу «{title}» надіслано на вашу пошту:',okHome:'На головну',okRead:'Читати уривок'},
+    bg:{back:'← Назад към книгата',title:'Оформяне на поръчка',docTitle:'Поръчай книгата',
       step1:'1 · ВАШАТА ПОЩА',emailPh:'you@email.com',emailNote:'Електронната книга ще бъде изпратена на този адрес веднага след плащане.',
       step2:'2 · НАЧИН НА ПЛАЩАНЕ',payCard:'Банкова карта',cardName:'Име на картата',paypalNote:'Ще бъдете пренасочени към PayPal за завършване на плащането.',
-      payBtn:'Плати · 3.99 €',secure:'🔒 Сигурно плащане. Данните на картата не се съхраняват.',
-      summary:'ВАШАТА ПОРЪЧКА',bookTitle:'Просто да се върнеш у дома',format:'Електронна книга · PDF + EPUB',
+      payBtn:'Плати',secure:'🔒 Сигурно плащане. Данните на картата не се съхраняват.',
+      summary:'ВАШАТА ПОРЪЧКА',format:'Електронна книга · PDF + EPUB',
       price:'Цена',vat:'Данък',included:'включен',total:'Общо',
-      okTitle:'Благодарим за поръчката!',okText:'„Просто да се върнеш у дома“ е изпратена на вашата поща:',okHome:'Към начало',okRead:'Чети откъса'},
+      okTitle:'Благодарим за поръчката!',okText:'„{title}“ е изпратена на вашата поща:',okHome:'Към начало',okRead:'Чети откъса'},
   };
-  // order.html?book=ghost — «Призрачный детектив»; без параметра — «Просто вернуться домой»
-  GHOST = {
-    ru:{bookTitle:'Призрачный детектив',okText:'Книга «Призрачный детектив» отправлена на вашу почту:'},
-    en:{bookTitle:'A Detective for the Dead',okText:'“A Detective for the Dead” has been sent to your email:',payBtn:'Pay · $2.99'},
-    uk:{bookTitle:'Примарний детектив',okText:'Книгу «Примарний детектив» надіслано на вашу пошту:'},
-    bg:{bookTitle:'Призрачният детектив',okText:'„Призрачният детектив“ е изпратена на вашата поща:'},
-  };
-  state = { lang:'ru', paid:false, email:'', method:'card' };
-  componentDidMount(){ try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){} try{ if(/[?&]book=ghost(&|$)/.test(window.location.search)) document.title='Заказать книгу — «Призрачный детектив»'; }catch(e){} }
+  // order.html?book=<id> — книга из data/books.json (правится на сайте в режиме ?edit); без параметра — «Просто вернуться домой»
+  DEFAULT_BOOK = 'home';
+  state = { lang:'ru', paid:false, email:'', method:'card', book:null, hasChapter:false };
+  componentDidMount(){
+    try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){}
+    const B=window.RoniBooks, id=B.param('book')||this.DEFAULT_BOOK;
+    B.find(id).then(book=>{ if(book) this.setState({book}); }).catch(()=>{});
+    B.hasChapter(id).then(ok=>this.setState({hasChapter:ok}));
+  }
+  componentDidUpdate(){
+    if(!this.state.book) return;
+    const s=this.DICT[this.state.lang].docTitle+' — «'+window.RoniBooks.view(this.state.book,this.state.lang).title+'»';
+    if(document.title!==s) document.title=s;
+  }
   setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
   renderVals(){
     const lang = this.DICT[this.state.lang] ? this.state.lang : 'ru';
-    let ghost = false; try{ ghost = /[?&]book=ghost(&|$)/.test(window.location.search); }catch(e){}
+    const t = this.DICT[lang];
+    const book = window.RoniBooks.view(this.state.book, lang) || {title:'',cover:'',price:'',href:'index.html#books',readHref:''};
     return {
-      t: ghost ? Object.assign({}, this.DICT[lang], this.GHOST[lang]) : this.DICT[lang],
-      cover: ghost ? (lang === 'en' ? 'assets/GhostDetective-en.jpg' : 'assets/GhostDetective.jpg') : 'assets/img/book-1.jpg',
-      price: ghost && lang === 'en' ? '$2.99' : '3.99 €',
-      backHref: ghost ? 'index.html#ghost' : 'book.html',
-      readHref: ghost ? 'read-detective.html' : 'read.html',
+      t, book,
+      cover: book.cover,
+      price: book.price,
+      payLabel: t.payBtn + (book.price ? ' · ' + book.price : ''),
+      okText: t.okText.replace('{title}', book.title),
+      backHref: book.href,
+      readHref: this.state.hasChapter ? book.readHref : book.href,
       lang:lang, setLang:(c)=>this.setLang(c),
       notPaid:!this.state.paid, paid:this.state.paid, email:this.state.email,
       isCard:this.state.method==='card', isPaypal:this.state.method==='paypal',

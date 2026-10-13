@@ -27,6 +27,8 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
 <script src="assets/analytics.js" defer></script>
@@ -164,7 +166,7 @@ class Component extends DCLogic {
       footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
   };
   state={lang:'ru',scrolled:false,count:4};
-  constructor(p){super(p);}
+  constructor(p){super(p); window.RoniTexts&&RoniTexts.register(this,'news.html',['DICT']);}
   componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){

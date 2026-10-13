@@ -1,0 +1,142 @@
+{
+  "books": [
+    {
+      "id": "ghost",
+      "status": "published",
+      "featured": true,
+      "theme": "noir",
+      "cover": "assets/GhostDetective.jpg",
+      "chapter_image": "assets/img/hero-detective.jpg",
+      "page": "index.html#ghost",
+      "amazon": "https://www.amazon.com/dp/REPLACE_WITH_ASIN",
+      "ru": {
+        "title": "Призрачный детектив",
+        "subtitle": "Виски, кот и призрак",
+        "tag": "Книга первая · История пропавшего шедевра",
+        "blurb": "Полицейский сорок четвёртого участка города Нью-Йорк Лукас Палао каждый день сталкивается с преступлениями и расследует их. Но появление в его квартире нежданной гостьи заставляет иначе посмотреть на рутинную работу.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      },
+      "en": {
+        "title": "A Detective for the Dead",
+        "subtitle": "Whiskey, a Cat and a Ghost",
+        "tag": "Book first · Whiskey, a Cat and a Ghost",
+        "blurb": "Lucas Palao, a police detective with New York City’s 44th Precinct, faces crimes every day and investigates them. But when an unexpected visitor appears in his apartment, he is forced to look at his routine work in a very different way.",
+        "description": "",
+        "price": "$2.99",
+        "cover": "assets/GhostDetective-en.jpg"
+      },
+      "uk": {
+        "title": "Примарний детектив",
+        "subtitle": "Віскі, кіт і привид",
+        "tag": "Книга перша · Історія зниклого шедевра",
+        "blurb": "Поліцейський сорок четвертої дільниці міста Нью-Йорк Лукас Палао щодня стикається зі злочинами й розслідує їх. Але поява в його квартирі несподіваної гості змушує інакше поглянути на рутинну роботу.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      },
+      "bg": {
+        "title": "Призрачният детектив",
+        "subtitle": "Уиски, котарак и призрак",
+        "tag": "Книга първа · Историята на изчезналия шедьовър",
+        "blurb": "Полицаят от четиридесет и четвърти участък на Ню Йорк Лукас Палао всеки ден се сблъсква с престъпления и ги разследва. Но появата на неочаквана гостенка в апартамента му го кара да погледне по различен начин на рутинната си работа.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      }
+    },
+    {
+      "id": "home",
+      "status": "published",
+      "featured": false,
+      "theme": "classic",
+      "cover": "assets/img/book-1.jpg",
+      "chapter_image": "",
+      "page": "book.html",
+      "amazon": "https://www.amazon.com/dp/REPLACE_WITH_ASIN",
+      "ru": {
+        "title": "Просто вернуться домой",
+        "subtitle": "Роман для тех, кто читает сердцем. Том I хроник рода Даргонов.",
+        "tag": "Том I · Род Даргонов",
+        "blurb": "Старший сын главы рода воинов скрывается на нашей Земле под видом антиквара-оружейника. Но прошлое и долг приходят за ним — и открывают дорогу между двумя мирами.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      },
+      "en": {
+        "title": "Just to Return Home",
+        "subtitle": "A novel for those who read with the heart. Volume I of the Dargon clan chronicles.",
+        "tag": "Vol. I · The Dargon Clan",
+        "blurb": "The eldest son of a warrior clan’s head hides on our Earth as a dealer in antique weapons. But his past and his duty come for him — and open a road between two worlds.",
+        "description": "",
+        "price": "€3.99",
+        "cover": ""
+      },
+      "uk": {
+        "title": "Просто повернутися додому",
+        "subtitle": "Роман для тих, хто читає серцем. Том I хронік роду Даргонів.",
+        "tag": "Том I · Рід Даргонів",
+        "blurb": "Старший син голови роду воїнів ховається на нашій Землі під виглядом антиквара-зброяра. Та минуле й обов’язок приходять за ним — і відкривають дорогу між двома світами.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      },
+      "bg": {
+        "title": "Просто да се върнеш у дома",
+        "subtitle": "Роман за тези, които четат със сърце. Том I от хрониките на рода Даргон.",
+        "tag": "Том I · Родът Даргон",
+        "blurb": "Най-големият син на главата на воински род се крие на нашата Земя под маската на антиквар-оръжейник. Но миналото и дългът идват за него — и отварят път между два свята.",
+        "description": "",
+        "price": "3.99 €",
+        "cover": ""
+      }
+    },
+    {
+      "id": "book2",
+      "status": "soon",
+      "featured": false,
+      "theme": "classic",
+      "cover": "assets/img/book-2.jpg",
+      "chapter_image": "",
+      "page": "",
+      "amazon": "",
+      "ru": {
+        "title": "Вторая книга",
+        "subtitle": "",
+        "tag": "Том II · скоро",
+        "blurb": "",
+        "description": "",
+        "price": "",
+        "cover": ""
+      },
+      "en": {
+        "title": "The Second Book",
+        "subtitle": "",
+        "tag": "Vol. II · coming soon",
+        "blurb": "",
+        "description": "",
+        "price": "",
+        "cover": ""
+      },
+      "uk": {
+        "title": "Друга книга",
+        "subtitle": "",
+        "tag": "Том II · скоро",
+        "blurb": "",
+        "description": "",
+        "price": "",
+        "cover": ""
+      },
+      "bg": {
+        "title": "Втора книга",
+        "subtitle": "",
+        "tag": "Том II · скоро",
+        "blurb": "",
+        "description": "",
+        "price": "",
+        "cover": ""
+      }
+    }
+  ]
+}

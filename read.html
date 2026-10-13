@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Читать онлайн — «Просто вернуться домой» | Ростислав Вишневский</title>
-<meta name="description" content="Первая глава романа «Просто вернуться домой» — читать онлайн.">
-<meta name="keywords" content="читать онлайн, первая глава, Просто вернуться домой, фэнтези читать">
+<title>Читать онлайн — первая глава | Ростислав Вишневский</title>
+<meta name="description" content="Первые главы книг Ростислава Вишневского — читать онлайн.">
+<meta name="keywords" content="читать онлайн, первая глава, Ростислав Вишневский, Призрачный детектив, Просто вернуться домой">
 <meta name="author" content="Ростислав Вишневский">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://oxana-s.github.io/Roni-Site/read.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Ростислав Вишневский">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Читать онлайн — «Просто вернуться домой» | Ростислав Вишневский">
-<meta property="og:description" content="Первая глава романа «Просто вернуться домой» — читать онлайн.">
+<meta property="og:title" content="Читать онлайн — первая глава | Ростислав Вишневский">
+<meta property="og:description" content="Первые главы книг Ростислава Вишневского — читать онлайн.">
 <meta property="og:url" content="https://oxana-s.github.io/Roni-Site/read.html">
-<meta property="og:image" content="https://oxana-s.github.io/Roni-Site/assets/img/book-1.jpg">
+<meta property="og:image" content="https://oxana-s.github.io/Roni-Site/assets/GhostDetective.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Читать онлайн — «Просто вернуться домой» | Ростислав Вишневский">
-<meta name="twitter:description" content="Первая глава романа «Просто вернуться домой» — читать онлайн.">
-<meta name="twitter:image" content="https://oxana-s.github.io/Roni-Site/assets/img/book-1.jpg">
+<meta name="twitter:title" content="Читать онлайн — первая глава | Ростислав Вишневский">
+<meta name="twitter:description" content="Первые главы книг Ростислава Вишневского — читать онлайн.">
+<meta name="twitter:image" content="https://oxana-s.github.io/Roni-Site/assets/GhostDetective.jpg">
 <meta name="theme-color" content="#14110d">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16.png">
@@ -27,8 +27,11 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
+<script src="assets/books.js"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -44,43 +47,110 @@
   .vlink{transition:color .25s}.vlink:hover{color:var(--c-paper-50) !important}
   .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
   .vbtn:hover{transform:translateY(-2px)}
+  /* текст главы */
+  .vtxt{font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px;hyphens:auto}
   .vdrop::first-letter{font-family:Forum,serif;font-size:62px;line-height:.8;float:left;color:var(--gold);padding:6px 12px 0 0}
+  /* --- тема «Нуар» (поле «Оформление» в админке): чернильный фон, янтарь виски, зерно плёнки --- */
+  .noir{--bg:#101116;--bg-2:#0b0c10;--gold:#cf9a57;--gold-soft:#f0cf9e;--gold-rgb:207,154,87;--gold-text:#c08a4c;--line-soft:rgba(207,154,87,.18);--line-med:rgba(207,154,87,.3);--line-strong:rgba(207,154,87,.7);--focus-ring:2px solid #cf9a57}
+  .noir::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .noir .vhead.scrolled{background:rgba(11,12,16,.92)}
+  .noir footer{background:#090a0d !important}
+  @media(max-width:900px){.noir .vh-nav{background:rgba(11,12,16,.98)}}
+  .noir .vtxt{color:#dcd3c3;margin-bottom:24px}
+  .noir .vtxt.vdlg{padding-left:18px;border-left:1px solid rgba(var(--gold-rgb),.22);color:#e9e2d4}
+  .noir .vdrop::first-letter{font-size:78px;line-height:.78;padding:8px 14px 0 0;text-shadow:0 0 24px rgba(var(--gold-rgb),.25)}
+  /* полоса прогресса чтения (где браузер поддерживает scroll-timeline) */
+  .vprog{display:none}
+  @supports (animation-timeline: scroll()){
+    @keyframes vprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .vprog{display:block;position:fixed;top:0;left:0;right:0;height:2px;z-index:70;transform-origin:0 50%;background:linear-gradient(90deg,rgba(var(--gold-rgb),.4),var(--gold));animation:vprog linear both;animation-timeline:scroll(root)}
+  }
+  @keyframes vdrift{from{transform:translate3d(-5%,0,0)}to{transform:translate3d(5%,0,0)}}
+  .vfog{position:absolute;inset:-10% -25%;pointer-events:none;background:radial-gradient(ellipse 30% 18% at 25% 70%,rgba(160,175,205,.14),transparent 70%),radial-gradient(ellipse 26% 14% at 72% 60%,rgba(160,175,205,.11),transparent 70%);animation:vdrift 60s ease-in-out infinite alternate}
+  .vcase-img{object-position:50% 58%}
+  @media(max-width:700px){.vtxt{font-size:18px;line-height:1.85}.noir .vtxt.vdlg{padding-left:12px}.vcase-img{object-position:57% 50%}.vgate{flex-direction:column;text-align:center}.vgate .vgate-btns{justify-content:center}}
+  @media(prefers-reduced-motion:reduce){.vfog{animation:none}}
 </style>
 </helmet>
 
-<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
+<div class="{{ themeCls }}" style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
+  <div class="vprog" aria-hidden="true"></div>
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
-  <!-- READER -->
-  <article style="max-width:720px;margin:0 auto;padding:140px 28px 40px">
-    <div style="text-align:center;margin-bottom:50px">
-      <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
-      <h1 style="font:400 clamp(32px,5vw,52px) Forum,serif;color:var(--c-paper-50);margin:0 0 10px;line-height:1.06">{{ t.bookTitle }}</h1>
-      <div style="font:300 italic 16px Spectral,serif;color:#9c917c">{{ t.chapter }}</div>
-      <div style="width:50px;height:1px;background:rgba(var(--gold-rgb),.5);margin:28px auto 0"></div>
-    </div>
+  <!-- ШАПКА ГЛАВЫ С КАРТИНКОЙ (если у книги задана «Картинка для главы») -->
+  <sc-if value="{{ withImage }}" hint-placeholder-val="{{ false }}">
+    <header style="position:relative;min-height:62vh;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:#07090e">
+      <img class="vcase-img" src="{{ book.chapterImage }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.75">
+      <div class="vfog"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 62%,rgba(5,7,11,.7),rgba(5,7,11,.25) 70%,transparent 100%)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(180deg,transparent,var(--bg))"></div>
+      <div style="position:relative;z-index:2;text-align:center;padding:120px 24px 56px;max-width:760px">
+        <div style="font:400 12px Spectral,serif;color:#c9d3e4;letter-spacing:5px;margin-bottom:18px;text-shadow:0 2px 12px rgba(0,0,0,.8)">{{ t.kicker }}</div>
+        <h1 style="font:400 clamp(36px,6vw,64px) Forum,serif;color:#f6f0e6;margin:0 0 12px;line-height:1.04;text-shadow:0 4px 30px rgba(0,0,0,.85)">{{ book.title }}</h1>
+        <div style="font:300 italic 17px Spectral,serif;color:#d9dde6;text-shadow:0 2px 12px rgba(0,0,0,.8)">{{ ch.chapter }}</div>
+        <div style="font:300 13px Spectral,serif;color:#aab6cc;margin-top:12px">{{ langNote }}</div>
+        <div style="width:56px;height:1px;background:rgba(var(--gold-rgb),.6);margin:26px auto 0"></div>
+      </div>
+    </header>
+  </sc-if>
 
-    <p class="vdrop" style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ t.lead }}</p>
-    <sc-for list="{{ t.paras }}" as="para" hint-placeholder-count="3">
-      <p style="font:300 19px/1.95 Spectral,serif;color:#d8cdb8;margin:0 0 26px">{{ para }}</p>
+  <!-- READER -->
+  <article style="max-width:720px;margin:0 auto;padding:{{ articlePad }}">
+    <sc-if value="{{ plainHead }}" hint-placeholder-val="{{ true }}">
+      <div style="text-align:center;margin-bottom:50px">
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.kicker }}</div>
+        <h1 style="font:400 clamp(32px,5vw,52px) Forum,serif;color:var(--c-paper-50);margin:0 0 10px;line-height:1.06">{{ book.title }}</h1>
+        <div style="font:300 italic 16px Spectral,serif;color:#9c917c">{{ ch.chapter }}</div>
+        <div style="font:300 13px Spectral,serif;color:var(--text-faint);margin-top:12px">{{ langNote }}</div>
+        <div style="width:50px;height:1px;background:rgba(var(--gold-rgb),.5);margin:28px auto 0"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:40px 0 80px">
+        <h1 style="font:400 clamp(28px,4vw,40px) Forum,serif;color:var(--c-paper-50);margin:0 0 16px">{{ t.missingTitle }}</h1>
+        <a href="index.html#books" class="vlink" style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.allBooks }}</a>
+      </div>
+    </sc-if>
+
+    <!-- аудиоверсия главы (загружается кнопкой «🎙 Аудио главы» в режиме правки) -->
+    <sc-if value="{{ book.audio }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:0 0 40px">
+        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:12px;text-align:center">{{ t.listen }}</div>
+        <audio data-rl-enhance="1" data-book-audio="{{ book.id }}" data-rl-title="{{ playerTitle }}" preload="metadata" src="{{ book.audio }}"></audio>
+      </div>
+    </sc-if>
+
+    <sc-for list="{{ paras }}" as="para" hint-placeholder-count="3">
+      <p class="{{ para.cls }}">{{ para.text }}</p>
     </sc-for>
 
     <!-- gate -->
-    <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,rgba(20,17,13,0),var(--bg) 55%)">
-      <div style="text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:4px;padding:44px 30px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.05),transparent)">
-        <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.gateKicker }}</div>
-        <h2 style="font:400 clamp(24px,3.4vw,34px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ t.gateTitle }}</h2>
-        <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 auto 28px;max-width:420px">{{ t.gateText }}</p>
-        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
-          <a href="book.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.buyBtn }}</a>
-          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:13px 20px;text-decoration:none">
-            <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
-          </a>
+    <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;margin-top:-90px;padding-top:120px;background:linear-gradient(180deg,transparent,var(--bg) 55%)">
+        <div class="vgate" style="display:flex;gap:30px;align-items:center;border:1px solid rgba(var(--gold-rgb),.28);border-radius:4px;padding:36px 32px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.07),transparent)">
+          <img src="{{ book.cover }}" alt="{{ book.title }}" style="width:140px;height:auto;flex-shrink:0;border-radius:2px;box-shadow:0 16px 36px rgba(0,0,0,.6);border:1px solid rgba(var(--gold-rgb),.25)">
+          <div style="flex:1;min-width:0">
+            <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.gateKicker }}</div>
+            <h2 style="font:400 clamp(24px,3.4vw,34px) Forum,serif;color:#f0e6d2;margin:0 0 12px">{{ ch.gate_title }}</h2>
+            <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;margin:0 0 24px">{{ ch.gate_text }}</p>
+            <div class="vgate-btns" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+              <sc-if value="{{ canBuy }}" hint-placeholder-val="{{ true }}">
+                <a href="{{ book.orderHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 13px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ buyLabel }}</a>
+              </sc-if>
+              <sc-if value="{{ book.amazon }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:13px 20px;text-decoration:none">
+                  <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
+                </a>
+              </sc-if>
+              <a href="{{ book.href }}" class="vlink" style="font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.aboutBook }}</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </sc-if>
   </article>
 
   <!-- FOOTER -->
@@ -89,75 +159,62 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// read.html?book=<id> — первая глава книги. Тексты: data/books.json + data/chapters/<id>.json (правятся на сайте в режиме ?edit).
+// Без параметра — «Просто вернуться домой» (старые ссылки на read.html).
 class Component extends DCLogic {
-  LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
-  AMAZON_URL='https://www.amazon.com/dp/REPLACE_WITH_ASIN';
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,(location.pathname.split('/').pop()||'read.html'),['DICT']); }
+  DEFAULT_BOOK = 'home';
   DICT = {
-    ru:{brand:'Р·ВИШНЕВСКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новости',navContact:'Контакты',navHome:'Главная',
-      kicker:'ЧИТАТЬ ОНЛАЙН · ОТРЫВОК',bookTitle:'Просто вернуться домой',chapter:'Глава первая',
-      lead:'Кил сидел на веранде своего загородного дома и раздражённо смотрел на звёзды. Уже которую ночь его мучила бессонница, а теперь добавилось и смутное чувство тревоги.',
-      paras:[
-        'Если бы была настоящая опасность, то Килимдин Даргон, а попросту Кил — как настоящий воин, и не какой-нибудь, а старший сын главы рода Даргонов — её бы почувствовал, да и с вероятностью процентов в девяносто девять знал бы, откуда грозит. Этому всех воинов учили с детства, а Чтущие, жрецы-маги рода, вкладывали в головы вместе с умением чувствовать опасность целую кучу полезных вещей.',
-        'Не было нужды и выставлять дозоры: любой враг, даже с амулетом Полог Тишины, не мог подобраться незаметно — все просыпались мгновенно, без потягиваний и зевков, в полной боевой готовности. Так что тревожило его не опасность, а непонятно что.',
-        'Появилось это чувство после визита в антикварный магазин юноши — интеллигентного на вид, но с цепким, пронзительным взглядом профессионального вора, что, будто рентгеном, просвечивал всё пространство. Парень оказался неплохим знатоком: кортик, которому продавец Лёха насчитал триста лет, он безошибочно определил как принадлежность морского офицера 1894 года, а «турецкую» саблю опознал чуть ли не до имени казацкого атамана.',
-        'Интересовало его только холодное оружие. Когда хозяин — здесь Кила звали Константином Александровичем Драгомировым — предложил кое-что подороже, гость сразу согласился. Все лицензии, в том числе на торговлю холодным оружием, у Кила были, так что подвоха он не ждал.',
-        'И всё же не покидало ощущение, что Игорь — так звали парня — не просто верит услышанному, а чётко ЗНАЕТ, что это так. Ни капли сомнения, только хищный блеск в глазах при виде самых дорогих экземпляров. Пересмотрев всё и приценившись, он попросил пару дней на раздумья.',
-        'Вот с этого момента тревога и поселилась. Кил занимался антиквариатом больше сотни лет и хорошо знал покупателей: потеющие коллекционеры, махровые спекулянты, лохи, которым можно втюхать любое фуфло. Игорь не относился ни к одной из этих категорий. Самый ценный товар хранился не в магазине, а в доме у Кила — и дважды на этот богатый, почти нежилой дом уже зарились незваные гости. Оба раза заканчивалось для них плохо.',
-      ],
-      gateKicker:'КОНЕЦ ОТРЫВКА',gateTitle:'Продолжение — в книге',gateText:'Дальше Кила ждёт ночной гость, тайна рода и дорога между двумя мирами. Прочитайте всю историю целиком.',
-      buyBtn:'Купить книгу · 3.99 €',
-      footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
-    en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
-      kicker:'READ ONLINE · EXCERPT',bookTitle:'Just to Return Home',chapter:'Chapter One',
-      lead:'Kil sat on the veranda of his country house, glaring at the stars in irritation. Night after night insomnia had tormented him — and now a vague sense of dread had joined it.',
-      paras:[
-        'Had there been real danger, Killimdin Dargon — Kil for short, a true warrior and no lesser man than the eldest son of the clan’s head — would have felt it, and with ninety-nine percent certainty would have known where it came from. Every warrior was taught this from childhood, and the Heeding, the clan’s priest-mages, planted a great many useful things in their minds along with the gift of sensing danger.',
-        'There was no need to post sentries: no enemy, even bearing a Veil of Silence amulet, could approach unnoticed — all woke instantly, without a stretch or a yawn, in full battle readiness. So what troubled him was not danger, but something he could not name.',
-        'The feeling had begun after a young man visited his antique shop — refined in appearance, yet with the sharp, piercing gaze of a professional thief that scanned the whole room as if with an x-ray. He proved a fine connoisseur: a dirk the seller Lyokha had aged at three hundred years he identified at once as a naval officer’s of 1894, and a “Turkish” sabre he traced almost to the name of its Cossack chieftain.',
-        'Only edged weapons interested him. When the owner — here Kil went by Konstantin Aleksandrovich Dragomirov — offered something dearer, the guest agreed at once. Kil held every licence, including one to trade in edged weapons, so he expected no trouble there.',
-        'And still he could not shake the sense that Igor — for that was the young man’s name — did not merely believe what he heard, but clearly KNEW it to be so. Not a shred of doubt, only a predatory gleam at the sight of the costliest pieces. Having looked over everything and weighed the prices, he asked for a couple of days to think.',
-        'It was from that moment the unease settled in. Kil had dealt in antiques for over a hundred years and knew his buyers well: sweating collectors, hardened speculators, fools you could palm any rubbish off on. Igor fit none of them. The most valuable goods were kept not in the shop but at Kil’s house — and twice already uninvited guests had eyed that rich, near-empty home. Both times it ended badly for them.',
-      ],
-      gateKicker:'END OF EXCERPT',gateTitle:'The rest is in the book',gateText:'Ahead of Kil lie a night visitor, the secret of his clan, and a road between two worlds. Read the whole story.',
-      buyBtn:'Buy the book · €3.99',
-      footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
-    uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
-      kicker:'ЧИТАТИ ОНЛАЙН · УРИВОК',bookTitle:'Просто повернутися додому',chapter:'Розділ перший',
-      lead:'Кіл сидів на веранді свого заміського будинку й роздратовано дивився на зорі. Котру вже ніч його мучило безсоння, а тепер додалося й невиразне відчуття тривоги.',
-      paras:[
-        'Якби була справжня небезпека, то Кілімдін Даргон, а простіше Кіл — як справжній воїн, і не якийсь, а старший син голови роду Даргонів — її б відчув і майже напевно знав би, звідки вона. Цього всіх воїнів навчали з дитинства, а Чтущі, жерці-маги роду, вкладали в голови разом із умінням відчувати небезпеку цілу купу корисних речей.',
-        'Не було потреби й виставляти дозори: жоден ворог, навіть з амулетом Полог Тиші, не міг підібратися непомітно — усі прокидалися миттєво, без потягувань і позіхань, у повній бойовій готовності. Тож тривожило його не небезпека, а щось незрозуміле.',
-        'З’явилося це відчуття після візиту до антикварного магазину юнака — інтелігентного на вигляд, але з чіпким, пронизливим поглядом професійного злодія, що, наче рентгеном, просвічував увесь простір. Хлопець виявився непоганим знавцем: кортик, якому продавець Льоха налічив триста років, він безпомилково визначив як належність морського офіцера 1894 року, а «турецьку» шаблю впізнав чи не до імені козацького отамана.',
-        'Цікавило його лише холодну зброю. Коли господар — тут Кіла звали Костянтином Олександровичем Драгомировим — запропонував щось дорожче, гість одразу погодився. Усі ліцензії, зокрема на торгівлю холодною зброєю, у Кіла були, тож підступу він не чекав.',
-        'І все ж не полишало відчуття, що Ігор — так звали хлопця — не просто вірить почутому, а чітко ЗНАЄ, що це так. Ні краплі сумніву, лише хижий блиск в очах, коли бачив найдорожчі екземпляри. Переглянувши все й прицінившись, він попросив пару днів на роздуми.',
-        'Ось із цієї миті тривога й оселилася. Кіл займався антикваріатом понад сотню років і добре знав покупців: спітнілі колекціонери, затяті спекулянти, лохи, яким можна впхати будь-який мотлох. Ігор не належав до жодної з цих категорій. Найцінніший товар зберігався не в магазині, а в домі Кіла — і двічі на цей багатий, майже нежилий дім уже зазіхали непрохані гості. Обидва рази для них це скінчилося погано.',
-      ],
-      gateKicker:'КІНЕЦЬ УРИВКА',gateTitle:'Продовження — у книзі',gateText:'Далі на Кіла чекає нічний гість, таємниця роду й дорога між двома світами. Прочитайте всю історію повністю.',
-      buyBtn:'Купити книгу · 3.99 €',
-      footTagline:'Історії про обов’язок, спадок і власну долю — на перетині бойових мистецтв, магії та філософії.',footNav:'РОЗДІЛИ',footLangTitle:'МОВА',footRights:'Усі права захищені'},
-    bg:{brand:'Р·ВИШНЕВСКИ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Начало',
-      kicker:'ЧЕТИ ОНЛАЙН · ОТКЪС',bookTitle:'Просто да се върнеш у дома',chapter:'Първа глава',
-      lead:'Кил седеше на верандата на крайградската си къща и раздразнено гледаше звездите. Поредна нощ безсънието го измъчваше, а сега се прибави и смътно чувство на тревога.',
-      paras:[
-        'Ако имаше истинска опасност, Килимдин Даргон, или просто Кил — като истински воин, и не какъв да е, а най-големият син на главата на рода Даргон — би я усетил и почти сигурно би знаел откъде идва. На това учеха всички воини от детство, а Четящите, жреците-маги на рода, влагаха в умовете заедно с усета за опасност цял куп полезни неща.',
-        'Нямаше нужда и от стражи: никой враг, дори с амулет Воал на тишината, не можеше да се приближи незабелязано — всички се будеха мигновено, без протягане и прозявки, в пълна бойна готовност. Тъй че го тревожеше не опасност, а нещо неясно.',
-        'Появи се това чувство след посещение в антикварния магазин на младеж — интелигентен на вид, но с остър, пронизващ поглед на професионален крадец, който сякаш с рентген просветляваше цялото пространство. Момчето се оказа добър познавач: кортик, на който продавачът Льоха приписа триста години, той безпогрешно определи като принадлежност на морски офицер от 1894 г., а „турската“ сабя разпозна едва ли не до името на казашкия атаман.',
-        'Интересуваше го само хладно оръжие. Когато стопанинът — тук Кил се казваше Константин Александрович Драгомиров — предложи нещо по-скъпо, гостът веднага се съгласи. Кил имаше всички лицензи, включително за търговия с хладно оръжие, тъй че не очакваше уловка.',
-        'И все пак не го напускаше усещането, че Игор — така се казваше момчето — не просто вярва на чутото, а ясно ЗНАЕ, че е така. Нито капка съмнение, само хищен блясък в очите при вида на най-скъпите екземпляри. След като разгледа всичко и прецени цените, той помоли за няколко дни за размисъл.',
-        'Именно от този момент тревогата се настани. Кил се занимаваше с антики над сто години и познаваше купувачите: потящи се колекционери, заклети спекуланти, наивници, на които можеш да пробуташ всякаква вехтория. Игор не принадлежеше към нито една от тези категории. Най-ценната стока се пазеше не в магазина, а в дома на Кил — и два пъти вече неканени гости бяха посягали към този богат, почти необитаем дом. И двата пъти за тях завърши зле.',
-      ],
-      gateKicker:'КРАЙ НА ОТКЪСА',gateTitle:'Продължението е в книгата',gateText:'Напред Кил очакват нощен гост, тайната на рода и път между два свята. Прочетете цялата история.',
-      buyBtn:'Купи книгата · 3.99 €',
-      footTagline:'Истории за дълг, наследство и лична съдба — там, където се срещат бойните изкуства, магията и философията.',footNav:'РАЗДЕЛИ',footLangTitle:'ЕЗИК',footRights:'Всички права запазени'},
+    ru:{listen:'СЛУШАТЬ ГЛАВУ',kicker:'ЧИТАТЬ ОНЛАЙН · ПЕРВАЯ ГЛАВА',gateKicker:'КОНЕЦ ПЕРВОЙ ГЛАВЫ',buy:'Купить книгу',aboutBook:'О книге →',langNote:'',missingTitle:'Глава не найдена',allBooks:'← Все книги',docTitle:'Читать онлайн',author:'Ростислав Вишневский'},
+    en:{listen:'LISTEN TO THE CHAPTER',kicker:'READ ONLINE · CHAPTER ONE',gateKicker:'END OF CHAPTER ONE',buy:'Buy the book',aboutBook:'About the book →',langNote:'This chapter is currently available in Russian only.',missingTitle:'Chapter not found',allBooks:'← All books',docTitle:'Read online',author:'Rostyslav Vishnevsky'},
+    uk:{listen:'СЛУХАТИ РОЗДІЛ',kicker:'ЧИТАТИ ОНЛАЙН · ПЕРШИЙ РОЗДІЛ',gateKicker:'КІНЕЦЬ ПЕРШОГО РОЗДІЛУ',buy:'Купити книгу',aboutBook:'Про книгу →',langNote:'Цей розділ поки доступний лише російською мовою.',missingTitle:'Розділ не знайдено',allBooks:'← Усі книги',docTitle:'Читати онлайн',author:'Ростислав Вишневський'},
+    bg:{listen:'СЛУШАЙ ГЛАВАТА',kicker:'ЧЕТИ ОНЛАЙН · ПЪРВА ГЛАВА',gateKicker:'КРАЙ НА ПЪРВА ГЛАВА',buy:'Купи книгата',aboutBook:'За книгата →',langNote:'Тази глава засега е достъпна само на руски език.',missingTitle:'Главата не е намерена',allBooks:'← Всички книги',docTitle:'Чети онлайн',author:'Ростислав Вишневски'},
   };
-  state={lang:'ru',scrolled:false};
-  constructor(p){super(p);}
-  componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}}
-  setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
+  state = { lang:'ru', book:null, chapter:null, notFound:false };
+  componentDidMount(){
+    try{ const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s}); }catch(e){}
+    const B = window.RoniBooks;
+    const id = B.param('book') || this.DEFAULT_BOOK;
+    // Немає своєї книги чи глави — макет «Просто вернуться домой» (правка в ?edit створить свої).
+    Promise.all([B.findOrTemplate(id), B.chapterOrTemplate(id)])
+      .then(([book, chapter]) => { if(!book || !chapter) throw new Error('no template'); this.setState({ book, chapter }); })
+      .catch(() => this.setState({ notFound:true }));
+  }
+  componentDidUpdate(){ this.syncTitle(); }
+  syncTitle(){
+    if(!this.state.book) return;
+    const t=this.DICT[this.state.lang], v=window.RoniBooks.view(this.state.book,this.state.lang);
+    const s=t.docTitle+' — «'+v.title+'» | '+t.author;
+    if(document.title!==s) document.title=s;
+  }
+  setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
   renderVals(){
-    const lang=this.state.lang;
-    const langBtns=this.LANGS.map(l=>{const a=l.code===lang;return{label:l.label,onSelect:()=>this.setLang(l.code),style:'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '+(a?'rgba(var(--gold-rgb),.7)':'transparent')+';color:'+(a?'#f0d8a8':'#8a8070')+';transition:color .2s,border-color .2s;'};});
-    return {t:this.DICT[lang],langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:this.state.lang,setLang:(c)=>this.setLang(c),amazonUrl:this.AMAZON_URL};
+    const lang=this.state.lang, t=this.DICT[lang], B=window.RoniBooks;
+    const book=B.view(this.state.book,lang) || {id:'',title:'',cover:'',chapterImage:'',audio:'',amazon:'',href:'index.html#books',orderHref:''};
+    const chapter=this.state.chapter;
+    // текст на выбранном языке; если пусто — русский + пометка
+    const own=chapter && chapter[lang] && chapter[lang].text;
+    const ch={
+      chapter:B.field(chapter,lang,'chapter'),
+      gate_title:B.field(chapter,lang,'gate_title'),
+      gate_text:B.field(chapter,lang,'gate_text'),
+    };
+    const list=chapter ? B.paras(own || B.field(chapter,'ru','text')) : [];
+    const paras=list.map((x,i)=>({text:x,cls:'vtxt'+(i===0?' vdrop':'')+(/^[—–-]\s/.test(x)?' vdlg':'')}));
+    const ready=!!(this.state.book && chapter);
+    const withImage=ready && !!book.chapterImage;
+    return {
+      t, book, ch, paras, ready, withImage,
+      plainHead:!withImage && !this.state.notFound,
+      notFound:this.state.notFound,
+      articlePad:withImage?'30px 24px 40px':'140px 28px 40px',
+      themeCls:book.noir?'noir':'',
+      langNote:(ready && !own && lang!=='ru') ? t.langNote : '',
+      canBuy:ready && !book.soon,
+      buyLabel:t.buy+(book.price?' · '+book.price:''),
+      playerTitle:[book.title,ch.chapter].filter(Boolean).join(' · '),
+      lang, setLang:(c)=>this.setLang(c),
+    };
   }
 }
 </script>

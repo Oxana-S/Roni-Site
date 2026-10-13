@@ -106,7 +106,9 @@ class Component extends DCLogic {        // ИМЯ КЛАССА строго "Co
    ```
 4. В логике добавь словарь и язык (см. §5) — обязательно `setLang` + чтение `localStorage('vish_lang')` в `componentDidMount`, иначе язык не запомнится.
 5. SEO: добавь страницу в `assets/seo-meta.js` (4 языка) и в `sitemap.xml`; статичные мета в `<head>` (см. §6).
-6. Ссылку на страницу добавь в меню (`components/SiteHeader.dc.html` → `NAV`) и/или подвал.
+6. **Редактирование на сайте:** подключи `<script src="assets/texts.js"></script>` перед `support.js` и зарегистрируй словарь в конструкторе:
+   `constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'events.html',['DICT']); }` — иначе тексты страницы не будут редактироваться через `?edit` (см. `docs/ADMIN.md`).
+7. Ссылку на страницу добавь в меню (`components/SiteHeader.dc.html` → `NAV`) и/или подвал.
 
 **Правила (иначе сломается):**
 - Страница — **в корне**, расширение **`.html`**. Не в подпапке (сломает резолвинг `dc-import`).

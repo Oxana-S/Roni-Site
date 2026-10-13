@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Страница создана редактором сайта по ссылке кнопки (шаблон: assets/new-page.template.html).
+     Тексты и элементы правятся на сайте в режиме ?edit. -->
+<title>Новая страница — Ростислав Вишневский</title>
+<meta name="description" content="Ростислав Вишневский — писатель.">
+<meta name="author" content="Ростислав Вишневский">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#14110d">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="styles/theme.css">
+<script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
+<script src="./support.js"></script>
+<script src="assets/analytics.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+  .vbtn{transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .vbtn:hover{transform:translateY(-2px)}
+</style>
+</helmet>
+
+<div style="font-family:Spectral,serif;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100vh">
+
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
+
+  <section id="main" style="padding:150px 7vw 120px;min-height:60vh">
+    <div style="max-width:var(--container);margin:0 auto;text-align:center">
+      <h1 style="font:400 clamp(34px,5.4vw,60px) Forum,serif;color:var(--c-paper-50);margin:0;line-height:1.05">{{ t.title }}</h1>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // имя файла страницы — ключ её правок в data/texts.json и data/layout.json
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,(location.pathname.split('/').pop()||'index.html'),['DICT']); }
+  DICT = {
+    ru:{title:'Новая страница',author:'Ростислав Вишневский'},
+    en:{title:'New page',author:'Rostyslav Vishnevsky'},
+    uk:{title:'Нова сторінка',author:'Ростислав Вишневський'},
+    bg:{title:'Нова страница',author:'Ростислав Вишневски'},
+  };
+  state = { lang:'ru' };
+  componentDidMount(){ try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){} this.syncTitle(); }
+  componentDidUpdate(){ this.syncTitle(); }
+  syncTitle(){ const t=this.DICT[this.state.lang]; const s=t.title+' — '+t.author; if(document.title!==s) document.title=s; }
+  setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
+  renderVals(){
+    const lang = this.DICT[this.state.lang] ? this.state.lang : 'ru';
+    return { t:this.DICT[lang], lang:lang, setLang:(c)=>this.setLang(c) };
+  }
+}
+</script>
+</body>
+</html>

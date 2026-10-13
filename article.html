@@ -27,6 +27,8 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
 <script src="assets/analytics.js" defer></script>
@@ -155,7 +157,7 @@ class Component extends DCLogic {
     },
   };
   state={lang:'ru',scrolled:false,id:'1'};
-  constructor(p){super(p);}
+  constructor(p){super(p); window.RoniTexts&&RoniTexts.register(this,'article.html',['UI','ARTICLES']);}
   componentDidMount(){
     try{const s=localStorage.getItem('vish_lang');if(s&&this.UI[s])this.setState({lang:s});}catch(e){}
     try{const q=new URLSearchParams(location.search).get('id');if(q&&this.ARTICLES[q])this.setState({id:q});}catch(e){}

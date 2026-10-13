@@ -27,6 +27,8 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
 <script src="assets/analytics.js" defer></script>
@@ -74,6 +76,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'dev.html',['DICT']); }
   LANGS = [{code:'en',label:'EN'},{code:'uk',label:'UK'},{code:'ru',label:'RU'},{code:'bg',label:'BG'}];
   DICT = {
     ru:{brand:'Р·ВИШНЕВСКИЙ',kicker:'СТРАНИЦА ГОТОВИТСЯ',title:'Эта часть мира ещё создаётся',text:'Мы дописываем эту страницу. Загляните чуть позже — или вернитесь туда, где история уже началась.',btnHome:'На главную',btnBlog:'Читать блог',rights:'Все права защищены',contact:'Написать автору →'},

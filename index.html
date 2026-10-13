@@ -28,8 +28,11 @@
 <link rel="stylesheet" href="styles/theme.css">
 <link rel="preload" as="image" href="assets/img/hero-detective.jpg" fetchpriority="high">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
+<script src="assets/texts.js"></script>
+<script src="assets/layout.js"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
+<script src="assets/books.js"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -118,7 +121,7 @@
       <div style="font:400 88px Forum,serif;color:var(--gold);line-height:0;height:34px;opacity:.55">“</div>
       <p style="font:300 italic clamp(17px,1.9vw,20px)/1.8 Spectral,serif;color:var(--text);margin:0 0 40px;text-align:left;hyphens:auto">{{ t.openQuote }}</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="read-detective.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openCta }}</a>
+        <a href="read.html?book=ghost" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openCta }}</a>
         <a href="#books" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openSecondary }}</a>
       </div>
     </div>
@@ -168,24 +171,25 @@
     </div>
   </section>
 
-  <!-- ============ FEATURED / OFFER ============ -->
+  <!-- ============ FEATURED / OFFER (data/books.json, «На главной») ============ -->
+  <sc-if value="{{ hasFeat }}" hint-placeholder-val="{{ true }}">
   <section id="ghost" data-screen-label="Offer" style="background:var(--bg-2);border-top:1px solid rgba(var(--gold-rgb),.12);border-bottom:1px solid rgba(var(--gold-rgb),.12);padding:78px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:56px;align-items:center;justify-content:center;flex-wrap:wrap">
       <div style="position:relative;width:236px;height:380px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid var(--line-med);box-shadow:0 22px 48px rgba(0,0,0,.55)">
-        <img src="{{ ghostCover }}" alt="{{ t.ghostTitle }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+        <img src="{{ feat.cover }}" alt="{{ feat.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="max-width:480px;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:14px">{{ t.featLabel }}</div>
-        <h2 style="font:400 clamp(30px,4vw,48px) Forum,serif;color:#f0e6d2;margin:0 0 8px;line-height:1.05">{{ t.ghostTitle }}</h2>
-        <div style="font:300 italic 15px Spectral,serif;color:var(--gold-text);letter-spacing:1px;margin-bottom:18px">{{ t.ghostSub }}</div>
-        <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 26px;max-width:460px">{{ t.ghostBlurb }}</p>
+        <h2 style="font:400 clamp(30px,4vw,48px) Forum,serif;color:#f0e6d2;margin:0 0 8px;line-height:1.05">{{ feat.title }}</h2>
+        <div style="font:300 italic 15px Spectral,serif;color:var(--gold-text);letter-spacing:1px;margin-bottom:18px">{{ feat.subtitle }}</div>
+        <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 0 26px;max-width:460px">{{ feat.blurb }}</p>
         <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
-          <a href="order.html?book=ghost" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(var(--gold-rgb),.22)">{{ t.buyBtn }}</a>
-          <a href="read-detective.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
+          <a href="{{ feat.orderHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(var(--gold-rgb),.22)">{{ featBuy }}</a>
+          <a href="{{ feat.readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
         <div style="margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
-          <a href="{{ amazonUrl }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:10px 18px;text-decoration:none">
+          <a href="{{ feat.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:10px 18px;text-decoration:none">
             <svg width="26" height="13" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <span style="font:500 13px Spectral,serif;color:var(--text);letter-spacing:.5px;white-space:nowrap">{{ t.amazonBtn }}</span>
           </a>
@@ -194,6 +198,7 @@
       </div>
     </div>
   </section>
+  </sc-if>
 
   <!-- ============ AUTHOR'S VOICE ============ -->
   <section id="voice" data-screen-label="Voice" style="background:var(--bg);padding:90px 7vw">
@@ -235,31 +240,16 @@
         <div style="font:300 13px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.collectionNote }}</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;gap:34px">
-        <a href="#ghost" class="vcard" style="text-decoration:none;display:block">
-          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-            <img src="{{ ghostCover }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-          </div>
-          <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.ghostTitle }}</div>
-          <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.ghostTag }}</div>
-          <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
-        </a>
-        <a href="return-home.html" class="vcard" style="text-decoration:none;display:block">
-          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-            <img src="assets/img/book-1.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-          </div>
-          <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.book1Title }}</div>
-          <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.book1Tag }}</div>
-          <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
-        </a>
-        <a href="dev.html" class="vcard" style="text-decoration:none;display:block">
-          <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#262b26,#262b26 6px,#1f231f 6px,#1f231f 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-            <img src="assets/img/book-2.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:300 11px Spectral,serif;color:#6f6552">book-2.jpg</div>
-          </div>
-          <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ t.book2Title }}</div>
-          <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ t.book2Tag }}</div>
-          <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
-        </a>
+        <sc-for list="{{ books }}" as="b" hint-placeholder-count="3">
+          <a href="{{ b.href }}" class="vcard" style="text-decoration:none;display:block">
+            <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
+              <img src="{{ b.cover }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ b.title }}</div>
+            <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ b.tag }}</div>
+            <div style="font:400 13px Spectral,serif;color:var(--gold);margin-top:10px;letter-spacing:1px">{{ t.openArrow }}</div>
+          </a>
+        </sc-for>
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:2/3;border:1px dashed var(--line-med);border-radius:3px;color:var(--text-faintest);text-align:center">
           <div style="font:400 40px Forum,serif;color:#8a7a5a">+</div>
           <div style="font:300 13px Spectral,serif;letter-spacing:2px;margin-top:6px">{{ t.soon }}</div>
@@ -318,9 +308,7 @@ class Component extends DCLogic {
         {no:'04',name:'Оливия Холден',role:'призрак',desc:'Мертва, но с характером.'},
       ],
       featLabel:'КНИГА ПЕРВАЯ',
-      ghostTitle:'Призрачный детектив', ghostSub:'Виски, кот и призрак',
-      ghostBlurb:'Полицейский сорок четвёртого участка города Нью-Йорк Лукас Палао каждый день сталкивается с преступлениями и расследует их. Но появление в его квартире нежданной гостьи заставляет иначе посмотреть на рутинную работу.',
-      buyBtn:'Купить · 3.99 €', readBtn:'Читать главу',
+      buyBtn:'Купить', readBtn:'Читать главу',
       alsoOn:'Английская версия скоро на', amazonBtn:'Amazon Kindle',
       offerNote:'После оплаты книга придёт вам на почту.',
       readsKicker:'ГОЛОС АВТОРА', readsTitle:'Автор читает свою книгу',
@@ -328,9 +316,6 @@ class Component extends DCLogic {
       readsTrack:'Глава 1 · Призрачный детектив', readsDuration:'16:13',
       readsHint:'Аудио начнёт воспроизводиться после загрузки записи.',
       collectionTitle:'Книги', collectionNote:'серии пополняются',
-      ghostTag:'Книга первая · История пропавшего шедевра',
-      book1Title:'Просто вернуться домой', book1Tag:'Том I · Род Даргонов',
-      book2Title:'Вторая книга', book2Tag:'Том II · скоро',
       openArrow:'Открыть →', soon:'СКОРО',
       aboutKicker:'ОТ АВТОРА',
       aboutText:'«Признаюсь честно: идеи — именно чёткого плана — для написания мистического детектива изначально не было. Всё произошло внезапно, в процессе написания продолжения фэнтези-романа. Почему детектив и отчего мистический — не знаю. Вот так пришло в голову. Надеюсь, что не зря».',
@@ -356,9 +341,7 @@ class Component extends DCLogic {
         {no:'04',name:'Olivia Holden',role:'ghost',desc:'Dead, but still full of character.'},
       ],
       featLabel:'BOOK FIRST',
-      ghostTitle:'A Detective for the Dead', ghostSub:'Whiskey, a Cat and a Ghost',
-      ghostBlurb:'Lucas Palao, a police detective with New York City’s 44th Precinct, faces crimes every day and investigates them. But when an unexpected visitor appears in his apartment, he is forced to look at his routine work in a very different way.',
-      buyBtn:'Buy · $2.99', readBtn:'Read the first chapter',
+      buyBtn:'Buy', readBtn:'Read the first chapter',
       alsoOn:'Available on', amazonBtn:'Amazon Kindle',
       offerNote:'After payment, the book will be delivered to your email.',
       readsKicker:'THE AUTHOR’S VOICE', readsTitle:'Read by the Author',
@@ -366,9 +349,6 @@ class Component extends DCLogic {
       readsTrack:'Chapter 1 · A Detective for the Dead', readsDuration:'16:13',
       readsHint:'The audio will start playing once the recording has loaded.',
       collectionTitle:'Books', collectionNote:'the series continues',
-      ghostTag:'Book first · Whiskey, a Cat and a Ghost',
-      book1Title:'Just to Return Home', book1Tag:'Vol. I · The Dargon Clan',
-      book2Title:'The Second Book', book2Tag:'Vol. II · coming soon',
       openArrow:'Open →', soon:'SOON',
       aboutKicker:'FROM THE AUTHOR',
       aboutText:'“I’ll be honest: there was no clear plan—no specific idea—to write a mystery novel with a supernatural twist. It all happened unexpectedly, while I was writing the continuation of a fantasy novel. Why a detective story, and why a supernatural one? I have no idea. That’s simply how it came to me. I hope it wasn’t for nothing.”',
@@ -394,9 +374,7 @@ class Component extends DCLogic {
         {no:'04',name:'Олівія Холден',role:'привид',desc:'Мертва, але з характером.'},
       ],
       featLabel:'КНИГА ПЕРША',
-      ghostTitle:'Примарний детектив', ghostSub:'Віскі, кіт і привид',
-      ghostBlurb:'Поліцейський сорок четвертої дільниці міста Нью-Йорк Лукас Палао щодня стикається зі злочинами й розслідує їх. Але поява в його квартирі несподіваної гості змушує інакше поглянути на рутинну роботу.',
-      buyBtn:'Купити · 3.99 €', readBtn:'Читати розділ',
+      buyBtn:'Купити', readBtn:'Читати розділ',
       alsoOn:'Англійська версія незабаром на', amazonBtn:'Amazon Kindle',
       offerNote:'Після оплати книга надійде на вашу пошту.',
       readsKicker:'ГОЛОС АВТОРА', readsTitle:'Автор читає свою книгу',
@@ -404,9 +382,6 @@ class Component extends DCLogic {
       readsTrack:'Розділ 1 · Примарний детектив', readsDuration:'16:13',
       readsHint:'Аудіо почне відтворюватися після завантаження запису.',
       collectionTitle:'Книги', collectionNote:'серії поповнюються',
-      ghostTag:'Книга перша · Історія зниклого шедевра',
-      book1Title:'Просто повернутися додому', book1Tag:'Том I · Рід Даргонів',
-      book2Title:'Друга книга', book2Tag:'Том II · скоро',
       openArrow:'Відкрити →', soon:'СКОРО',
       aboutKicker:'ВІД АВТОРА',
       aboutText:'«Зізнаюся чесно: ідеї — саме чіткого плану — для написання містичного детективу спочатку не було. Усе сталося раптово, у процесі написання продовження фентезі-роману. Чому детектив і чому містичний — не знаю. Ось так спало на думку. Сподіваюся, що не марно».',
@@ -432,9 +407,7 @@ class Component extends DCLogic {
         {no:'04',name:'Оливия Холдън',role:'призрак',desc:'Мъртва, но с характер.'},
       ],
       featLabel:'КНИГА ПЪРВА',
-      ghostTitle:'Призрачният детектив', ghostSub:'Уиски, котарак и призрак',
-      ghostBlurb:'Полицаят от четиридесет и четвърти участък на Ню Йорк Лукас Палао всеки ден се сблъсква с престъпления и ги разследва. Но появата на неочаквана гостенка в апартамента му го кара да погледне по различен начин на рутинната си работа.',
-      buyBtn:'Купи · 3.99 €', readBtn:'Прочети глава',
+      buyBtn:'Купи', readBtn:'Прочети глава',
       alsoOn:'Английското издание скоро в', amazonBtn:'Amazon Kindle',
       offerNote:'След плащане книгата идва директно на вашата поща.',
       readsKicker:'ГЛАСЪТ НА АВТОРА', readsTitle:'Авторът чете своята книга',
@@ -442,9 +415,6 @@ class Component extends DCLogic {
       readsTrack:'Глава 1 · Призрачният детектив', readsDuration:'16:13',
       readsHint:'Аудиото ще започне да се възпроизвежда след зареждане на записа.',
       collectionTitle:'Книгите', collectionNote:'поредиците растат',
-      ghostTag:'Книга първа · Историята на изчезналия шедьовър',
-      book1Title:'Просто да се върнеш у дома', book1Tag:'Том I · Родът Даргон',
-      book2Title:'Втора книга', book2Tag:'Том II · скоро',
       openArrow:'Отвори →', soon:'СКОРО',
       aboutKicker:'ОТ АВТОРА',
       aboutText:'„Признавам честно: идея — по-точно ясен план — за мистичен детектив в началото нямаше. Всичко се случи внезапно, докато пишех продължението на фентъзи роман. Защо детектив и защо мистичен — не знам. Просто така ми дойде наум. Надявам се, че не напразно.“',
@@ -452,14 +422,14 @@ class Component extends DCLogic {
     },
   };
 
-  AMAZON_URL = 'https://www.amazon.com/dp/REPLACE_WITH_ASIN';
 
   state = { lang: 'ru', scrolled: false, playing: false };
 
-  constructor(props){ super(props); this.audioRef = React.createRef(); }
+  constructor(props){ super(props); window.RoniTexts&&RoniTexts.register(this,'index.html',['DICT']); this.audioRef = React.createRef(); }
 
   componentDidMount() {
     try { const s = localStorage.getItem('vish_lang'); if (s && this.DICT[s]) this.setState({ lang: s }); } catch(e) {}
+    window.RoniBooks.list().then(books => this.setState({ books })).catch(() => {});
     const a = this.audioRef.current;
     if (a) a.addEventListener('ended', () => this.setState({ playing:false }));
     // deterministic waveform heights
@@ -483,6 +453,8 @@ class Component extends DCLogic {
 
   renderVals() {
     const lang = this.state.lang;
+    // книга с галочкой «На главной» в админке (первая из отмеченных)
+    const feat = window.RoniBooks.view((this.state.books || []).find(b => b.featured), lang);
     const langBtns = this.LANGS.map(l => {
       const active = l.code === lang;
       const style = 'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '
@@ -501,8 +473,9 @@ class Component extends DCLogic {
       waveOn: this.state.playing ? 'on' : '',
       waveBars: this.WAVE || [],
       audioRef: this.audioRef,
-      amazonUrl: this.AMAZON_URL,
-      ghostCover: this.state.lang === 'en' ? 'assets/GhostDetective-en.jpg' : 'assets/GhostDetective.jpg',
+      books: (this.state.books || []).map(b => window.RoniBooks.view(b, this.state.lang)),
+      feat, hasFeat: !!feat,
+      featBuy: feat ? this.DICT[lang].buyBtn + (feat.price ? ' · ' + feat.price : '') : '',
       lang: this.state.lang,
       setLang: (c) => this.setLang(c),
     };
