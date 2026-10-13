@@ -1,5 +1,8 @@
 {
   "news.html": {
     "DICT.uk.title": "Що нового"
+  },
+  "index.html": {
+    "DICT.ru.openQuote": "."
   }
 }
