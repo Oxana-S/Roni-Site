@@ -137,6 +137,19 @@
         "price": "",
         "cover": ""
       }
+    },
+    {
+      "id": "ghost2",
+      "status": "soon",
+      "featured": false,
+      "theme": "classic",
+      "cover": "",
+      "chapter_image": "",
+      "page": "",
+      "amazon": "",
+      "ru": {
+        "title": "ghost2"
+      }
     }
   ]
 }
