@@ -3,7 +3,8 @@
   "pages": {
     "index.html": {
       "free": {},
-      "hidden": []
+      "hidden": [],
+      "moves": {}
     }
   }
 }
