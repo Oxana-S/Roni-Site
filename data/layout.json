@@ -2,7 +2,10 @@
   "media": {},
   "pages": {
     "index.html": {
-      "free": {}
+      "free": {},
+      "hidden": [
+        "read"
+      ]
     }
   }
 }
