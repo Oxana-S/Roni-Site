@@ -4,8 +4,8 @@
 
    ✎ Редактировать → тексты обводятся пунктиром → клик → правка → «Сохранить».
    Сохранение:
-     • localhost + scripts/edit-server.py → прямо в файлы проекта;
-     • сайт на GitHub Pages → один коммит в репозиторий (нужен токен GitHub).
+     • на своём компьютере: scripts/edit-server.py → прямо в файлы проекта;
+     • на хостинге: admin/api.php → прямо в файлы сайта (вход — admin/, логин и пароль).
    Инструкция — docs/ADMIN.md.
    ============================================================ */
 (function () {
@@ -19,10 +19,24 @@
     s.src = "assets/books.js"; s.onload = cb;
     document.head.appendChild(s);
   }
+  // На хостинге редактор есть только у вошедшего в admin/ (сессия на сервере).
+  // Посетитель, даже открыв ?edit, ничего не увидит.
+  var REMOTE = !T.isLocal && location.protocol !== "file:";
+  var adminCsrf = null;
+  function boot() {
+    if (!REMOTE) return start();
+    fetch("admin/api.php?action=me", { credentials: "same-origin", cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (me) {
+        if (me && me.ok && me.csrf) { adminCsrf = me.csrf; return start(); }
+        try { sessionStorage.removeItem("roni_edit"); sessionStorage.removeItem("roni_edit_on"); } catch (e) {}
+      });
+  }
   // скрипт вставляется из <head> — ждём <body>
   withBooks(function () {
-    if (!document.body) document.addEventListener("DOMContentLoaded", start);
-    else start();
+    if (!document.body) document.addEventListener("DOMContentLoaded", boot);
+    else boot();
   });
   function start() {
   B = window.RoniBooks;
@@ -307,7 +321,7 @@
   }
   function json(o) { return JSON.stringify(o, null, 2) + "\n"; }
 
-  // собрать итоговые файлы поверх свежей версии из репозитория (чужие правки не затираются)
+  // собрать итоговые файлы поверх свежей версии с сайта (чужие правки не затираются)
   async function buildFiles(read) {
     var files = [], k, p;
     // страницы новых книг: копия лендинга «Просто вернуться домой» (book.html) — только если файла ещё нет
@@ -421,7 +435,9 @@
   var LocalBackend = {
     name: "local",
     read: function (path) {
-      return fetch(path, { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : null; });
+      // страницы — исходником: на хостинге без ?raw=1 их отдаёт SEO-слой (seo/page.php) с готовыми мета-тегами
+      var url = /^[^\/?#]+\.html$/.test(path) ? path + "?raw=1" : path;
+      return fetch(url, { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : null; });
     },
     write: async function (files) {
       var out = [];
@@ -434,51 +450,47 @@
     }
   };
 
-  function GitHubBackend(token) {
-    var api = "https://api.github.com/repos/" + T.REPO;
-    function gh(method, url, body) {
-      return fetch(api + url, {
-        method: method, cache: "no-store",
-        headers: Object.assign({ Authorization: "Bearer " + token, Accept: "application/vnd.github+json" }, body ? { "Content-Type": "application/json" } : {}),
-        body: body ? JSON.stringify(body) : undefined
-      }).then(async function (r) {
-        if (r.status === 404 && method === "GET") return null;
-        if (!r.ok) {
-          var msg = ""; try { msg = (await r.json()).message; } catch (e) {}
-          var err = new Error("GitHub " + r.status + (msg ? ": " + msg : "")); err.status = r.status; throw err;
-        }
-        return r.status === 204 ? null : r.json();
+  // хостинг: admin/api.php (только для вошедшего в admin/, с CSRF-токеном сессии).
+  // Файлы уходят обычной загрузкой (multipart), по нескольку за запрос — чтобы не упереться в лимиты хостинга;
+  // сначала картинки и аудио, потом данные, которые на них ссылаются.
+  var ServerBackend = {
+    name: "server",
+    read: LocalBackend.read,
+    write: async function (files) {
+      var sorted = files.slice().sort(function (a, b) { return (a.file ? 0 : 1) - (b.file ? 0 : 1); });
+      var parts = [], cur = [], size = 0;
+      sorted.forEach(function (f) {
+        var s = f.file ? f.file.size : f.text.length * 3;
+        if (cur.length && (cur.length >= 15 || size + s > 40e6)) { parts.push(cur); cur = []; size = 0; }
+        cur.push(f); size += s;
       });
-    }
-    var base = null;
-    return {
-      name: "github",
-      check: async function () {
-        var repo = await gh("GET", "");
-        if (!repo) throw new Error("Репозиторий " + T.REPO + " не найден или токен не даёт к нему доступа.");
-        if (!repo.permissions || !repo.permissions.push) throw new Error("У этого аккаунта GitHub нет прав на запись в " + T.REPO + ". Попросите владельца добавить вас в Collaborators.");
-      },
-      read: async function (path) {
-        if (!base) base = (await gh("GET", "/git/ref/heads/" + T.BRANCH)).object.sha;
-        var r = await fetch(api + "/contents/" + path + "?ref=" + base, { cache: "no-store", headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github.raw+json" } });
-        if (r.status === 404) return null;
-        if (!r.ok) throw new Error("GitHub " + r.status + " при чтении " + path);
-        return r.text();
-      },
-      write: async function (files, message) {
-        if (!base) base = (await gh("GET", "/git/ref/heads/" + T.BRANCH)).object.sha;
-        var commit = await gh("GET", "/git/commits/" + base);
-        var tree = [];
-        for (var i = 0; i < files.length; i++) {
-          var f = files[i];
-          var blob = await gh("POST", "/git/blobs", { content: f.file ? await b64file(f.file) : b64utf8(f.text), encoding: "base64" });
-          tree.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
-        }
-        var nt = await gh("POST", "/git/trees", { base_tree: commit.tree.sha, tree: tree });
-        var nc = await gh("POST", "/git/commits", { message: message, tree: nt.sha, parents: [base] });
-        await gh("PATCH", "/git/refs/heads/" + T.BRANCH, { sha: nc.sha });
+      if (cur.length) parts.push(cur);
+      for (var p = 0; p < parts.length; p++) {
+        var fd = new FormData();
+        fd.append("count", String(parts[p].length));
+        parts[p].forEach(function (f, i) {
+          fd.append("path" + i, f.path);
+          fd.append("file" + i, f.file || new Blob([f.text], { type: "application/octet-stream" }), "f" + i);
+        });
+        var r = await fetch("admin/api.php?action=save", {
+          method: "POST", credentials: "same-origin", cache: "no-store",
+          headers: { "X-CSRF-Token": adminCsrf || "" }, body: fd
+        });
+        var j = null; try { j = await r.json(); } catch (e) {}
+        if (r.status === 401) throw new Error("вы не вошли или сессия закончилась — войдите заново на странице admin/ и повторите.");
+        if (r.status === 413 && !(j && j.error)) throw new Error("файл слишком большой для хостинга — уменьшите его или увеличьте лимит загрузки (docs/ADMIN.md).");
+        if (!r.ok || !j || !j.ok) throw new Error((j && j.error) || ("сервер ответил " + r.status));
       }
-    };
+    }
+  };
+  function logout() {
+    if (count() && !confirm("Есть несохранённые правки. Всё равно выйти?")) return;
+    pending = fresh();
+    fetch("admin/api.php?action=logout", { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": adminCsrf || "" } })
+      .catch(function () {}).then(function () {
+        try { sessionStorage.removeItem("roni_edit"); sessionStorage.removeItem("roni_edit_on"); } catch (e) {}
+        location.href = location.pathname;
+      });
   }
 
   async function backend() {
@@ -488,16 +500,12 @@
         try { var r = await fetch(bases[bi] + "/__edit/ping", { cache: "no-store" }); if (r.ok) { localBase = bases[bi]; return LocalBackend; } } catch (e) {}
       }
     }
-    // на своём компьютере сохраняем только через scripts/edit-server.py — без входа в GitHub
+    // на своём компьютере сохраняем только через scripts/edit-server.py (без входа)
     if (T.isLocal || location.protocol === "file:") {
       throw new Error("не запущен локальный сервер редактора. Запустите «python scripts/edit-server.py» в папке Roni-Site " +
         "и нажмите «Сохранить» ещё раз — правки запишутся прямо в файлы проекта.");
     }
-    var token = ls("roni_gh_token");
-    if (!token) { tokenDialog(); return null; }
-    var be = GitHubBackend(token);
-    await be.check();
-    return be;
+    return ServerBackend;
   }
 
   var saving = false;
@@ -506,26 +514,14 @@
     if (editing) editing.blur();
     saving = true; status("Сохраняю…");
     try {
-      for (var attempt = 0; attempt < 2; attempt++) {
-        var be = await backend();
-        if (!be) { saving = false; status(""); return; }
-        var files = await buildFiles(be.read);
-        var names = files.map(function (f) { return f.path; }).join(", ");
-        try {
-          await be.write(files, "Правка на сайте: " + names);
-          break;
-        } catch (e) {
-          // кто-то сохранил одновременно — перечитываем свежую версию и пробуем ещё раз
-          if (e.status === 422 && attempt === 0) continue;
-          throw e;
-        }
-      }
+      var be = await backend();
+      var files = await buildFiles(be.read);     // поверх свежих файлов — чужие правки не затираются
+      await be.write(files);
       pending = fresh();
       ui();
-      status(be.name === "local" ? "Сохранено в файлы проекта." : "Сохранено. Сайт обновится через 1–2 минуты.");
+      status(be.name === "local" ? "Сохранено в файлы проекта." : "Сохранено — изменения уже на сайте.");
     } catch (e) {
       console.error(e);
-      if (e.status === 401) ls("roni_gh_token", null);
       status("Не сохранилось: " + e.message, true);
     }
     saving = false;
@@ -628,7 +624,8 @@
         readPageBookId() ? el("button", { on: { click: chapterDialog } }, ["Текст главы"]) : null,
         pageBookId() ? el("button", { on: { click: function () { chapterAudio(); } } }, ["🎙 Аудио главы"]) : null,
         readPageBookId() && !chapterOf(readPageBookId()) ? el("button", { title: "Подставить макет и текст первой главы «Просто вернуться домой» — потом заменить через «Текст главы»", on: { click: chapterTemplate } }, ["Заготовка главы"]) : null,
-        el("button", { title: "Выключить режим правки (несохранённые правки останутся)", on: { click: function () { setActive(false); } } }, ["Закончить"])
+        el("button", { title: "Выключить режим правки (несохранённые правки останутся)", on: { click: function () { setActive(false); } } }, ["Закончить"]),
+        REMOTE ? el("button", { title: "Выйти из админки", on: { click: logout } }, ["Выйти"]) : null
       ]),
       el("p", { class: "re-note" }, [
         "Кликните по элементу — появится его панель («⠿ Двигать», «🖼 Заменить картинку», «Скрыть») и панель секции («+ Элемент»). Esc — снять выделение. Сейчас правится ",
@@ -660,25 +657,6 @@
     document.addEventListener("keydown", function esc(e) { if (e.key === "Escape") { document.removeEventListener("keydown", esc); close(); } });
     document.body.appendChild(bg);
     return close;
-  }
-
-  // ---- токен GitHub ----
-  function tokenDialog() {
-    var inp = el("input", { type: "password", placeholder: "github_pat_… или ghp_…", autocomplete: "off" });
-    var close = modal([
-      el("h2", { text: "Вход в GitHub" }),
-      el("p", {}, ["Чтобы сохранять правки на сайт, нужен токен GitHub аккаунта, у которого есть право записи в репозиторий ",
-        el("b", { text: T.REPO }), ". Как его получить — в docs/ADMIN.md. Токен хранится только в этом браузере."]),
-      el("label", { text: "Токен" }), inp,
-      el("div", { class: "re-foot" }, [
-        el("button", { on: { click: function () { close(); } } }, ["Отмена"]),
-        el("button", { class: "re-main", on: { click: function () {
-          var v = inp.value.trim(); if (!v) return;
-          ls("roni_gh_token", v); close(); save();
-        } } }, ["Войти и сохранить"])
-      ])
-    ]);
-    setTimeout(function () { inp.focus(); }, 0);
   }
 
   // ---- книги: настройки, порядок, добавление ----
@@ -867,13 +845,66 @@
   var PH = {
     "heading.text": "Заголовок", "text.text": "Текст. Новый абзац — Enter", "quote.text": "Цитата",
     "quote.author": "— автор", "image.caption": "Подпись", "audio.title": "Название записи",
-    "button.label": "Кнопка"
+    "button.label": "Кнопка", "agent.kicker": "Надзаголовок", "agent.title": "Заголовок",
+    "agent.text": "Пара слов о разговоре", "agent.label": "Текст кнопки"
   };
   var TYPES = [
     ["heading", "Заголовок"], ["text", "Текст"], ["button", "🔗 Кнопка"], ["image", "🖼 Картинка"],
-    ["audio", "🎙 Аудио"], ["quote", "Цитата"], ["book", "📖 Книга"]
+    ["audio", "🎙 Аудио"], ["quote", "Цитата"], ["book", "📖 Книга"], ["agent", "🤖 AI-агент"]
   ];
-  var WIDTH = { heading: 60, text: 46, quote: 46, image: 30, audio: 46, book: 50 };
+  var WIDTH = { heading: 60, text: 46, quote: 46, image: 30, audio: 46, book: 50, agent: 56 };
+  // стили AI-агента (сами рисунки — в assets/layout.js); здесь — значки для выбора
+  var AGENT_HINT = {
+    keeper: "«Призрачный детектив»: дверь кабинета, силуэт за матовым стеклом, Конфуций у порога",
+    portal: "«Просто вернуться домой»: рунические врата среди звёзд"
+  };
+  var AGENT_PICS = {
+    keeper: '<svg viewBox="0 0 40 64" aria-hidden="true"><rect x="5" y="2" width="30" height="60" rx="1" fill="#2e2015" stroke="#c9a86a" stroke-width=".8"/>' +
+      '<rect x="9" y="6" width="22" height="27" fill="#3a2410"/><circle cx="22" cy="17" r="9" fill="#e8a24a" opacity=".85"/>' +
+      '<path d="M19.5,11C22,11 23.5,12.6 23.5,15C23.5,17 22.5,18.5 22,19.5C25,20.5 27,22 28,25V33H13V26C14,23 16,21.5 18,20.5C17,20 16.5,19.2 16.3,18.6L15,18.2L16,17.2C15.6,16.6 15.8,15.6 16.4,15C16.2,12.6 17.6,11 19.5,11Z" fill="#0a0604"/>' +
+      '<path d="M13,29.5H28M15,31.5H26" stroke="#f0d8a8" stroke-width=".9"/><circle cx="31" cy="44" r="1.5" fill="#c9a86a"/>' +
+      '<path d="M5,62C5,57 7,54 10,53L9.2,49.5L11.4,51.5H13L15,49.5L14.6,53C16.6,54 17.6,57 17.6,62Z" fill="#0a0604" stroke="#e8a24a" stroke-width=".4"/>' +
+      '<rect x="6" y="61.4" width="28" height="1" fill="#f0b45a"/></svg>',
+    portal: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8,8L56,56M56,8L8,56" stroke="#9aa0aa" stroke-width="2.4"/>' +
+      '<circle cx="32" cy="32" r="21" fill="#1c1660" stroke="#5a4426" stroke-width="7"/><circle cx="32" cy="32" r="21" fill="none" stroke="#e8c27a" stroke-width="1.4" stroke-dasharray="2 4"/>' +
+      '<circle cx="32" cy="32" r="14" fill="#3a2f8a"/><path d="M26,29C29,26 34,27 37,30M25,35C29,38 35,37 38,34" stroke="#e8c27a" stroke-width="1.6" fill="none"/></svg>'
+  };
+  // настройки AI-агента hanc.ai: ID, стиль, размер, текст кнопки (на текущем языке)
+  function agentPopover(anchor, it, onOk) {
+    var L = lang(), style = it.style || "keeper";
+    var idInp = el("input", { type: "text", placeholder: "ID агента, например 6a88306058b5a6ef89898c55" });
+    idInp.value = it.agentId || "";
+    var cards = el("div", { class: "re-ag-styles" });
+    (Lay && Lay.agentStyles ? Lay.agentStyles() : [["keeper", "Хранитель тайн"], ["portal", "Врата между мирами"]]).forEach(function (s) {
+      var c = el("button", { type: "button", class: "re-ag-style" + (s[0] === style ? " on" : "") });
+      c.innerHTML = AGENT_PICS[s[0]] || "";
+      c.appendChild(el("b", { text: s[1] }));
+      c.appendChild(el("small", { text: AGENT_HINT[s[0]] || "" }));
+      c.addEventListener("click", function () {
+        style = s[0];
+        Array.prototype.forEach.call(cards.children, function (x) { x.classList.toggle("on", x === c); });
+      });
+      cards.appendChild(c);
+    });
+    var size = el("select"); [["280", "маленький"], ["370", "обычный"], ["440", "большой"]].forEach(function (z) { var o = el("option", { value: z[0], text: "Размер: " + z[1] }); if (z[0] === String(it.size || 370)) o.selected = true; size.appendChild(o); });
+    var label = el("input", { type: "text", placeholder: "Текст кнопки (" + LANG_NAMES[L] + "), пусто — как в стиле" });
+    label.value = (it[L] && it[L].label) || "";
+    var err = el("div", { class: "rl-pop-t", style: "color:#b3261e" });
+    function ok() {
+      var v = idInp.value.trim();
+      if (!/^[A-Za-z0-9_-]{6,}$/.test(v)) { err.textContent = "Вставьте ID агента из кабинета hanc.ai (латиница и цифры)."; return; }
+      closePop();
+      onOk(function (x) {
+        x.agentId = v; x.style = style; x.size = +size.value; delete x.theme;
+        x[L] = x[L] || {}; x[L].label = label.value.trim();
+      });
+    }
+    idInp.addEventListener("keydown", function (e) { if (e.key === "Enter") ok(); });
+    popover(anchor, [el("div", { class: "rl-pop-t", text: "AI-агент hanc.ai" }), idInp,
+      el("div", { class: "rl-pop-t", text: "Оформление" }), cards, size,
+      el("div", { class: "rl-pop-t", text: "Текст кнопки (надзаголовок, название и текст правятся прямо на странице)" }), label, err,
+      el("button", { type: "button", class: "re-main", on: { click: ok } }, ["OK"])]);
+  }
 
   function slug(s) {
     return String(s || "").toLowerCase().replace(/\.[a-z0-9]+$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "file";
@@ -1005,6 +1036,7 @@
     function put() { freeItems(key).push(it); commitFree(key, it.id); }
     if (type === "image") return pickFile(IMG_ACCEPT, 8, function (f) { it.src = upload(f); put(); });
     if (type === "audio") return pickFile(AUDIO_ACCEPT, 60, function (f) { it.src = upload(f); put(); });
+    if (type === "agent") return agentPopover(lastAnchor || document.body, it, function (apply) { apply(it); put(); });
     if (type === "book") {
       var go = function () { popover(lastAnchor || document.body, [el("div", { class: "rl-pop-t", text: "Какую книгу показать?" })].concat(bookChooser(function (bid) { it.book = bid; put(); }))); };
       return books().length ? go() : B.list().then(go);
@@ -1098,13 +1130,14 @@
     f.setAttribute("contenteditable", plainOnly ? "plaintext-only" : "true");
     f.setAttribute("data-rl-ph", ph);
     if (multi && !f.textContent.trim()) f.textContent = "";
-    f.addEventListener("focus", function () { f.__orig = f.innerText; });
+    function read() { return multi ? f.innerText : f.textContent; }   // innerText учитывает CSS (заглавные надзаголовки)
+    f.addEventListener("focus", function () { f.__orig = read(); });
     f.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") { f.innerText = f.__orig; f.blur(); }
+      if (e.key === "Escape") { if (multi) f.innerText = f.__orig; else f.textContent = f.__orig; f.blur(); }
       else if (e.key === "Enter" && !e.shiftKey && !multi) { e.preventDefault(); f.blur(); }
     });
     f.addEventListener("blur", function () {
-      var v = (f.innerText || "").replace(/ /g, " ").replace(/\r/g, "");
+      var v = (read() || "").replace(/ /g, " ").replace(/\r/g, "");
       v = multi ? v.split(/\n+/).map(function (x) { return x.trim(); }).filter(Boolean).join("\n\n") : v.replace(/\s*\n\s*/g, " ").trim();
       if (v !== getVal()) setVal(v);
     });
@@ -1121,7 +1154,7 @@
       if (selFree && selFree.getAttribute("data-rl-id") === id) setSelFree(node);
       node.querySelectorAll("[data-rl-f]").forEach(function (f) {
         var field = f.getAttribute("data-rl-f");
-        editableField(f, function () { var L = lang(); return (it[L] && it[L][field]) || ""; },
+        editableField(f, function () { var L = lang(); return it.type === "agent" && Lay.agentText ? Lay.agentText(it, field) : ((it[L] && it[L][field]) || ""); },
           function (v) { editItem(key, id, function (x) { var L = lang(); x[L] = x[L] || {}; x[L][field] = v; }); },
           f.hasAttribute("data-rl-multi"), PH[it.type + "." + field] || "Текст");
       });
@@ -1131,10 +1164,11 @@
       var handle = el("button", { type: "button", class: "re-handle", title: "Перетащить (Shift — без привязки)" }, ["⠿"]);
       handle.addEventListener("pointerdown", function (e) { startMove(e, key, id, node, layer); });
       var tools = [handle];
-      if (it.type !== "clone") tools.push(tb(ALIGN_ICON[it.align || "left"], "Выравнивание текста", function () { editItem(key, id, function (x) { x.align = ALIGN_NEXT[x.align || "left"]; }); }));
+      if (it.type !== "clone" && it.type !== "agent") tools.push(tb(ALIGN_ICON[it.align || "left"], "Выравнивание текста", function () { editItem(key, id, function (x) { x.align = ALIGN_NEXT[x.align || "left"]; }); }));
       if (it.type === "image") tools.push(tb("🖼", "Заменить картинку", function () { pickFile(IMG_ACCEPT, 8, function (f) { editItem(key, id, function (x) { x.src = upload(f); }); }); }));
       if (it.type === "audio") tools.push(tb("🎙", "Заменить запись", function () { pickFile(AUDIO_ACCEPT, 60, function (f) { editItem(key, id, function (x) { x.src = upload(f); }); }); }));
       if (it.type === "button") tools.push(tb("🔗", "Куда ведёт кнопка", function (a) { linkPopover(a, key, id); }));
+      if (it.type === "agent") tools.push(tb("⚙", "ID агента, стиль, размер, текст кнопки", function (a) { agentPopover(a, it, function (apply) { editItem(key, id, apply); }); }));
       if (it.type === "book") tools.push(tb("📖", "Другая книга", function (a) { popover(a, bookChooser(function (bid) { editItem(key, id, function (x) { x.book = bid; }); })); }));
       tools.push(tb("⧉", "Дублировать рядом", function () { dupItem(key, id); }));
       tools.push(tb("✕", "Удалить элемент", function () { delItem(key, id); }));
@@ -1153,8 +1187,8 @@
       var grip = el("div", { class: "rl-grip", title: "Потяните, чтобы изменить ширину" });
       grip.addEventListener("pointerdown", function (e) { startResize(e, key, id, node, layer); });
       node.appendChild(grip);
-      // картинку, плеер и книгу можно тянуть за само тело
-      if (/image|audio|book/.test(it.type)) node.addEventListener("pointerdown", function (e) {
+      // картинку, плеер, книгу и рисунок агента можно тянуть за само тело
+      if (/image|audio|book|agent/.test(it.type)) node.addEventListener("pointerdown", function (e) {
         if (e.target.closest(".rl-ft,.rl-grip,[data-rl-f],.rl-play,.rl-wave")) return;
         startMove(e, key, id, node, layer);
       });
@@ -1673,8 +1707,15 @@
     ".re-tools span{font-size:12px;color:#6a6a70;padding:0 4px}",
     ".rl-pop{position:absolute;z-index:2147483002;background:#fff;border-radius:11px;box-shadow:0 10px 36px rgba(0,0,0,.5);padding:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:360px}",
     ".rl-pop-t{width:100%;font-size:12.5px;color:#6a6a70}",
+    ".rl-pop select{font:14px system-ui,sans-serif;padding:6px 8px;border:1px solid #c8c8ce;border-radius:7px;background:#fff;color:#1d1d1f}",
     ".rl-pop input{flex:1;min-width:220px;font:14px system-ui,sans-serif;padding:7px 9px;border:1px solid #c8c8ce;border-radius:7px;color:#1d1d1f;background:#fff}",
     ".rl-pop button.re-main{background:#c9842f;border-color:#c9842f;color:#fff}",
+    ".re-ag-styles{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}",
+    ".rl-pop button.re-ag-style{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;white-space:normal;text-align:center;background:#fff;border-radius:10px}",
+    ".rl-pop button.re-ag-style.on{border-color:#c9842f;box-shadow:0 0 0 2px rgba(201,132,47,.35);background:#fff8ee}",
+    ".re-ag-style svg{width:52px;height:52px;border-radius:8px;background:#14110d;padding:4px;box-sizing:border-box}",
+    ".re-ag-style b{font-size:13px}",
+    ".re-ag-style small{font-size:11px;line-height:1.3;color:#6a6a70}",
     ".re-chip{display:inline-flex;gap:6px;margin:10px 0;position:relative;z-index:5}"
   ].join("\n");
   var bst = document.createElement("style"); bst.textContent = BCSS; document.head.appendChild(bst);

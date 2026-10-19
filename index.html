@@ -15,11 +15,11 @@
 <meta property="og:title" content="Ростислав Вишневский — мистический детектив «Призрачный детектив»">
 <meta property="og:description" content="Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.">
 <meta property="og:url" content="https://oxana-s.github.io/Roni-Site/">
-<meta property="og:image" content="https://oxana-s.github.io/Roni-Site/assets/og-image.jpg">
+<meta property="og:image" content="https://oxana-s.github.io/Roni-Site/assets/og/home-ru.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ростислав Вишневский — мистический детектив «Призрачный детектив»">
 <meta name="twitter:description" content="Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: нью-йоркский полицейский Лукас Палао, кот Конфуций и призрак Оливия Холден.">
-<meta name="twitter:image" content="https://oxana-s.github.io/Roni-Site/assets/og-image.jpg">
+<meta name="twitter:image" content="https://oxana-s.github.io/Roni-Site/assets/og/home-ru.jpg">
 <meta name="theme-color" content="#14110d">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16.png">
@@ -81,6 +81,14 @@
   .vbreath{position:absolute;left:8%;top:10%;width:clamp(260px,21vw,400px);height:clamp(110px,9vw,170px);display:flex;align-items:center;justify-content:center;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse 50% 46% at 50% 50%,rgba(208,218,236,.30),rgba(208,218,236,.13) 55%,transparent 76%);transform:rotate(-7deg);animation:vbreath 16s ease-in-out 2s infinite both}
   .vbreath span{font:500 clamp(30px,2.4vw,46px) Caveat,cursive;color:rgba(12,16,26,.62);letter-spacing:.5px;text-shadow:0 0 2px rgba(12,16,26,.35),0 1px 0 rgba(228,234,246,.22);filter:blur(.35px);white-space:nowrap}
   .vcta:hover{background:rgba(var(--gold-rgb),.16) !important;border-color:var(--gold) !important}
+  /* «Первые строки»: текст по центру; если в секции стоит AI-агент — текст слева, агент справа (на телефоне — друг под другом) */
+  .vread{max-width:var(--measure);margin:0 auto;text-align:center}
+  .vread-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  @media(min-width:701px){
+    #read:has(.rl-t-agent) .vread{max-width:var(--container);text-align:left}
+    #read:has(.rl-t-agent) .vread>*{max-width:54%}
+    #read:has(.rl-t-agent) .vread-cta{justify-content:flex-start}
+  }
   @media(max-width:700px){.vhero-img{top:-7% !important;height:112% !important;object-position:57% 50%}.vbreath{left:50%;top:auto;bottom:13%;margin-left:-130px}}
   @media(prefers-reduced-motion:reduce){.vbreath{animation:none;opacity:.85}.vfog{animation:none}}
 </style>
@@ -116,11 +124,11 @@
 
   <!-- ============ OPENING LINES (HOOK) ============ -->
   <section id="read" data-screen-label="Opening" style="background:var(--bg);padding:100px 7vw;border-bottom:1px solid rgba(var(--gold-rgb),.12)">
-    <div style="max-width:var(--measure);margin:0 auto;text-align:center">
+    <div class="vread">
       <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:30px">{{ t.openKicker }}</div>
       <div style="font:400 88px Forum,serif;color:var(--gold);line-height:0;height:34px;opacity:.55">“</div>
       <p style="font:300 italic clamp(17px,1.9vw,20px)/1.8 Spectral,serif;color:var(--text);margin:0 0 40px;text-align:left;hyphens:auto">{{ t.openQuote }}</p>
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <div class="vread-cta">
         <a href="read.html?book=ghost" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openCta }}</a>
         <a href="#books" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.openSecondary }}</a>
       </div>
@@ -204,7 +212,7 @@
   <section id="voice" data-screen-label="Voice" style="background:var(--bg);padding:90px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:50px;align-items:center;justify-content:center;flex-wrap:wrap">
       <div style="order:2;position:relative;width:230px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#221d17,#221d17 6px,#1c1812 6px,#1c1812 12px);border:1px solid rgba(var(--gold-rgb),.25);min-height:300px">
-        <img src="assets/img/author-read.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
+        <img src="assets/img/author-read.jpg" alt="{{ t.aboutName }}" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
         
       </div>
       <div style="order:1;max-width:480px;min-width:300px;display:flex;flex-direction:column;justify-content:center">
@@ -243,7 +251,7 @@
         <sc-for list="{{ books }}" as="b" hint-placeholder-count="3">
           <a href="{{ b.href }}" class="vcard" style="text-decoration:none;display:block">
             <div class="vcover" style="position:relative;aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#2a2620,#2a2620 6px,#241f18 6px,#241f18 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 16px 36px rgba(0,0,0,.5)">
-              <img src="{{ b.cover }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+              <img src="{{ b.cover }}" alt="{{ b.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
             </div>
             <div style="font:400 20px Forum,serif;color:var(--text);margin-top:18px">{{ b.title }}</div>
             <div style="font:300 italic 13px Spectral,serif;color:#9c917c;margin-top:5px">{{ b.tag }}</div>
@@ -262,7 +270,7 @@
   <section id="author" data-screen-label="About" style="background:var(--bg);padding:90px 7vw">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:60px;align-items:center;flex-wrap:wrap">
       <div style="position:relative;width:260px;height:320px;flex-shrink:0;border-radius:3px;overflow:hidden;background:repeating-linear-gradient(45deg,#221d17,#221d17 6px,#1c1812 6px,#1c1812 12px);border:1px solid rgba(var(--gold-rgb),.25);box-shadow:0 18px 40px rgba(0,0,0,.5)">
-        <img src="assets/img/author.jpg" alt="" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+        <img src="assets/img/author.jpg" alt="{{ t.aboutName }}" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
       </div>
       <div style="flex:1;min-width:280px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:5px;margin-bottom:18px">{{ t.aboutKicker }}</div>

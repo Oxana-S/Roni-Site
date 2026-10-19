@@ -9,10 +9,10 @@
      constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'index.html',['DICT']); }
 
    Редактор (assets/editor.js) включается так: открыть любую страницу с ?edit
-   (выключить — ?edit=0 или кнопкой «Выйти» в панели).
+   (выключить — ?edit=0 или ✕ у кнопки). На хостинге он появляется только
+   после входа в admin/ (см. docs/ADMIN.md).
    ============================================================ */
 (function () {
-  var REPO = "Oxana-S/Roni-Site", BRANCH = "main";
   var LANGS = ["ru", "en", "uk", "bg"];
 
   function ls(k, v) {
@@ -33,28 +33,16 @@
   else if (/[?&]edit(=1)?(&|$)/.test(q)) ss("roni_edit", "1");
   var editMode = ss("roni_edit") === "1";
   var isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-  var token = ls("roni_gh_token");
+  ls("roni_gh_token", null);             // токен GitHub больше не используется — стираем, если остался
 
-  // Данные (data/*.json). Редактор с токеном читает их прямо из GitHub,
-  // чтобы видеть свои правки сразу, а не через 1–2 минуты после деплоя Pages.
-  function plain(path) {
+  // Данные (data/*.json). no-cache: браузер перепроверяет файл — правки видны сразу после сохранения.
+  function fetchJSON(path) {
     return fetch(path, { cache: "no-cache" }).then(function (r) {
       if (!r.ok) throw new Error(path + " " + r.status);
       return r.json();
     });
   }
-  function apiMode() { return editMode && !isLocal && !!token; }
-  function fetchJSON(path) {
-    if (!apiMode()) return plain(path);
-    return fetch("https://api.github.com/repos/" + REPO + "/contents/" + path + "?ref=" + BRANCH, {
-      cache: "no-store",
-      headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github.raw+json" }
-    }).then(function (r) {
-      if (r.status === 404) throw new Error(path + " 404");
-      if (!r.ok) return plain(path);
-      return r.json();
-    }, function () { return plain(path); });
-  }
+  function apiMode() { return false; }   // для совместимости: данные всегда читаются с самого сайта
 
   // ---- правки текстов поверх словарей компонентов ----
   var overrides = null, insts = [];
@@ -108,7 +96,7 @@
   });
 
   window.RoniTexts = {
-    REPO: REPO, BRANCH: BRANCH, LANGS: LANGS,
+    LANGS: LANGS,
     register: register, live: live, pageKey: pageKey, rerender: rerender, setPath: setPath, ready: ready,
     fetchJSON: fetchJSON, apiMode: apiMode, isLocal: isLocal, editMode: editMode,
     overrides: function () { return overrides; }

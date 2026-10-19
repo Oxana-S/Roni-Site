@@ -20,10 +20,6 @@
     return cache[url];
   }
   function exists(url) {
-    // редактор читает данные из GitHub API — новая глава может ещё не быть на Pages
-    if (window.RoniTexts && window.RoniTexts.apiMode()) {
-      return getJSON(url).then(function () { return true; }, function () { return false; });
-    }
     var key = "HEAD " + url;
     if (!cache[key]) cache[key] = fetch(url, { method: "HEAD", cache: "no-cache" })
       .then(function (r) { return r.ok; }, function () { return false; });

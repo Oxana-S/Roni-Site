@@ -4,7 +4,9 @@
 Смена базового домена сайта одной командой.
 
 Меняет ВСЕ абсолютные URL (canonical, og:url, og:image, twitter:image,
-sitemap <loc>, ссылку на sitemap в robots.txt) с текущего домена на новый.
+sitemap <loc>, ссылку на sitemap в robots.txt) с текущего домена на новый
+и прописывает его в assets/seo.json ("siteUrl") — для SEO-слоя на хостинге (seo/).
+После запуска загрузите на хостинг: *.html, sitemap.xml, robots.txt, assets/seo.json.
 
 Использование:
     python3 scripts/set-domain.py https://roni-vyshnevskyi.com
@@ -12,7 +14,7 @@ sitemap <loc>, ссылку на sitemap в robots.txt) с текущего до
 Текущий домен хранится в файле .sitebase (обновляется автоматически),
 поэтому команду можно запускать сколько угодно раз.
 """
-import os, sys, glob
+import os, re, sys, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -55,6 +57,16 @@ def main():
             total_files += 1
             total_hits += hits
             print("  обновлено %2d  %s" % (hits, os.path.relpath(f, ROOT)))
+
+    # SEO-слой на хостинге (seo/*.php, assets/seo-meta.js): один точный адрес сайта вместо «как пришёл запрос»
+    seo = os.path.join(ROOT, "assets", "seo.json")
+    if os.path.exists(seo):
+        t = open(seo, encoding="utf-8").read()
+        t2 = re.sub(r'"siteUrl"\s*:\s*"[^"]*"', '"siteUrl": "%s"' % new, t, count=1)
+        if t2 != t:
+            open(seo, "w", encoding="utf-8", newline="").write(t2)
+            total_files += 1
+            print("  обновлено  1  assets/seo.json (siteUrl)")
 
     open(sb, "w", encoding="utf-8").write(new + "\n")
     print("\nГотово. Заменено вхождений: %d в %d файлах." % (total_hits, total_files))

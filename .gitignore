@@ -1,2 +1,4 @@
 .DS_Store
 *.zip
+admin/config.php
+admin/.data/

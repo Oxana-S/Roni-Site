@@ -1,0 +1,91 @@
+# ============================================================
+#  Настройки сервера (Apache) для сайта Ростислава Вишневского.
+#  SEO на 4 языках, страница 404, сжатие, кэш браузера, закрытые служебные файлы.
+#
+#  Всё обёрнуто в <IfModule>: если на хостинге нет модуля, правило просто не действует.
+#  Если после загрузки этого файла сайт отвечает «500 Internal Server Error» — удалите его:
+#  сайт продолжит работать, только без серверного SEO, сжатия и кэша (docs/SEO.md).
+#  Подробно — docs/SEO.md.
+# ============================================================
+
+# Своя страница «не найдено» (с кодом 404 — важно для поисковиков)
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- HTTPS и единый адрес (ВЫКЛЮЧЕНО) ---
+  # Включайте, когда подключён домен и выпущен SSL-сертификат. Сначала поищите в ISPmanager галочку
+  # «Перенаправлять HTTP-запросы в HTTPS» (Сайты → ваш сайт → SSL) — она надёжнее. Если её нет —
+  # уберите # в начале следующих трёх строк:
+  # RewriteCond %{HTTPS} off
+  # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # Адрес без www (www.домен → домен) — уберите # в двух строках ниже:
+  # RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  # RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # --- SEO-слой: страницы отдаются через seo/page.php ---
+  # (заголовки и описания на языке страницы, canonical, hreflang, Open Graph, schema.org).
+  # ?raw=1 — исходник страницы без обработки (так её читает редактор сайта).
+  RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+  RewriteCond %{QUERY_STRING} !(^|&)raw=1(&|$)
+  RewriteRule ^$ seo/page.php?__page=index.html [QSA,L]
+
+  RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+  RewriteCond %{QUERY_STRING} !(^|&)raw=1(&|$)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^([A-Za-z0-9][A-Za-z0-9_-]*\.html)$ seo/page.php?__page=$1 [QSA,L]
+
+  # Карта сайта и robots.txt собираются сами (новые книги из админки попадают туда автоматически)
+  RewriteRule ^sitemap\.xml$ seo/sitemap.php [L]
+  RewriteRule ^robots\.txt$ seo/robots.php [L]
+</IfModule>
+
+# Служебное — не для посетителей и поисковиков (код, документация, исходники картинок)
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.(git|svn|vscode|sitebase|thumbnail|gitignore|gitattributes|nojekyll)(/|$)
+  RedirectMatch 404 ^/(docs|scripts)(/|$)
+  RedirectMatch 404 \.(md|py|pyc|docx)$
+</IfModule>
+
+# Типы файлов
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType audio/mp4 .m4a
+  AddType image/webp .webp
+  AddCharset utf-8 .html .css .js .json .xml .txt .webmanifest
+</IfModule>
+
+# Сжатие текстовых файлов (быстрее загрузка — лучше для поисковиков)
+<IfModule mod_deflate.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/ld+json application/manifest+json image/svg+xml image/x-icon
+  </IfModule>
+</IfModule>
+
+# Кэш браузера: картинки, аудио и шрифты — неделя; страницы, скрипты, стили и данные —
+# каждый раз сверяются с сервером (правки из админки и новый код видны сразу)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 7 days"
+  ExpiresByType image/png "access plus 7 days"
+  ExpiresByType image/webp "access plus 7 days"
+  ExpiresByType image/gif "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 7 days"
+  ExpiresByType image/x-icon "access plus 7 days"
+  ExpiresByType image/vnd.microsoft.icon "access plus 7 days"
+  ExpiresByType audio/mp4 "access plus 7 days"
+  ExpiresByType audio/mpeg "access plus 7 days"
+  ExpiresByType audio/ogg "access plus 7 days"
+  ExpiresByType font/woff2 "access plus 30 days"
+  ExpiresByType font/woff "access plus 30 days"
+  ExpiresByType application/manifest+json "access plus 1 day"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css|json|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

@@ -106,7 +106,7 @@ class Component extends DCLogic {
       ctaTitle:'Войдите в мир Толуса',ctaText:'Прочитайте роман, из которого выросли эти заметки.',ctaBook:'Читать книгу',ctaMore:'Другие статьи',
       footTagline:'Истории о долге, наследии и личной судьбе — на стыке боевых искусств, магии и философии.',footNav:'РАЗДЕЛЫ',footLangTitle:'ЯЗЫК',footRights:'Все права защищены'},
     en:{brand:'R·VYSHNEVSKYI',navBooks:'Books',navAuthor:'Author',navBlog:'Blog',navNews:'News',navContact:'Contact',navHome:'Home',
-      back:'← Back to blog',byName:'Rostyslav Vyshnevskyi',byRole:'Writer',
+      back:'← Back to blog',byName:'Rostyslav Vishnevsky',byRole:'Writer',
       ctaTitle:'Step into the world of Tolus',ctaText:'Read the novel these notes grew from.',ctaBook:'Read the book',ctaMore:'More articles',
       footTagline:'Stories of duty, heritage and personal fate — where martial arts, magic and philosophy meet.',footNav:'SECTIONS',footLangTitle:'LANGUAGE',footRights:'All rights reserved'},
     uk:{brand:'Р·ВИШНЕВСЬКИЙ',navBooks:'Книги',navAuthor:'Автор',navBlog:'Блог',navNews:'Новини',navContact:'Контакти',navHome:'Головна',
@@ -161,6 +161,16 @@ class Component extends DCLogic {
   componentDidMount(){
     try{const s=localStorage.getItem('vish_lang');if(s&&this.UI[s])this.setState({lang:s});}catch(e){}
     try{const q=new URLSearchParams(location.search).get('id');if(q&&this.ARTICLES[q])this.setState({id:q});}catch(e){}
+    this.syncTitle();
+  }
+  // заголовок вкладки — по статье (как в seo/page.php: patterns.article в assets/seo.json)
+  DOC_TITLE={ru:' — блог Ростислава Вишневского',en:" — Rostyslav Vishnevsky's blog",uk:' — блог Ростислава Вишневського',bg:' — блог на Ростислав Вишневски'};
+  componentDidUpdate(){ this.syncTitle(); }
+  syncTitle(){
+    const art=this.ARTICLES[this.state.id]||this.ARTICLES['1'], a=art&&(art[this.state.lang]||art.ru);
+    if(!a||!a.title) return;
+    const s=a.title+(this.DOC_TITLE[this.state.lang]||this.DOC_TITLE.ru);
+    if(document.title!==s) document.title=s;
   }
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){

@@ -1,0 +1,12 @@
+# SEO-слой: снаружи вызываются только page.php, sitemap.php и robots.php (через .htaccess в корне сайта).
+# lib.php — общие функции, напрямую не открывается. На nginx этот файл не действует — это не страшно:
+# lib.php, открытый напрямую, ничего не выводит.
+<FilesMatch "^lib\.php$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

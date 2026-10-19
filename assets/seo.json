@@ -1,0 +1,189 @@
+{
+  "_doc": "SEO сайта: заголовки, описания, разметка для поисковиков. Читают seo/*.php (сервер) и assets/seo-meta.js (браузер). Как устроено и как менять — docs/SEO.md",
+  "siteUrl": "",
+  "langs": ["ru", "en", "uk", "bg"],
+  "defaultLang": "ru",
+  "locales": { "ru": "ru_RU", "en": "en_US", "uk": "uk_UA", "bg": "bg_BG" },
+  "offers": false,
+  "verification": { "google": "", "yandex": "", "bing": "" },
+  "ogImage": { "ru": "assets/og/home-ru.jpg", "en": "assets/og/home-en.jpg", "uk": "assets/og/home-uk.jpg", "bg": "assets/og/home-bg.jpg" },
+  "siteName": { "ru": "Ростислав Вишневский", "en": "Rostyslav Vishnevsky", "uk": "Ростислав Вишневський", "bg": "Ростислав Вишневски" },
+  "author": {
+    "name": { "ru": "Ростислав Вишневский", "en": "Rostyslav Vishnevsky", "uk": "Ростислав Вишневський", "bg": "Ростислав Вишневски" },
+    "alternateName": ["Ronny Cherry", "Rostyslav Vishnevsky", "Rostyslav Vyshnevskyi", "Ростислав Вишневский", "Ростислав Вишневський", "Ростислав Вишневски"],
+    "jobTitle": { "ru": "Писатель", "en": "Writer", "uk": "Письменник", "bg": "Писател" },
+    "image": "assets/img/author.jpg",
+    "page": "about.html",
+    "sameAs": ["https://www.facebook.com/rostyslavvyshnevskyi/"],
+    "locality": "Varna",
+    "country": "BG"
+  },
+  "ui": {
+    "home": { "ru": "Главная", "en": "Home", "uk": "Головна", "bg": "Начало" },
+    "blog": { "ru": "Блог", "en": "Blog", "uk": "Блог", "bg": "Блог" },
+    "books": { "ru": "Книги", "en": "Books", "uk": "Книги", "bg": "Книги" },
+    "about": { "ru": "Об авторе", "en": "About the author", "uk": "Про автора", "bg": "За автора" },
+    "news": { "ru": "Новости", "en": "News", "uk": "Новини", "bg": "Новини" },
+    "contacts": { "ru": "Контакты", "en": "Contact", "uk": "Контакти", "bg": "Контакти" },
+    "chapter": { "ru": "Первая глава", "en": "Chapter one", "uk": "Перший розділ", "bg": "Първа глава" },
+    "readChapter": { "ru": "Читать первую главу", "en": "Read the first chapter", "uk": "Читати перший розділ", "bg": "Прочети първа глава" },
+    "aboutBook": { "ru": "О книге", "en": "About the book", "uk": "Про книгу", "bg": "За книгата" },
+    "noJs": { "ru": "Полная версия сайта работает с включённым JavaScript.", "en": "The full version of this site needs JavaScript.", "uk": "Повна версія сайту працює з увімкненим JavaScript.", "bg": "Пълната версия на сайта работи с включен JavaScript." }
+  },
+  "patterns": {
+    "book": { "ru": "«{title}» — {author}", "en": "«{title}» — {author}", "uk": "«{title}» — {author}", "bg": "«{title}» — {author}" },
+    "read": { "ru": "Читать онлайн — «{title}» | {author}", "en": "Read online — «{title}» | {author}", "uk": "Читати онлайн — «{title}» | {author}", "bg": "Чети онлайн — «{title}» | {author}" },
+    "readDesc": { "ru": "«{title}» — первая глава онлайн бесплатно. {text}", "en": "«{title}» — read chapter one online for free. {text}", "uk": "«{title}» — перший розділ онлайн безкоштовно. {text}", "bg": "«{title}» — първа глава онлайн безплатно. {text}" },
+    "article": { "ru": "{title} — блог Ростислава Вишневского", "en": "{title} — Rostyslav Vishnevsky's blog", "uk": "{title} — блог Ростислава Вишневського", "bg": "{title} — блог на Ростислав Вишневски" }
+  },
+  "books": {
+    "ghost": { "genre": { "ru": "Мистический детектив", "en": "Supernatural mystery", "uk": "Містичний детектив", "bg": "Мистичен детектив" } },
+    "home": { "genre": { "ru": "Эпическое фэнтези", "en": "Epic fantasy", "uk": "Епічне фентезі", "bg": "Епично фентъзи" } }
+  },
+  "pages": {
+    "index.html": {
+      "type": "home",
+      "ru": { "t": "Ростислав Вишневский — мистический детектив «Призрачный детектив»",
+              "d": "Официальный сайт писателя Ростислава Вишневского. «Призрачный детектив»: детектив Лукас Палао, кот Конфуций и призрак Оливия Холден. Первая глава — бесплатно.",
+              "k": "Ростислав Вишневский, мистический детектив, Призрачный детектив, Лукас Палао, детектив книга, писатель" },
+      "en": { "t": "Rostyslav Vishnevsky (Ronny Cherry) — A Detective for the Dead",
+              "d": "Official site of Rostyslav Vishnevsky (Ronny Cherry). A Detective for the Dead: NYPD detective Lucas Palao, Confucius the cat and a ghost. Read chapter one free.",
+              "k": "Rostyslav Vishnevsky, Ronny Cherry, A Detective for the Dead, mystery, supernatural detective, Lucas Palao, author" },
+      "uk": { "t": "Ростислав Вишневський — містичний детектив «Примарний детектив»",
+              "d": "Офіційний сайт письменника Ростислава Вишневського. «Примарний детектив»: детектив Лукас Палао, кіт Конфуцій і привид Олівія Холден.",
+              "k": "Ростислав Вишневський, містичний детектив, Примарний детектив, Лукас Палао, детектив книга, письменник" },
+      "bg": { "t": "Ростислав Вишневски — мистичен детектив „Призрачният детектив“",
+              "d": "Официален сайт на писателя Ростислав Вишневски. „Призрачният детектив“: детективът Лукас Палао, котаракът Конфуций и призракът Оливия Холдън.",
+              "k": "Ростислав Вишневски, мистичен детектив, Призрачният детектив, Лукас Палао, детективска книга, писател" }
+    },
+    "about.html": {
+      "type": "profile", "name": "about",
+      "ru": { "t": "Об авторе — Ростислав Вишневский, писатель",
+              "d": "Ростислав Вишневский — автор мистического детектива «Призрачный детектив» и эпического фэнтези «Просто вернуться домой». Биография и история создания книг.",
+              "k": "Ростислав Вишневский, об авторе, биография писателя, Призрачный детектив, фэнтези автор" },
+      "en": { "t": "About the author — Rostyslav Vishnevsky (Ronny Cherry)",
+              "d": "Rostyslav Vishnevsky (Ronny Cherry) is the author of the supernatural mystery A Detective for the Dead and the epic fantasy Just to Return Home. Biography and story.",
+              "k": "Rostyslav Vishnevsky, Ronny Cherry, about the author, writer biography, mystery author, fantasy author" },
+      "uk": { "t": "Про автора — Ростислав Вишневський, письменник",
+              "d": "Ростислав Вишневський — автор містичного детективу «Примарний детектив» та епічного фентезі «Просто повернутися додому». Біографія та історія створення книг.",
+              "k": "Ростислав Вишневський, про автора, біографія письменника, Примарний детектив, фентезі автор" },
+      "bg": { "t": "За автора — Ростислав Вишневски, писател",
+              "d": "Ростислав Вишневски е автор на мистичния детектив „Призрачният детектив“ и епичното фентъзи „Просто да се върнеш у дома“. Биография и история на книгите.",
+              "k": "Ростислав Вишневски, за автора, биография на писателя, Призрачният детектив, фентъзи автор" }
+    },
+    "book.html": {
+      "type": "book", "book": "home", "image": "assets/img/book-1.jpg",
+      "ru": { "t": "«Просто вернуться домой» — роман Ростислава Вишневского",
+              "d": "«Просто вернуться домой» — эпическое фэнтези Ростислава Вишневского, том I хроник рода Даргонов. Воин-антиквар, древнее оружие и дорога между мирами.",
+              "k": "Просто вернуться домой, книга, роман, эпическое фэнтези, Ростислав Вишневский, купить книгу" },
+      "en": { "t": "«Just to Return Home» — a novel by Rostyslav Vishnevsky",
+              "d": "Just to Return Home — an epic fantasy by Rostyslav Vishnevsky, volume I of the Dargon clan chronicles. A warrior-antiquarian, ancient weapons and a road between worlds.",
+              "k": "Just to Return Home, book, novel, epic fantasy, Rostyslav Vishnevsky, buy book" },
+      "uk": { "t": "«Просто повернутися додому» — роман Ростислава Вишневського",
+              "d": "«Просто повернутися додому» — епічне фентезі Ростислава Вишневського, том I хронік роду Даргонів. Воїн-антиквар, давня зброя і дорога між світами.",
+              "k": "Просто повернутися додому, книга, роман, епічне фентезі, Ростислав Вишневський, купити книгу" },
+      "bg": { "t": "«Просто да се върнеш у дома» — роман от Ростислав Вишневски",
+              "d": "«Просто да се върнеш у дома» — епично фентъзи от Ростислав Вишневски, том I от хрониките на рода Даргон. Воин-антиквар, древно оръжие и път между световете.",
+              "k": "Просто да се върнеш у дома, книга, роман, епично фентъзи, Ростислав Вишневски, купи книга" }
+    },
+    "return-home.html": {
+      "type": "landing", "book": "home", "image": "assets/og-image.jpg",
+      "ru": { "t": "«Просто вернуться домой» — эпическое фэнтези Ростислава Вишневского",
+              "d": "Эпическое фэнтези Ростислава Вишневского о долге, наследии и судьбе — мир Толус, красное солнце и хроники рода Даргонов.",
+              "k": "Ростислав Вишневский, эпическое фэнтези, фэнтези книги, Просто вернуться домой, Толус, Даргоны, писатель фэнтези" },
+      "en": { "t": "«Just to Return Home» — epic fantasy by Rostyslav Vishnevsky",
+              "d": "Epic fantasy by Rostyslav Vishnevsky about duty, heritage and fate — the world of Tolus, its red sun and the chronicles of the Dargon clan.",
+              "k": "Rostyslav Vishnevsky, epic fantasy, fantasy books, Just to Return Home, Tolus, Dargons, fantasy author" },
+      "uk": { "t": "«Просто повернутися додому» — епічне фентезі Ростислава Вишневського",
+              "d": "Епічне фентезі Ростислава Вишневського про обов'язок, спадок і долю — світ Толус, червоне сонце й хроніки роду Даргонів.",
+              "k": "Ростислав Вишневський, епічне фентезі, фентезі книги, Просто повернутися додому, Толус, Даргони, письменник фентезі" },
+      "bg": { "t": "«Просто да се върнеш у дома» — епично фентъзи от Ростислав Вишневски",
+              "d": "Епично фентъзи от Ростислав Вишневски за дълг, наследство и съдба — светът Толус, червеното слънце и хрониките на рода Даргон.",
+              "k": "Ростислав Вишневски, епично фентъзи, фентъзи книги, Просто да се върнеш у дома, Толус, Даргони, писател фентъзи" }
+    },
+    "reviews.html": {
+      "type": "page", "name": "reviews",
+      "ru": { "t": "Отзывы читателей — книги Ростислава Вишневского", "d": "Что читатели говорят о книгах Ростислава Вишневского: мистический детектив, эпическое фэнтези и мир Толус.", "k": "отзывы, рецензии, читатели, Ростислав Вишневский, книги отзывы" },
+      "en": { "t": "Reader reviews — books by Rostyslav Vishnevsky", "d": "What readers say about the books of Rostyslav Vishnevsky: supernatural mystery, epic fantasy and the world of Tolus.", "k": "reviews, ratings, readers, Rostyslav Vishnevsky, book reviews" },
+      "uk": { "t": "Відгуки читачів — книги Ростислава Вишневського", "d": "Що читачі кажуть про книги Ростислава Вишневського: містичний детектив, епічне фентезі та світ Толус.", "k": "відгуки, рецензії, читачі, Ростислав Вишневський, відгуки про книги" },
+      "bg": { "t": "Отзиви на читатели — книги от Ростислав Вишневски", "d": "Какво казват читателите за книгите на Ростислав Вишневски: мистичен детектив, епично фентъзи и светът Толус.", "k": "отзиви, рецензии, читатели, Ростислав Вишневски, отзиви за книги" }
+    },
+    "blog.html": {
+      "type": "blog", "name": "blog", "image": "assets/og-image.jpg",
+      "ru": { "t": "Блог — заметки Ростислава Вишневского", "d": "Заметки автора о мире Толус, создании книг и философии историй.", "k": "блог, заметки автора, worldbuilding, Толус, Ростислав Вишневский" },
+      "en": { "t": "Blog — notes by Rostyslav Vishnevsky", "d": "The author's notes on the world of Tolus, writing books and the philosophy of stories.", "k": "blog, author notes, worldbuilding, Tolus, Rostyslav Vishnevsky" },
+      "uk": { "t": "Блог — нотатки Ростислава Вишневського", "d": "Нотатки автора про світ Толус, створення книг і філософію історій.", "k": "блог, нотатки автора, worldbuilding, Толус, Ростислав Вишневський" },
+      "bg": { "t": "Блог — бележки от Ростислав Вишневски", "d": "Бележки на автора за света Толус, създаването на книги и философията на историите.", "k": "блог, бележки на автора, worldbuilding, Толус, Ростислав Вишневски" }
+    },
+    "article.html": {
+      "type": "article",
+      "ru": { "k": "статья, блог, Ростислав Вишневский, фэнтези, Толус" },
+      "en": { "k": "article, blog, Rostyslav Vishnevsky, fantasy, Tolus" },
+      "uk": { "k": "стаття, блог, Ростислав Вишневський, фентезі, Толус" },
+      "bg": { "k": "статия, блог, Ростислав Вишневски, фентъзи, Толус" }
+    },
+    "news.html": {
+      "type": "page", "name": "news",
+      "ru": { "t": "Новости — Ростислав Вишневский", "d": "Новости о книгах, выходах и событиях писателя Ростислава Вишневского.", "k": "новости, анонсы, Ростислав Вишневский, книги новости" },
+      "en": { "t": "News — Rostyslav Vishnevsky", "d": "News about books, releases and events of author Rostyslav Vishnevsky.", "k": "news, announcements, Rostyslav Vishnevsky, book news" },
+      "uk": { "t": "Новини — Ростислав Вишневський", "d": "Новини про книги, виходи та події письменника Ростислава Вишневського.", "k": "новини, анонси, Ростислав Вишневський, новини книг" },
+      "bg": { "t": "Новини — Ростислав Вишневски", "d": "Новини за книги, издания и събития на писателя Ростислав Вишневски.", "k": "новини, анонси, Ростислав Вишневски, новини за книги" }
+    },
+    "contacts.html": {
+      "type": "contact", "name": "contacts",
+      "ru": { "t": "Контакты — написать автору | Ростислав Вишневский", "d": "Связаться с писателем Ростиславом Вишневским: почта, телефон, форма обратной связи.", "k": "контакты, написать автору, связь, Ростислав Вишневский" },
+      "en": { "t": "Contact — write to the author | Rostyslav Vishnevsky", "d": "Get in touch with author Rostyslav Vishnevsky (Ronny Cherry): email, phone, contact form.", "k": "contact, write to the author, get in touch, Rostyslav Vishnevsky" },
+      "uk": { "t": "Контакти — написати автору | Ростислав Вишневський", "d": "Зв'язатися з письменником Ростиславом Вишневським: пошта, телефон, форма зворотного зв'язку.", "k": "контакти, написати автору, зв'язок, Ростислав Вишневський" },
+      "bg": { "t": "Контакти — пишете на автора | Ростислав Вишневски", "d": "Свържете се с писателя Ростислав Вишневски: имейл, телефон, формуляр за контакт.", "k": "контакти, пишете на автора, връзка, Ростислав Вишневски" }
+    },
+    "read.html": { "type": "read", "book": "home" },
+    "books.html": { "type": "books" },
+    "order.html": { "type": "order", "noindex": true },
+    "404.html": { "type": "404", "noindex": true },
+    "dev.html": { "noindex": true },
+    "styleguide.html": { "noindex": true },
+    "design-tokens.html": { "noindex": true },
+    "wireframe.html": { "noindex": true },
+    "directions.html": { "noindex": true },
+    "read-detective.html": { "redirect": "read.html?book=ghost" }
+  }
+,
+  "articles": {
+    "1": {
+      "ru": {"t":"Как родился мир Толуса","d":"Мир Толуса я строил не как карту, а как ощущение. Первым появилось красное солнце, давшее имя всему миру.","img":"assets/img/blog-1.jpg"},
+      "en": {"t":"How the world of Tolus was born","d":"I built the world of Tolus not as a map but as a feeling. The red sun came first, and gave its name to the whole world.","img":"assets/img/blog-1.jpg"},
+      "uk": {"t":"Як народився світ Толуса","d":"Світ Толуса я будував не як карту, а як відчуття. Першим з’явилося червоне сонце, що дало ім’я всьому світові.","img":"assets/img/blog-1.jpg"},
+      "bg": {"t":"Как се роди светът на Толус","d":"Светът на Толус градих не като карта, а като усещане. Първо се появи червеното слънце, дало име на целия свят.","img":"assets/img/blog-1.jpg"}
+    },
+    "2": {
+      "ru": {"t":"Воин под видом антиквара","d":"Кил — старший сын главы рода воинов. И при этом торговец древним оружием на чужой Земле. Из этого противоречия выросла вся книга.","img":"assets/img/blog-2.jpg"},
+      "en": {"t":"A warrior disguised as an antiquarian","d":"Kil is the eldest son of a warrior clan’s head. And yet a dealer in ancient weapons on an alien Earth. The whole book grew from that contradiction.","img":"assets/img/blog-2.jpg"},
+      "uk": {"t":"Воїн під виглядом антиквара","d":"Кіл — старший син голови роду воїнів. І водночас торговець древньою зброєю на чужій Землі. З цієї суперечності виросла вся книга.","img":"assets/img/blog-2.jpg"},
+      "bg": {"t":"Воин под маската на антиквар","d":"Кил е най-големият син на главата на воински род. И същевременно търговец на древно оръжие на чужда Земя. От това противоречие израсна цялата книга.","img":"assets/img/blog-2.jpg"}
+    },
+    "3": {
+      "ru": {"t":"Оружие рода Даргонов","d":"Владеть оружием и боем без оружия мальчиков рода учат чуть ли не с первых шагов.","img":"assets/img/blog-3.jpg"},
+      "en": {"t":"Weapons of the Dargon clan","d":"The clan’s boys are taught weapons and unarmed combat almost from their first steps.","img":"assets/img/blog-3.jpg"},
+      "uk": {"t":"Зброя роду Даргонів","d":"Володіти зброєю і боєм без зброї хлопців роду навчають чи не з перших кроків.","img":"assets/img/blog-3.jpg"},
+      "bg": {"t":"Оръжието на рода Даргон","d":"Да владеят оръжие и бой без оръжие момчетата от рода учат едва ли не от първите си стъпки.","img":"assets/img/blog-3.jpg"}
+    },
+    "4": {
+      "ru": {"t":"Карпаты, сосна и тишина","d":"Эту книгу я начал писать в Карпатах. Мы поехали с детьми в маленький городок, окружённый горами и лесом.","img":"assets/img/blog-4.jpg"},
+      "en": {"t":"The Carpathians, pine and silence","d":"I began this book in the Carpathians. We took the children to a small town ringed by mountains and forest.","img":"assets/img/blog-4.jpg"},
+      "uk": {"t":"Карпати, сосна й тиша","d":"Цю книгу я почав писати в Карпатах. Ми поїхали з дітьми в маленьке містечко, оточене горами й лісом.","img":"assets/img/blog-4.jpg"},
+      "bg": {"t":"Карпатите, борът и тишината","d":"Започнах тази книга в Карпатите. Заведохме децата в малко градче, обградено от планини и гора.","img":"assets/img/blog-4.jpg"}
+    },
+    "5": {
+      "ru": {"t":"Магия Чтущих","d":"Чтущие — жрецы-маги рода Даргонов. Их сила не в молниях, а в знании.","img":"assets/img/blog-5.jpg"},
+      "en": {"t":"The magic of the Heeding","d":"The Heeding are the priest-mages of the Dargon clan. Their power lies not in lightning but in knowledge.","img":"assets/img/blog-5.jpg"},
+      "uk": {"t":"Магія Чтущих","d":"Чтущі — жерці-маги роду Даргонів. Їхня сила не в блискавках, а в знанні.","img":"assets/img/blog-5.jpg"},
+      "bg": {"t":"Магията на Четящите","d":"Четящите са жреците-маги на рода Даргон. Силата им не е в мълниите, а в знанието.","img":"assets/img/blog-5.jpg"}
+    },
+    "6": {
+      "ru": {"t":"Долг, род и судьба","d":"Под боевыми сценами и магией прячется главный вопрос книги: что мы должны своему роду — и что себе самим.","img":"assets/img/blog-6.jpg"},
+      "en": {"t":"Duty, lineage and fate","d":"Beneath the fights and the magic hides the book’s central question: what do we owe our lineage — and what do we owe ourselves.","img":"assets/img/blog-6.jpg"},
+      "uk": {"t":"Обов’язок, рід і доля","d":"Під бойовими сценами й магією ховається головне питання книги: що ми винні своєму роду — і що собі самим.","img":"assets/img/blog-6.jpg"},
+      "bg": {"t":"Дълг, род и съдба","d":"Под бойните сцени и магията се крие главният въпрос на книгата: какво дължим на своя род — и какво на себе си.","img":"assets/img/blog-6.jpg"}
+    }
+  }
+}

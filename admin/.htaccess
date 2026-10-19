@@ -1,0 +1,13 @@
+# Админка: открыты только страница входа (index.php) и API редактора (api.php).
+# Служебные файлы браузеру не отдаются (на nginx этот файл не действует — тогда они просто
+# выполняются как PHP и ничего не показывают). Если admin/ вдруг отвечает «500 Internal Server Error» —
+# хостинг не разрешает эти правила: удалите этот файл, защита входа и сохранения от него не зависит.
+<FilesMatch "^(config|config\.sample|lib)\.php$|^\.user\.ini$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

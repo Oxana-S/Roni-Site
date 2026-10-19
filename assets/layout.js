@@ -19,6 +19,9 @@
    }
    Подвал общий для всех страниц: его элементы и сдвиги — в "global": { "free": { "footer": … }, "moves": { "footer": … } }.
    Элемент типа «clone» — копия существующего элемента: { "type": "clone", "h": px, "ru": { "html": "…" } }.
+   Элемент типа «agent» — голосовой AI-агент hanc.ai в оформлении сайта:
+     { "type": "agent", "agentId", "style": "keeper|portal", "size": 280|370|440, "voiceUrl",
+       "ru": { "kicker", "title", "text", "label" } }   (пустые подписи — по умолчанию для стиля)
    Элемент: { "id", "type": "heading|text|quote|image|audio|button|book",
               "x": % ширины слоя, "y": px от верха секции, "w": % ширины (нет — по содержимому),
               "align": "left|center|right", "src", "href", "book",
@@ -117,6 +120,77 @@
     ".rl-fi .rl-cap:empty{display:none}",
     ".rl-spacer{pointer-events:none}",
     ".rl-row{display:contents}",
+    // AI-агент: рисунок (дверь хранителя / врата) + подписи + своя кнопка; шар виджета светится внутри рисунка
+    ".rl-ag{container-type:inline-size;padding-bottom:44px}",
+    ".rl-ag-in{display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center}",
+    ".rl-ag-art{position:relative;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent}",
+    ".rl-ag-art::before{content:'';position:absolute;left:50%;top:var(--gy);width:var(--gs);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent);opacity:.55;transition:opacity .8s;pointer-events:none}",
+    ".rl-ag-art:hover::before{opacity:.85}",
+    ".rl-ag-svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}",
+    ".rl-ag-orb{position:absolute;aspect-ratio:1;transition:opacity .6s}",
+    ".rl-ag-orb hanc-ai-inline-call{display:block;width:100%;height:100%}",
+    ".rl-ag-orb hanc-ai-inline-call::part(button){display:none}",
+    ".rl-ag-orb hanc-ai-inline-call::part(orb-container){pointer-events:none;overflow:hidden}",   // свечение шара — только в своём круге
+    ".rl-ag-body{display:flex;flex-direction:column;align-items:center;max-width:360px;min-width:0}",
+    "@container (min-width:560px){.rl-ag .rl-ag-in{flex-direction:row;justify-content:center;gap:48px;text-align:left}.rl-ag .rl-ag-body{align-items:flex-start}}",
+    ".rl-ag-kick{font:400 11px Spectral,serif;letter-spacing:5px;text-transform:uppercase;color:var(--ag-accent);margin-bottom:14px}",
+    ".rl-ag-title{font:400 clamp(28px,3vw,36px)/1.15 Forum,serif;color:var(--ag-title);margin-bottom:14px;text-wrap:balance}",
+    ".rl-ag-text{font:300 italic 17px/1.7 Spectral,serif;color:#c9bda8;margin-bottom:26px;text-wrap:pretty}",
+    ".rl-ag-btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;border:1px solid rgba(var(--gold-rgb,201,168,106),.5);background:rgba(var(--gold-rgb,201,168,106),.06);color:#ecdfc4;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 28px;border-radius:2px;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}",
+    ".rl-ag-btn:hover{background:rgba(var(--gold-rgb,201,168,106),.15);border-color:var(--gold,#c9a86a);transform:translateY(-2px)}",
+    ".rl-ag-btn svg{width:14px;height:17px;fill:currentColor;flex-shrink:0;color:var(--ag-icon)}",
+    ".rl-ag-st{display:none}",
+    ".rl-ag.is-wait .rl-ag-btn [data-rl-f],.rl-ag.is-live .rl-ag-btn [data-rl-f],.rl-ag.is-fail .rl-ag-btn [data-rl-f]{display:none}",
+    ".rl-ag.is-wait .rl-ag-st,.rl-ag.is-live .rl-ag-st,.rl-ag.is-fail .rl-ag-st{display:inline}",
+    ".rl-ag.is-live .rl-ag-btn{border-color:var(--gold,#c9a86a);background:rgba(var(--gold-rgb,201,168,106),.16)}",
+    ".rl-ag.is-live .rl-ag-btn svg{animation:rl-pulse 1.4s ease-in-out infinite}",
+    ".rl-ag-credit{font:400 10px Spectral,serif;letter-spacing:1px;color:#6b6152;margin-top:16px}",
+    ".rl-ag-credit a{color:#8a8070;text-decoration:none}",
+    ".rl-ag-credit a:hover{color:var(--gold,#c9a86a)}",
+    ".rl-ag.is-live .rl-ag-art::before{opacity:1;animation:rl-breathe 3s ease-in-out infinite}",
+    ".rl-ag.is-wait .rl-ag-art::before,.rl-ag.is-wait .rl-ag-orb{animation:rl-flick 1s linear infinite}",
+    // хранитель тайн: дверь кабинета с матовым стеклом, силуэт с сигарой, свет из-под двери, кот у порога
+    ".rl-ag-keeper{--ag-accent:var(--gold-text,#b8935a);--ag-title:#f0d8a8;--ag-icon:var(--gold,#c9a86a);--glow:rgba(240,170,80,.2);--gy:34%;--gs:125%}",
+    ".rl-ag-frost{position:absolute;left:16.92%;top:8.5%;width:66.15%;height:51.5%;-webkit-backdrop-filter:blur(1.6px);backdrop-filter:blur(1.6px);background:radial-gradient(ellipse at 58% 38%,rgba(255,226,170,.1),rgba(18,11,6,.28) 85%);pointer-events:none}",
+    ".rl-ag-sign{position:absolute;left:18.5%;right:18.5%;top:48.5%;height:11.5%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Forum,serif;text-transform:uppercase;letter-spacing:.14em;line-height:1.25;color:#ecd39b;text-shadow:0 1px 0 #120c06,0 0 8px rgba(0,0,0,.75);text-wrap:balance}",
+    ".rl-ag-keeper hanc-ai-inline-call::part(orb-container){overflow:visible;-webkit-mask:radial-gradient(closest-side,#000 68%,transparent) no-repeat;mask:radial-gradient(closest-side,#000 68%,transparent) no-repeat}",   // лампа за стеклом — с мягким краем
+    ".rl-ag-man{opacity:.92;transition:opacity .8s}",
+    ".rl-ag.is-live .rl-ag-man{opacity:1}",
+    ".rl-ag-eye{opacity:.12;transition:opacity .6s}",
+    ".rl-ag.is-live .rl-ag-eye{opacity:.95}",
+    ".rl-ag-ember{animation:rl-pulse 3s ease-in-out infinite}",
+    ".rl-ag-ring{transform-box:fill-box;transform-origin:50% 50%;opacity:0;animation:rl-ring 7.5s ease-out infinite}",
+    ".rl-ag-ring+.rl-ag-ring{animation-delay:-2.5s}",
+    ".rl-ag-ring+.rl-ag-ring+.rl-ag-ring{animation-delay:-5s}",
+    ".rl-ag-gap{opacity:.6;transition:opacity .8s}",
+    ".rl-ag-art:hover .rl-ag-gap{opacity:.85}",
+    ".rl-ag.is-live .rl-ag-gap{opacity:1;animation:rl-glow 2.4s ease-in-out infinite}",
+    ".rl-ag.is-wait .rl-ag-gap{animation:rl-flick 1s linear infinite}",
+    ".rl-ag-tail{transform-box:fill-box;transform-origin:100% 70%;animation:rl-tail 6s ease-in-out infinite}",
+    ".rl-ag.is-live .rl-ag-tail{animation-duration:1.8s}",
+    ".rl-ag.is-knock .rl-ag-art{animation:rl-knock .55s ease-out}",
+    "@media(max-width:700px){.rl-ag-keeper{padding-top:22px}}",
+    // врата между мирами: руны по кругу, звёзды, скрещённые клинки
+    ".rl-ag-portal{--ag-accent:var(--gold-text,#b8935a);--ag-title:#f0d8a8;--ag-icon:var(--gold,#c9a86a);--glow:rgba(201,168,106,.26);--gy:50%;--gs:125%}",
+    ".rl-ag-runes{transform-box:view-box;transform-origin:160px 160px;animation:rl-spin 160s linear infinite}",
+    ".rl-ag-ticks{transform-box:view-box;transform-origin:160px 160px;animation:rl-spin 240s linear infinite reverse}",
+    ".rl-ag-rglow{opacity:0;transition:opacity .8s}",
+    ".rl-ag-art:hover .rl-ag-rglow{opacity:.4}",
+    ".rl-ag.is-live .rl-ag-rglow{opacity:.95}",
+    ".rl-ag.is-live .rl-ag-runes{animation-duration:36s}",
+    ".rl-ag-tw{animation:rl-tw 4.2s ease-in-out infinite}",
+    ".rl-ag.is-live .rl-ag-tw{animation-duration:1.8s}",
+    "@keyframes rl-spin{to{transform:rotate(360deg)}}",
+    "@keyframes rl-tw{0%,100%{opacity:.25}50%{opacity:1}}",
+    "@keyframes rl-ring{0%{transform:translate(0,0) scale(.5);opacity:0}15%{opacity:.7}100%{transform:translate(-16px,-72px) scale(1.8);opacity:0}}",
+    "@keyframes rl-tail{0%,100%{transform:rotate(0)}50%{transform:rotate(-8deg)}}",
+    "@keyframes rl-glow{0%,100%{opacity:.75}50%{opacity:1}}",
+    "@keyframes rl-knock{0%,100%{transform:none}12%{transform:translateX(-2px)}24%{transform:translateX(2px)}40%{transform:translateX(-1.5px)}52%{transform:translateX(1.5px)}}",
+    "@keyframes rl-flick{0%,100%{opacity:.55}18%{opacity:.95}32%{opacity:.4}54%{opacity:1}71%{opacity:.6}86%{opacity:.9}}",
+    "@keyframes rl-breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}",
+    "@keyframes rl-pulse{0%,100%{opacity:1}50%{opacity:.35}}",
+    ".rl-editing .rl-ag-art{cursor:move}",
+    "@media(prefers-reduced-motion:reduce){.rl-ag *,.rl-ag-art::before{animation:none!important}}",
     ".rl-clone{width:100%;height:100%}",
     ".rl-clone>*{position:relative!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;transform:none!important;translate:none!important;margin:0!important;width:100%!important;height:100%!important;box-sizing:border-box}",
     "@media(max-width:700px){.rl-free{position:static;transform:none;width:auto;flex-basis:100%;padding:8px 20px 28px;display:flex;flex-direction:column;gap:16px}.rl-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.rl-fi{position:static!important;width:auto!important;flex:1 1 auto;max-width:100%}.rl-t-button{flex:0 1 auto}.rl-spacer{display:none}}"
@@ -186,6 +260,231 @@
 
   // ---------------------------------------------------------------- блоки
   var LABELS = { ru: "Открыть →", en: "Open →", uk: "Відкрити →", bg: "Отвори →" };
+  // ---- AI-агент hanc.ai: виджет <hanc-ai-inline-call> в оформлении сайта.
+  // Скрипт виджета подключается один раз и только там, где агент есть.
+  // Стили: «keeper» — «Хранитель тайн и секретов» («Призрачный детектив»): дверь кабинета с матовым стеклом,
+  //        за стеклом силуэт старого полицейского с сигарой, у порога — кот Конфуций;
+  //        «portal» — рунические врата между мирами («Просто вернуться домой»).
+  // Шар виджета (three.js) — лампа за стеклом / сердце врат; кнопка, подписи и состояния звонка — наши.
+  var AGENT_SCRIPT = "https://unpkg.com/hanc-webrtc-widgets";
+  var AGENT_ORB = { 280: 150, 370: 180, 440: 220 };   // размер «маленький / обычный / большой» → масштаб рисунка (180 — как нарисован)
+  var AGENT_STYLES = {
+    keeper: {
+      name: "Хранитель тайн",
+      w: 260, h: 400, cx: 140, cy: 118, d: 150, sign: true,   // дверь 260×400; шар Ø150 — лампа в кабинете за силуэтом; название — на стекле
+      orb: { primary: "#7a4310", secondary: "#3d1e06", accent: "#c9842f", glow: "#e8a24a", atmosphere: "#3d1e06", depth: "#0a0401", highlight: "#f0c070" },
+      fx: { "glow-intensity": 1, "idle-glow-multiplier": 0.6, "morph-strength": 0.9, "noise-scale": 1.4, "noise-speed": 0.22,
+            "fresnel-power": 2.2, "rotation-speed": 0.06, "color-contrast": 1.6, "sound-preset": "2" },
+      icon: '<svg viewBox="0 0 14 18" aria-hidden="true"><circle cx="7" cy="6" r="4.4"/><path d="M5,8.6H9L10.6,17H3.4Z"/></svg>',
+      text: {
+        ru: { kicker: "Призрачный детектив", title: "Хранитель тайн и секретов", text: "Он знает, о чём молчат стены старого Нью\u2011Йорка. Постучите — и\u00a0он ответит.",
+              label: "Постучать", wait: "Шаги за дверью…", end: "Закрыть дверь", fail: "Никто не открыл — ещё раз" },
+        en: { kicker: "A Detective for the Dead", title: "Keeper of Mysteries and Secrets", text: "He knows what the walls of old New\u00a0York keep silent about. Knock — and he will answer.",
+              label: "Knock", wait: "Footsteps behind the door…", end: "Close the door", fail: "No one answered — try again" },
+        uk: { kicker: "Примарний детектив", title: "Хранитель таємниць і секретів", text: "Він знає, про що мовчать стіни старого Нью\u2011Йорка. Постукайте — і\u00a0він відповість.",
+              label: "Постукати", wait: "Кроки за дверима…", end: "Зачинити двері", fail: "Ніхто не відчинив — ще раз" },
+        bg: { kicker: "Призрачният детектив", title: "Пазител на тайни и секрети", text: "Той знае за какво мълчат стените на стария Ню\u00a0Йорк. Почукайте — и\u00a0той ще отговори.",
+              label: "Почукай", wait: "Стъпки зад вратата…", end: "Затвори вратата", fail: "Никой не отвори — опитайте пак" }
+      }
+    },
+    portal: {
+      name: "Врата между мирами",
+      w: 320, h: 320, cx: 160, cy: 160, d: 202,         // рисунок 320×320, шар Ø202 — в кольце с рунами
+      orb: { primary: "#1c1660", secondary: "#0c0a33", accent: "#2a2290", glow: "#5a48ff", atmosphere: "#0c0a33", depth: "#010008", highlight: "#e8c27a" },
+      fx: { "glow-intensity": 1, "idle-glow-multiplier": 0.6, "morph-strength": 0.9, "noise-scale": 1.6, "noise-speed": 0.25,
+            "fresnel-power": 2.4, "rotation-speed": 0.12, "color-contrast": 2, "sound-preset": "4" },
+      icon: '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M9,0L11,7L18,9L11,11L9,18L7,11L0,9L7,7Z"/></svg>',
+      text: {
+        ru: { kicker: "Хроники рода Даргонов", title: "Голос из другого мира", text: "Дорога между мирами открыта. Коснитесь врат — и\u00a0вам ответят.",
+              label: "Открыть врата", wait: "Врата открываются…", end: "Закрыть врата", fail: "Не вышло — ещё раз" },
+        en: { kicker: "Chronicles of the Dargon clan", title: "A voice from another world", text: "The road between worlds is open. Touch the gate — and you will be answered.",
+              label: "Open the gate", wait: "The gate is opening…", end: "Close the gate", fail: "It didn't work — try again" },
+        uk: { kicker: "Хроніки роду Даргонів", title: "Голос з іншого світу", text: "Дорога між світами відкрита. Торкніться брами — і\u00a0вам дадуть відповідь.",
+              label: "Відчинити браму", wait: "Брама відчиняється…", end: "Зачинити браму", fail: "Не вийшло — ще раз" },
+        bg: { kicker: "Хроники на рода Даргон", title: "Глас от друг свят", text: "Пътят между световете е отворен. Докоснете портата — и\u00a0ще ви отговорят.",
+              label: "Отвори портата", wait: "Портата се отваря…", end: "Затвори портата", fail: "Не стана — опитайте пак" }
+      }
+    }
+  };
+  var agentSeq = 0;
+  function agentScript() {
+    if (window.customElements && customElements.get("hanc-ai-inline-call")) return;
+    if (document.querySelector('script[src="' + AGENT_SCRIPT + '"]')) return;
+    var sc = document.createElement("script");
+    sc.src = AGENT_SCRIPT; sc.async = true; sc.type = "text/javascript";
+    document.head.appendChild(sc);
+  }
+  function agentStyle(b) { return AGENT_STYLES[b && b.style] ? b.style : "keeper"; }
+  // подпись на текущем языке: своя → по умолчанию для стиля
+  function agentText(b, f) {
+    var L = lang(), own = b && b[L] && b[L][f];
+    if (own) return own;
+    var d = AGENT_STYLES[agentStyle(b)].text;
+    return (d[L] || d.ru)[f] || tx(b, f);
+  }
+  function r1(v) { return Math.round(v * 10) / 10; }
+  function brass(id) {
+    return '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4a3418"/><stop offset=".22" stop-color="#9c7840"/>' +
+      '<stop offset=".42" stop-color="#f0d8a8"/><stop offset=".6" stop-color="#c9a86a"/><stop offset=".85" stop-color="#6e5028"/><stop offset="1" stop-color="#3a2912"/></linearGradient>';
+  }
+  // силуэт за стеклом (рамка 90×182, лицом влево): старый полицейский — зачёсанные назад волосы, нос с горбинкой
+  var KEEPER = "M40,6C52,4 62,10 64,20C66,30 64,40 60,46C58,52 58,58 60,62C70,66 82,70 86,80L90,182L0,182L4,84" +
+    "C6,76 14,70 24,68C28,66 31,62 31,58C29,56 26,55 24,52C22,50 21,48 22,46L20,45C20.5,43 21.5,42 21,41" +
+    "C19,40 17,39 16,38C13,38 11,36 12,34C13,31 15,29 16,27C17,25 19,23 20,21C20,18 22,15 25,12C30,8 34,6 40,6Z";
+  // кот Конфуций у порога (рамка 70×88, сидит мордой вправо): мейн-кун — кисточки на ушах, пушистый хвост
+  var CAT = "M38,22C38,14 41,9 44,7L42,-1L49,5C51,4 53,4 55,5L59,-2L60,8C63,12 64,17 63,21C63,24 61,27 58,28" +
+    "C57,32 57,36 58,40C60,48 60,60 58,72L58,86C56,88 53,88 52,86L50,79L48,86C40,88 30,88 22,87C14,86 8,81 8,73" +
+    "C8,59 18,47 30,39C34,35 37,29 38,22Z";
+  var CAT_TAIL = "M24,84C12,88 -2,87 -6,79C-9,72 -3,66 4,68C-1,71 0,78 6,80C12,82 18,81 24,80Z";
+  function keeperArt(u) {
+    var GLASS = 'x="44" y="34" width="172" height="206"';
+    var back = '<svg class="rl-ag-svg" viewBox="0 0 260 400" aria-hidden="true"><defs>' +
+      '<radialGradient id="kr' + u + '" gradientUnits="userSpaceOnUse" cx="140" cy="118" r="150"><stop offset="0" stop-color="#f0b45a" stop-opacity=".42"/>' +
+      '<stop offset=".55" stop-color="#8a4a14" stop-opacity=".18"/><stop offset="1" stop-color="#0b0806" stop-opacity="0"/></radialGradient></defs>' +
+      '<rect ' + GLASS + ' fill="#0b0806"/><rect ' + GLASS + ' fill="url(#kr' + u + ')"/></svg>';
+    var man = '<svg class="rl-ag-svg" viewBox="0 0 260 400" aria-hidden="true"><defs><clipPath id="kc' + u + '"><rect ' + GLASS + "/></clipPath></defs>" +
+      '<g clip-path="url(#kc' + u + ')"><g fill="none" stroke="#f6efe2" stroke-width="1.9">' +
+      '<ellipse class="rl-ag-ring" cx="90" cy="98" rx="6" ry="2.6"/><ellipse class="rl-ag-ring" cx="90" cy="98" rx="6" ry="2.6"/><ellipse class="rl-ag-ring" cx="90" cy="98" rx="6" ry="2.6"/></g>' +
+      '<g class="rl-ag-man" transform="translate(88 58)"><path d="' + KEEPER + '" fill="#070504" stroke="#ffcf8a" stroke-opacity=".22" stroke-width="1.2"/>' +
+      '<path d="M20.5,43.8L1.5,46.2L1.9,49.6L20.8,47.6Z" fill="#2a190d"/><circle class="rl-ag-ember" cx="1.7" cy="47.9" r="2.2" fill="#ffb054"/>' +
+      '<ellipse class="rl-ag-eye" cx="24" cy="25" rx="1.7" ry="1" fill="#ffd28a"/></g></g></svg>';
+    var front = '<svg class="rl-ag-svg" viewBox="0 0 260 400" aria-hidden="true"><defs>' + brass("kb" + u) +
+      '<linearGradient id="kw' + u + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#36261a"/><stop offset="1" stop-color="#1b120b"/></linearGradient>' +
+      '<linearGradient id="kl' + u + '" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f0b45a" stop-opacity="0"/><stop offset=".5" stop-color="#ffd28a"/><stop offset="1" stop-color="#f0b45a" stop-opacity="0"/></linearGradient>' +
+      '<filter id="kn' + u + '" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/>' +
+      '<feColorMatrix values="0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .88 0 0 0 .09 0"/></filter>' +
+      '<filter id="kf' + u + '" x="-10%" y="-300%" width="120%" height="700%"><feGaussianBlur stdDeviation="2.2"/></filter></defs>' +
+      '<rect ' + GLASS + ' filter="url(#kn' + u + ')"/>' +                                                  // зерно матового стекла
+      '<path fill="url(#kw' + u + ')" fill-rule="evenodd" d="M14,8H246V392H14ZM44,34V240H216V34Z"/>' +       // дверь с проёмом под стекло
+      '<path d="M22,14V386M30,250V386M236,14V386M228,250V386" stroke="#000" stroke-opacity=".22" fill="none"/>' +
+      '<rect x="41" y="31" width="178" height="212" fill="none" stroke="url(#kb' + u + ')" stroke-width="4"/>' +
+      '<g fill="none" stroke="#c9a86a" stroke-opacity=".28"><rect x="40" y="258" width="180" height="56" rx="2"/><rect x="48" y="266" width="164" height="40"/>' +
+      '<rect x="40" y="324" width="180" height="56" rx="2"/><rect x="48" y="332" width="164" height="40"/></g>' +
+      '<g fill="url(#kb' + u + ')"><rect x="14" y="58" width="5" height="26" rx="1"/><rect x="14" y="320" width="5" height="26" rx="1"/>' +
+      '<rect x="217" y="286" width="16" height="44" rx="3"/><circle cx="225" cy="298" r="8"/></g>' +
+      '<circle cx="225" cy="298" r="8" fill="none" stroke="#2a1d0c" stroke-opacity=".45"/><ellipse cx="222.5" cy="295.5" rx="2.6" ry="1.6" fill="#fff3d6" opacity=".5"/>' +
+      '<path class="rl-ag-gap" d="M225,309.6A2.4,2.4 0 1,1 224.99,309.6ZM223.7,313H226.3L227.1,320H222.9Z" fill="#ffcf7a"/>' +   // в замочной скважине — свет
+      '<rect class="rl-ag-gap" x="16" y="391" width="228" height="4" fill="url(#kl' + u + ')" filter="url(#kf' + u + ')"/>' +     // свет из-под двери
+      '<ellipse class="rl-ag-gap" cx="130" cy="398" rx="110" ry="4" fill="#f0b45a" fill-opacity=".4" filter="url(#kf' + u + ')"/>' +
+      '<g transform="translate(12 310)"><path class="rl-ag-tail" d="' + CAT_TAIL + '" fill="#090605" stroke="#e8a050" stroke-opacity=".35"/>' +
+      '<path d="' + CAT + '" fill="#090605" stroke="#e8a050" stroke-opacity=".35"/>' +
+      '<path d="M42,-1L41,-6M59,-2L60,-7" stroke="#090605" stroke-width="1.4" stroke-linecap="round"/>' +
+      '<ellipse cx="57.5" cy="14.5" rx="1.9" ry="1.2" fill="#e8b04a"/></g></svg>';
+    return [back, man + '<div class="rl-ag-frost"></div>' + front];
+  }
+  // руны старшего футарка (рамка 10×16) — по кругу врат
+  var RUNES = ["M3 0V16M3 4L9 0M3 9L9 5", "M2 16V2L8 6V16", "M3 0V16M3 4L8 8L3 12", "M3 0V16M3 2L8 6M3 7L8 11",
+    "M3 16V0L8 4L3 8L8 16", "M8 3L3 8L8 13", "M2 2L8 14M8 2L2 14", "M3 16V0L8 4L3 8",
+    "M2 0V16M8 0V16M2 6L8 10", "M5 0V16M2 5L8 10", "M5 0V16", "M5 2L2 6L5 10M5 6L8 10L5 14",
+    "M5 0V16M5 0L8 3M5 16L2 13", "M2 0V16M2 0L6 4L8 2M2 16L6 12L8 14", "M5 16V0M5 6L1 2M5 6L9 2", "M7 0L2 6L8 10L3 16",
+    "M5 16V0M1 5L5 0L9 5", "M3 0V16M3 0L8 4L3 8L8 12L3 16", "M2 16V0L5 5L8 0V16", "M2 16V0L8 8M8 16V0L2 8",
+    "M3 16V0L8 5", "M5 1L9 8L5 15L1 8Z", "M1 2L9 14V2L1 14Z", "M5 0L9 5L3 13L1 16M5 0L1 5L7 13L9 16"];
+  var STARS = [[160, 8, 3.5], [112, 12, 2.4], [214, 14, 2.6], [24, 92, 3], [296, 92, 3.5], [10, 168, 2.5], [310, 176, 2.5],
+    [22, 232, 4], [300, 236, 3], [92, 306, 2.6], [230, 308, 3], [160, 312, 2]];
+  function portalArt(u) {
+    var i, a, ticks = "", runes = "", stars = "";
+    for (i = 0; i < 60; i++) {
+      a = i * Math.PI / 30;
+      var r2 = i % 5 ? 99 : 101;
+      ticks += "M" + r1(160 + 96 * Math.sin(a)) + "," + r1(160 - 96 * Math.cos(a)) + "L" + r1(160 + r2 * Math.sin(a)) + "," + r1(160 - r2 * Math.cos(a));
+    }
+    for (i = 0; i < RUNES.length; i++) runes += '<path transform="rotate(' + (i * 15) + ' 160 160) translate(155 37)" d="' + RUNES[i] + '"/>';
+    STARS.forEach(function (p, j) {
+      var x = p[0], y = p[1], s = p[2], q = r1(s * 0.22);
+      stars += '<path class="rl-ag-tw" style="animation-delay:-' + (j * 0.7).toFixed(1) + 's" d="M' + x + "," + (y - s) + "L" + (x + q) + "," + (y - q) +
+        "L" + (x + s) + "," + y + "L" + (x + q) + "," + (y + q) + "L" + x + "," + (y + s) + "L" + (x - q) + "," + (y + q) +
+        "L" + (x - s) + "," + y + "L" + (x - q) + "," + (y - q) + 'Z"/>';
+    });
+    var sword = '<path d="M0,-172L7,-150L7,136L-7,136L-7,-150Z" fill="url(#ps' + u + ')" stroke="#c9a86a" stroke-opacity=".45"/>' +
+      '<path d="M0,-146V128" stroke="#fff" stroke-opacity=".16" stroke-width="1.4"/>' +
+      '<g fill="url(#pb' + u + ')"><rect x="-31" y="134" width="62" height="8" rx="3"/><circle cx="-33" cy="138" r="4.5"/><circle cx="33" cy="138" r="4.5"/><circle cx="0" cy="175" r="7"/></g>' +
+      '<rect x="-5" y="142" width="10" height="27" rx="2" fill="#3b2a18"/>' +
+      '<path d="M-5,147L5,151M-5,153L5,157M-5,159L5,163" stroke="#c9a86a" stroke-opacity=".5"/>';
+    var back = '<svg class="rl-ag-svg" viewBox="0 0 320 320" aria-hidden="true"><defs>' + brass("pb" + u) +
+      '<linearGradient id="ps' + u + '" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#26252a"/><stop offset=".45" stop-color="#8c919c"/>' +
+      '<stop offset=".5" stop-color="#dfe3ea"/><stop offset=".56" stop-color="#6b707a"/><stop offset="1" stop-color="#222126"/></linearGradient>' +
+      '<radialGradient id="pd' + u + '"><stop offset=".7" stop-color="#0b0a16"/><stop offset="1" stop-color="#17121c"/></radialGradient></defs>' +
+      '<g fill="#f3dfb0">' + stars + '</g>' +
+      '<g transform="translate(160 160) rotate(45)">' + sword + '</g><g transform="translate(160 160) rotate(-45)">' + sword + '</g>' +
+      '<circle cx="160" cy="160" r="103" fill="url(#pd' + u + ')"/></svg>';
+    var front = '<svg class="rl-ag-svg" viewBox="0 0 320 320" aria-hidden="true"><defs>' +
+      '<radialGradient id="pr' + u + '" cx="50%" cy="50%" r="50%"><stop offset=".78" stop-color="#2c2216"/><stop offset=".89" stop-color="#3d2f1c"/><stop offset="1" stop-color="#1b140c"/></radialGradient>' +
+      '<filter id="pg' + u + '" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.4"/></filter></defs>' +
+      '<path fill="url(#pr' + u + ')" fill-rule="evenodd" d="M160,32A128,128 0 1,1 159.99,32ZM160,58A102,102 0 1,1 159.99,58Z"/>' +
+      '<g fill="none" stroke="#c9a86a"><circle cx="160" cy="160" r="128" stroke-opacity=".85" stroke-width="1.6"/><circle cx="160" cy="160" r="123.5" stroke-opacity=".25"/>' +
+      '<circle cx="160" cy="160" r="106.5" stroke-opacity=".25"/><circle cx="160" cy="160" r="102" stroke-opacity=".75" stroke-width="1.4"/></g>' +
+      '<g class="rl-ag-ticks" fill="none" stroke="#c9a86a" stroke-opacity=".55"><path d="' + ticks + '"/></g>' +
+      '<g class="rl-ag-runes" fill="none" stroke-linecap="round" stroke-linejoin="round">' +
+      '<g class="rl-ag-rglow" stroke="#ffd98a" stroke-width="3" filter="url(#pg' + u + ')">' + runes + '</g>' +
+      '<g stroke="#d9b877" stroke-width="1.5">' + runes + '</g></g></svg>';
+    return [back, front];
+  }
+  function agentHTML(b) {
+    if (!b.agentId) return editing ? '<div class="rl-cap">AI-агент: укажите ID (⚙)</div>' : "";
+    agentScript();
+    var s = agentStyle(b), st = AGENT_STYLES[s], k = (AGENT_ORB[b.size] || 180) / 180, orb = Math.round(st.d * k), u = "ag" + (++agentSeq);
+    var art = s === "portal" ? portalArt(u) : keeperArt(u), title = agentText(b, "title");
+    function pct(v) { return (Math.round(v * 1000) / 10) + "%"; }
+    // theme="" — не перекрашивать шар темой из кабинета hanc.ai; свой значок «Powered by» — под кнопкой
+    var attrs = ' agent-id="' + esc(b.agentId) + '" voice-service-url="' + esc(b.voiceUrl || "https://voice.hanc.ai") + '" size="' + orb +
+      '" container-padding="0" theme="" hide-branding sound-enabled sound-volume="0.35" orb-colors="' + esc(JSON.stringify(st.orb)) + '"';
+    for (var a in st.fx) attrs += " " + a + '="' + esc(st.fx[a]) + '"';
+    return '<div class="rl-ag rl-ag-' + s + '" data-rl-agent><div class="rl-ag-in">' +
+      '<div class="rl-ag-art" style="width:' + Math.round(st.w * k) + "px;height:" + Math.round(st.h * k) + 'px">' + art[0] +
+        '<div class="rl-ag-orb" style="left:' + pct((st.cx - st.d / 2) / st.w) + ";top:" + pct((st.cy - st.d / 2) / st.h) + ";width:" + pct(st.d / st.w) +
+          '"><hanc-ai-inline-call' + attrs + "></hanc-ai-inline-call></div>" + art[1] +
+        // у двери название — золотом на стекле (правится там же, как заголовок)
+        (st.sign ? '<div class="rl-ag-sign" data-rl-f="title" style="font-size:' + r1(Math.max(9.5, Math.min(13.5, 13.5 * 24 / Math.max(24, title.length))) * k) + 'px">' + esc(title) + "</div>" : "") +
+        "</div>" +
+      '<div class="rl-ag-body">' +
+        '<div class="rl-ag-kick" data-rl-f="kicker">' + esc(agentText(b, "kicker")) + "</div>" +
+        (st.sign ? "" : '<div class="rl-ag-title" data-rl-f="title">' + esc(title) + "</div>") +
+        '<div class="rl-ag-text" data-rl-f="text">' + esc(agentText(b, "text")) + "</div>" +
+        '<a href="#" role="button" class="rl-ag-btn">' + st.icon + '<span data-rl-f="label">' + esc(agentText(b, "label")) + '</span><span class="rl-ag-st"></span></a>' +
+        '<div class="rl-ag-credit">Powered by <a href="https://hanc.ai" target="_blank" rel="noopener">HANC.ai</a></div>' +
+      "</div></div></div>";
+  }
+  // состояние звонка → классы и текст кнопки. Начало и конец приходят событиями,
+  // «соединяю» и ошибка — только в атрибуте data-state кнопки виджета (shadow DOM открыт)
+  function wireAgent(node, b) {
+    var root = node.querySelector("[data-rl-agent]"), w = root && root.querySelector("hanc-ai-inline-call");
+    if (!w) return;
+    var d = AGENT_STYLES[agentStyle(b)].text, t = d[lang()] || d.ru, label = root.querySelector(".rl-ag-st"), flash = 0;
+    function paint() {
+      var s = flash ? "error" : (w.callStatus || "idle");
+      root.classList.toggle("is-wait", s === "connecting");
+      root.classList.toggle("is-live", s === "connected");
+      root.classList.toggle("is-fail", s === "error");
+      label.textContent = s === "connecting" ? t.wait : s === "connected" ? t.end : s === "error" ? t.fail : "";
+    }
+    root.__rlFail = function () { clearTimeout(flash); flash = setTimeout(function () { flash = 0; paint(); }, 3000); paint(); };
+    w.addEventListener("call-start", paint);
+    w.addEventListener("call-end", paint);
+    if (window.customElements) customElements.whenDefined("hanc-ai-inline-call").then(function () { return w.updateComplete; }).then(function () {
+      var btn = w.shadowRoot && w.shadowRoot.querySelector("[part=button]");
+      if (btn && window.MutationObserver) new MutationObserver(paint).observe(btn, { attributes: true, attributeFilter: ["data-state"] });
+      paint();
+    });
+  }
+  // клик по рисунку (дверь / врата) или по кнопке — позвонить или положить трубку (в режиме правки — нет)
+  document.addEventListener("click", function (e) {
+    var t = e.target, root = t && t.closest && t.closest("[data-rl-agent]");
+    if (!root || !t.closest(".rl-ag-art,.rl-ag-btn")) return;
+    e.preventDefault();
+    if (editing) return;
+    var w = root.querySelector("hanc-ai-inline-call");
+    if (!w || typeof w.toggleCall !== "function") return;
+    if (w.domainBlocked) { if (root.__rlFail) root.__rlFail(); return; }
+    if (w.callStatus === "idle") {                               // стук в дверь хранителя
+      root.classList.remove("is-knock"); void root.offsetWidth; root.classList.add("is-knock");
+      setTimeout(function () { root.classList.remove("is-knock"); }, 600);
+    }
+    w.toggleCall();
+  });
+  document.addEventListener("keydown", function (e) {
+    var t = e.target;
+    if (e.key === " " && !editing && t && t.classList && t.classList.contains("rl-ag-btn")) { e.preventDefault(); t.click(); }
+  });
   // html копии хранится в репозитории, но чистим всё равно: без скриптов, обработчиков и javascript:-ссылок
   function cleanHTML(html) {
     var tpl = document.createElement("template");
@@ -212,6 +511,7 @@
       (b.src ? '<audio preload="metadata" src="' + esc(url(b.src)) + '"></audio>' : "");
     if (t === "button") return '<div class="rl-btnwrap"><a class="rl-btn" href="' + esc(safeHref(b.href)) + '"><span data-rl-f="label">' + esc(tx(b, "label")) + "</span></a></div>";
     if (t === "clone") return '<div class="rl-clone" data-rl-html>' + cleanHTML(tx(b, "html")) + "</div>";
+    if (t === "agent") return agentHTML(b);
     if (t === "book") {
       var B = window.RoniBooks, list = B && B.cached().books;
       if (!list) { booksWanted = true; return ""; }
@@ -224,6 +524,10 @@
     }
     return "";
   }
+  // элементы, которые дорисовываются позже (виджет AI-агента, картинки), — секция подстраивает высоту
+  var sizeObs = window.ResizeObserver ? new ResizeObserver(function (entries) {
+    entries.forEach(function (e) { var sec = e.target.closest("[data-rl-sec]"); if (sec) fitSpacer(sec); });
+  }) : null;
   function renderFree(layer, key, items) {
     layer.textContent = "";
     // порядок в DOM = порядок на телефоне (сверху вниз, слева направо)
@@ -240,12 +544,15 @@
       d.style.left = (+b.x || 0) + "%";
       d.style.top = (+b.y || 0) + "px";
       if (b.w) d.style.width = b.w + "%";
+      else if (b.type === "agent") d.style.width = "50%";
       if (b.h) d.style.height = b.h + "px";
       d.style.textAlign = b.align || "left";
       d.innerHTML = renderBlock(b);
+      if (b.type === "agent") wireAgent(d, b);
       var pl = d.querySelector(".rl-player"), au = d.querySelector("audio");
       if (pl && au) wire(pl, au);
       row.appendChild(d);
+      if (sizeObs) sizeObs.observe(d);
     });
     if (window.RoniLayout.onFree) window.RoniLayout.onFree(layer, key, items);
   }
@@ -255,9 +562,13 @@
     if (!layer || !sp) return;
     var need = 0;
     Array.prototype.forEach.call(layer.querySelectorAll(".rl-fi"), function (c) { need = Math.max(need, c.offsetTop + c.offsetHeight + 40); });
-    var natural = sec.offsetHeight - sp.offsetHeight;
-    var h = Math.max(0, need - natural);
-    if (sp.style.height !== h + "px") sp.style.height = h + "px";
+    // подгоняем, пока секция не станет нужной высоты: у секции может быть min-height,
+    // и тогда прибавка распорки сначала «съедается» им
+    for (var i = 0; i < 4; i++) {
+      var cur = sp.offsetHeight, h = Math.max(0, Math.round(cur + need - sec.offsetHeight));
+      if (Math.abs(h - cur) < 1) break;
+      sp.style.height = h + "px";
+    }
   }
 
   // ---------------------------------------------------------------- секции
@@ -534,7 +845,9 @@
     if (layer.parentNode !== el || el.lastChild !== el.__rlSpacer) { el.appendChild(layer); el.appendChild(el.__rlSpacer); }
     if (layer.getAttribute("data-rl-layer") !== key) { layer.setAttribute("data-rl-layer", key); layer.__sig = null; }
     if (!el.__rlPos && getComputedStyle(el).position === "static") { el.style.position = "relative"; el.__rlPos = true; }
-    var sig = JSON.stringify(items) + L + editing + JSON.stringify(preview) + (window.RoniBooks && window.RoniBooks.cached().books ? 1 : 0);
+    // книги догрузились — перерисовываем только слой с карточками книг (виджет агента не пересоздаётся, звонок не рвётся)
+    var wantsBooks = items.some(function (b) { return b.type === "book"; });
+    var sig = JSON.stringify(items) + L + editing + JSON.stringify(preview) + (wantsBooks && window.RoniBooks && window.RoniBooks.cached().books ? 1 : 0);
     if (layer.__sig !== sig) { layer.__sig = sig; renderFree(layer, key, items); }
   }
   function loadBooks() {
@@ -571,6 +884,8 @@
       return (data.global = data.global || {});
     },
     cleanHTML: cleanHTML,
+    agentText: agentText,
+    agentStyles: function () { return Object.keys(AGENT_STYLES).map(function (k) { return [k, AGENT_STYLES[k].name]; }); },
     pageForEdit: function () {
       data.pages = data.pages || {};
       // первая правка на странице книги: начинаем со своей копии макета общей страницы

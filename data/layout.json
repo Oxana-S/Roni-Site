@@ -2,7 +2,35 @@
   "media": {},
   "pages": {
     "index.html": {
-      "free": {}
+      "free": {
+        "read": {
+          "items": [
+            {
+              "id": "hancagent1",
+              "type": "agent",
+              "agentId": "6a88306058b5a6ef89898c55",
+              "size": 370,
+              "voiceUrl": "https://voice.hanc.ai",
+              "align": "center",
+              "x": 58,
+              "y": 96,
+              "w": 42,
+              "ru": {},
+              "style": "keeper"
+            }
+          ]
+        }
+      },
+      "order": [
+        "top",
+        "read",
+        "two-worlds",
+        "cast",
+        "ghost",
+        "voice",
+        "books",
+        "author"
+      ]
     }
   }
 }

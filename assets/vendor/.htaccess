@@ -1,0 +1,6 @@
+# React и Babel не меняются (и проверяются по SRI) — браузер может хранить их долго.
+<IfModule mod_headers.c>
+  <FilesMatch "\.js$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

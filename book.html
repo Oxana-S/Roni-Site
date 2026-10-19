@@ -283,7 +283,7 @@ class Component extends DCLogic {
   constructor(p){super(p); window.RoniTexts&&RoniTexts.register(this,(location.pathname.split('/').pop()||'book.html'),['DICT']);}
   componentDidMount(){try{const s=localStorage.getItem('vish_lang');if(s&&this.DICT[s])this.setState({lang:s});}catch(e){}
     window.RoniBooks.findOrTemplate(this.BOOK_ID).then(b=>{if(b)this.setState({book:b});}).catch(()=>{});}
-  componentDidUpdate(){ if(this.BOOK_ID!=='home'&&this.state.book){ const s='«'+window.RoniBooks.view(this.state.book,this.state.lang).title+'» — Ростислав Вишневский'; if(document.title!==s) document.title=s; } }
+  componentDidUpdate(){ if(this.BOOK_ID!=='home'&&this.state.book){ const s='«'+window.RoniBooks.view(this.state.book,this.state.lang).title+'» — '+({ru:'Ростислав Вишневский',en:'Rostyslav Vishnevsky',uk:'Ростислав Вишневський',bg:'Ростислав Вишневски'}[this.state.lang]||'Ростислав Вишневский'); if(document.title!==s) document.title=s; } }
   setLang(c){try{localStorage.setItem('vish_lang',c);}catch(e){}this.setState({lang:c});}
   renderVals(){
     const lang=this.state.lang;
