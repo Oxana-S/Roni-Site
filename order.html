@@ -28,10 +28,10 @@
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="assets/texts.js"></script>
-<script src="assets/layout.js"></script>
+<script src="assets/layout.js?v=20261026"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
-<script src="assets/books.js"></script>
+<script src="assets/books.js?v=20261026"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -58,48 +58,49 @@
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
+  <!-- книги нет на этом языке (галочки языков в «Книги») — заказать здесь нельзя -->
+  <sc-if value="{{ absent }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="BookAbsent" lang="{{ lang }}" langs="{{ book.langs }}" on-lang="{{ setLang }}" hint-size="100%,460px"></dc-import>
+  </sc-if>
+
+  <sc-if value="{{ present }}" hint-placeholder-val="{{ true }}">
   <section style="padding:140px 7vw 90px">
     <div style="max-width:980px;margin:0 auto">
 
-      <sc-if value="{{ notPaid }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
         <div style="margin-bottom:40px">
           <a href="{{ backHref }}" style="font:400 13px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.back }}</a>
           <h1 style="font:400 clamp(30px,4.4vw,48px) Forum,serif;color:var(--c-paper-50);margin:14px 0 0">{{ t.title }}</h1>
         </div>
 
         <div style="display:flex;gap:46px;align-items:flex-start;flex-wrap:wrap">
-          <!-- form -->
-          <form onSubmit="{{ onSubmit }}" style="flex:1.4;min-width:320px;display:flex;flex-direction:column;gap:26px">
+          <!-- form: данные покупателя → shop/checkout.php → страница оплаты myPOS -->
+          <form action="shop/checkout.php" method="post" style="flex:1.4;min-width:320px;display:flex;flex-direction:column;gap:26px">
+            <input type="hidden" name="book" value="{{ bookId }}">
+            <input type="hidden" name="lang" value="{{ lang }}">
             <div>
               <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:3px;margin-bottom:14px">{{ t.step1 }}</div>
-              <input class="vfield" type="email" required placeholder="{{ t.emailPh }}" value="{{ email }}" onInput="{{ onEmail }}">
+              <input class="vfield" type="email" name="email" required maxlength="120" autocomplete="email" placeholder="{{ t.emailPh }}" value="{{ email }}" onInput="{{ onEmail }}">
               <div style="font:300 12px Spectral,serif;color:var(--text-faint);margin-top:8px">{{ t.emailNote }}</div>
+              <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+                <input class="vfield" type="text" name="first" required maxlength="60" autocomplete="given-name" placeholder="{{ t.firstPh }}" value="{{ first }}" onInput="{{ onFirst }}" style="flex:1;min-width:140px">
+                <input class="vfield" type="text" name="last" required maxlength="60" autocomplete="family-name" placeholder="{{ t.lastPh }}" value="{{ last }}" onInput="{{ onLast }}" style="flex:1;min-width:140px">
+              </div>
             </div>
             <div>
               <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:3px;margin-bottom:14px">{{ t.step2 }}</div>
-              <div style="display:flex;gap:12px;margin-bottom:18px">
-                <div class="vpay {{ payCard }}" onClick="{{ pickCard }}" style="flex:1">
-                  <span style="font:500 13px Spectral,serif;color:var(--text)">{{ t.payCard }}</span>
-                </div>
-                <div class="vpay {{ payPaypal }}" onClick="{{ pickPaypal }}" style="flex:1">
-                  <span style="font:500 13px Spectral,serif;color:var(--text)">PayPal</span>
-                </div>
-              </div>
-              <sc-if value="{{ isCard }}" hint-placeholder-val="{{ true }}">
-                <div style="display:flex;flex-direction:column;gap:12px">
-                  <input class="vfield" type="text" placeholder="{{ t.cardName }}">
-                  <input class="vfield" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000">
-                  <div style="display:flex;gap:12px">
-                    <input class="vfield" type="text" placeholder="MM / YY" style="flex:1">
-                    <input class="vfield" type="text" placeholder="CVC" style="flex:1">
-                  </div>
-                </div>
-              </sc-if>
-              <sc-if value="{{ isPaypal }}" hint-placeholder-val="{{ false }}">
-                <div style="font:300 14px/1.6 Spectral,serif;color:#a89c84;padding:6px 2px">{{ t.paypalNote }}</div>
-              </sc-if>
+              <div style="font:300 14px/1.6 Spectral,serif;color:#a89c84;margin-bottom:16px">{{ t.payNote }}</div>
+              <label style="display:flex;gap:12px;align-items:flex-start;font:300 13px/1.55 Spectral,serif;color:#a89c84;cursor:pointer">
+                <input type="checkbox" name="agree" value="1" required style="margin-top:4px;accent-color:var(--gold);flex-shrink:0">
+                <span>{{ t.agree }}</span>
+              </label>
             </div>
-            <button type="submit" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px;border:none;border-radius:3px;cursor:pointer;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ payLabel }}</button>
+            <sc-if value="{{ canBuy }}" hint-placeholder-val="{{ true }}">
+              <button type="submit" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px;border:none;border-radius:3px;cursor:pointer;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ payLabel }}</button>
+            </sc-if>
+            <sc-if value="{{ cantBuy }}" hint-placeholder-val="{{ false }}">
+              <div style="font:300 14px Spectral,serif;color:#a89c84;text-align:center;border:1px dashed var(--line-med);border-radius:3px;padding:14px">{{ t.notForSale }}</div>
+            </sc-if>
             <div style="font:300 12px Spectral,serif;color:var(--text-faint);text-align:center">{{ t.secure }}</div>
           </form>
 
@@ -107,7 +108,7 @@
           <div style="flex:1;min-width:260px;border:1px solid rgba(var(--gold-rgb),.22);border-radius:4px;padding:28px;background:rgba(var(--gold-rgb),.02)">
             <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:3px;margin-bottom:20px">{{ t.summary }}</div>
             <div style="display:flex;gap:16px;margin-bottom:22px">
-              <div style="width:74px;height:110px;flex-shrink:0;border-radius:2px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);background:#1c1812"><img src="{{ cover }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+              <div style="width:74px;height:110px;flex-shrink:0;border-radius:2px;overflow:hidden;border:1px solid rgba(var(--gold-rgb),.25);background:#1c1812"><img src="{{ cover }}" alt="{{ book.title }}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
               <div>
                 <div style="font:400 18px Forum,serif;color:var(--text);line-height:1.15">{{ book.title }}</div>
                 <div style="font:300 13px Spectral,serif;color:#9c917c;margin-top:6px">{{ t.format }}</div>
@@ -122,15 +123,30 @@
         </div>
       </sc-if>
 
-      <!-- SUCCESS -->
-      <sc-if value="{{ paid }}" hint-placeholder-val="{{ false }}">
-        <div style="max-width:560px;margin:30px auto;text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:5px;padding:60px 36px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.06),transparent)">
-          <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(var(--gold-rgb),.5);display:flex;align-items:center;justify-content:center;font:400 28px Spectral,serif;color:var(--gold)">✓</div>
-          <h1 style="font:400 clamp(28px,3.6vw,40px) Forum,serif;color:var(--c-paper-50);margin:0 0 14px">{{ t.okTitle }}</h1>
-          <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 auto 18px;max-width:400px">{{ okText }}</p>
-          <div style="font:400 15px Spectral,serif;color:var(--gold);margin-bottom:34px">{{ email }}</div>
+      <!-- RESULT: возврат со страницы оплаты myPOS (shop/return.php → ?pay=ok|cancel&order=…&key=…) -->
+      <sc-if value="{{ showResult }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:580px;margin:30px auto;text-align:center;border:1px solid rgba(var(--gold-rgb),.25);border-radius:5px;padding:56px 36px;background:radial-gradient(120% 100% at 50% 0,rgba(var(--gold-rgb),.06),transparent)">
+          <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(var(--gold-rgb),.5);display:flex;align-items:center;justify-content:center;font:400 28px Spectral,serif;color:var(--gold)">{{ resIcon }}</div>
+          <sc-if value="{{ isTest }}" hint-placeholder-val="{{ false }}">
+            <div style="font:500 11px Spectral,serif;letter-spacing:3px;color:#d2683f;margin-bottom:12px">{{ t.testMark }}</div>
+          </sc-if>
+          <h1 style="font:400 clamp(28px,3.6vw,40px) Forum,serif;color:var(--c-paper-50);margin:0 0 14px">{{ resTitle }}</h1>
+          <p style="font:300 16px/1.7 Spectral,serif;color:#a89c84;margin:0 auto 18px;max-width:440px">{{ resText }}</p>
+          <sc-if value="{{ hasEmail }}" hint-placeholder-val="{{ false }}">
+            <div style="font:400 15px Spectral,serif;color:var(--gold);margin-bottom:28px">{{ resEmail }}</div>
+          </sc-if>
+          <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:30px">
+              <sc-for list="{{ files }}" as="fl" hint-placeholder-count="2">
+                <a href="{{ fl.url }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 26px;text-decoration:none;border-radius:2px">{{ fl.label }}</a>
+              </sc-for>
+            </div>
+          </sc-if>
           <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-            <a href="index.html" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okHome }}</a>
+            <sc-if value="{{ isCancel }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ retryHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.retry }}</a>
+            </sc-if>
+            <a href="index.html" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okHome }}</a>
             <a href="{{ readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.45);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:14px 30px;text-decoration:none;border-radius:2px">{{ t.okRead }}</a>
           </div>
         </div>
@@ -138,6 +154,7 @@
 
     </div>
   </section>
+  </sc-if>
 
   <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
 
@@ -148,42 +165,73 @@ class Component extends DCLogic {
   constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'order.html',['DICT']); }
   DICT = {
     ru:{back:'← Назад к книге',title:'Оформление заказа',docTitle:'Заказать книгу',
-      step1:'1 · ВАША ПОЧТА',emailPh:'you@email.com',emailNote:'На этот адрес придёт электронная книга сразу после оплаты.',
-      step2:'2 · СПОСОБ ОПЛАТЫ',payCard:'Банковская карта',cardName:'Имя на карте',paypalNote:'Вы перейдёте в PayPal для завершения оплаты.',
-      payBtn:'Оплатить',secure:'🔒 Безопасный платёж. Данные карты не сохраняются.',
-      summary:'ВАШ ЗАКАЗ',format:'Электронная книга · PDF + EPUB',
+      step1:'1 · ВАША ПОЧТА',emailPh:'you@email.com',emailNote:'На этот адрес придёт ссылка на книгу сразу после оплаты.',firstPh:'Имя',lastPh:'Фамилия',
+      step2:'2 · ОПЛАТА',payNote:'Оплата картой (а также Apple Pay / Google Pay) — на защищённой странице myPOS. Данные карты вводятся только там, сайт их не видит. После оплаты вы вернётесь сюда и сразу сможете скачать книгу.',
+      agree:'Я прошу предоставить книгу сразу после оплаты и понимаю, что после начала скачивания электронной книги теряю право на отказ от покупки.',
+      payBtn:'Перейти к оплате',secure:'🔒 Безопасный платёж через myPOS.',notForSale:'Эта книга пока не продаётся на сайте.',
+      summary:'ВАШ ЗАКАЗ',format:'Электронная книга · на русском',
       price:'Цена',vat:'Налог',included:'включён',total:'Итого',
-      okTitle:'Спасибо за заказ!',okText:'Книга «{title}» отправлена на вашу почту:',okHome:'На главную',okRead:'Читать отрывок'},
+      okTitle:'Спасибо за покупку!',okText:'Оплата получена. Скачайте книгу — ссылки также отправлены на вашу почту:',okNoFile:'Оплата получена. Книгу автор пришлёт вам на почту в ближайшее время:',
+      waitTitle:'Подтверждаем оплату…',waitText:'Обычно это занимает несколько секунд. Не закрывайте страницу.',lateText:'Оплата ещё обрабатывается. Как только она подтвердится, ссылка на книгу придёт на почту:',
+      cancelTitle:'Оплата не завершена',cancelText:'Деньги не списаны. Можно попробовать ещё раз.',retry:'Попробовать снова',failTitle:'Заказ не найден',failText:'Если вы оплатили книгу, а письма нет — напишите автору, и мы всё проверим.',
+      download:'Скачать',testMark:'ТЕСТОВЫЙ ЗАКАЗ — ДЕНЬГИ НЕ СПИСАНЫ',okHome:'На главную',okRead:'Читать отрывок'},
     en:{back:'← Back to the book',title:'Checkout',docTitle:'Order the book',
-      step1:'1 · YOUR EMAIL',emailPh:'you@email.com',emailNote:'The ebook will be sent to this address right after payment.',
-      step2:'2 · PAYMENT METHOD',payCard:'Card',cardName:'Name on card',paypalNote:'You will be redirected to PayPal to complete the payment.',
-      payBtn:'Pay',secure:'🔒 Secure payment. Card details are not stored.',
-      summary:'YOUR ORDER',format:'Ebook · PDF + EPUB',
+      step1:'1 · YOUR EMAIL',emailPh:'you@email.com',emailNote:'A link to the book will be sent to this address right after payment.',firstPh:'First name',lastPh:'Last name',
+      step2:'2 · PAYMENT',payNote:'Pay by card (or Apple Pay / Google Pay) on the secure myPOS page. Card details are entered only there — this site never sees them. After payment you will come back here and can download the book right away.',
+      agree:'I ask for the book to be provided right after payment and understand that once the ebook download starts I lose the right to withdraw from the purchase.',
+      payBtn:'Continue to payment',secure:'🔒 Secure payment via myPOS.',notForSale:'This book is not on sale on the site yet.',
+      summary:'YOUR ORDER',format:'Ebook · in English',
       price:'Price',vat:'Tax',included:'included',total:'Total',
-      okTitle:'Thank you for your order!',okText:'“{title}” has been sent to your email:',okHome:'Home',okRead:'Read the excerpt'},
+      okTitle:'Thank you for your purchase!',okText:'Payment received. Download the book — the links have also been sent to your email:',okNoFile:'Payment received. The author will send the book to your email shortly:',
+      waitTitle:'Confirming your payment…',waitText:'This usually takes a few seconds. Please keep this page open.',lateText:'Your payment is still being processed. As soon as it is confirmed, a link to the book will be sent to:',
+      cancelTitle:'Payment not completed',cancelText:'You have not been charged. You can try again.',retry:'Try again',failTitle:'Order not found',failText:'If you paid for the book and got no email, please write to the author and we will check.',
+      download:'Download',testMark:'TEST ORDER — NO MONEY CHARGED',okHome:'Home',okRead:'Read the excerpt'},
     uk:{back:'← Назад до книги',title:'Оформлення замовлення',docTitle:'Замовити книгу',
-      step1:'1 · ВАША ПОШТА',emailPh:'you@email.com',emailNote:'На цю адресу надійде електронна книга одразу після оплати.',
-      step2:'2 · СПОСІБ ОПЛАТИ',payCard:'Банківська картка',cardName:'Ім’я на картці',paypalNote:'Ви перейдете в PayPal для завершення оплати.',
-      payBtn:'Сплатити',secure:'🔒 Безпечний платіж. Дані картки не зберігаються.',
-      summary:'ВАШЕ ЗАМОВЛЕННЯ',format:'Електронна книга · PDF + EPUB',
+      step1:'1 · ВАША ПОШТА',emailPh:'you@email.com',emailNote:'На цю адресу надійде посилання на книгу одразу після оплати.',firstPh:'Ім’я',lastPh:'Прізвище',
+      step2:'2 · ОПЛАТА',payNote:'Оплата карткою (а також Apple Pay / Google Pay) — на захищеній сторінці myPOS. Дані картки вводяться лише там, сайт їх не бачить. Після оплати ви повернетеся сюди й одразу зможете завантажити книгу.',
+      agree:'Я прошу надати книгу одразу після оплати й розумію, що після початку завантаження електронної книги втрачаю право на відмову від покупки.',
+      payBtn:'Перейти до оплати',secure:'🔒 Безпечний платіж через myPOS.',notForSale:'Ця книга поки не продається на сайті.',
+      summary:'ВАШЕ ЗАМОВЛЕННЯ',format:'Електронна книга · українською',
       price:'Ціна',vat:'Податок',included:'включено',total:'Разом',
-      okTitle:'Дякуємо за замовлення!',okText:'Книгу «{title}» надіслано на вашу пошту:',okHome:'На головну',okRead:'Читати уривок'},
+      okTitle:'Дякуємо за покупку!',okText:'Оплату отримано. Завантажте книгу — посилання також надіслано на вашу пошту:',okNoFile:'Оплату отримано. Книгу автор надішле вам на пошту найближчим часом:',
+      waitTitle:'Підтверджуємо оплату…',waitText:'Зазвичай це займає кілька секунд. Не закривайте сторінку.',lateText:'Оплата ще обробляється. Щойно її буде підтверджено, посилання на книгу надійде на пошту:',
+      cancelTitle:'Оплату не завершено',cancelText:'Гроші не списано. Можна спробувати ще раз.',retry:'Спробувати знову',failTitle:'Замовлення не знайдено',failText:'Якщо ви сплатили книгу, а листа немає — напишіть автору, і ми все перевіримо.',
+      download:'Завантажити',testMark:'ТЕСТОВЕ ЗАМОВЛЕННЯ — ГРОШІ НЕ СПИСАНО',okHome:'На головну',okRead:'Читати уривок'},
     bg:{back:'← Назад към книгата',title:'Оформяне на поръчка',docTitle:'Поръчай книгата',
-      step1:'1 · ВАШАТА ПОЩА',emailPh:'you@email.com',emailNote:'Електронната книга ще бъде изпратена на този адрес веднага след плащане.',
-      step2:'2 · НАЧИН НА ПЛАЩАНЕ',payCard:'Банкова карта',cardName:'Име на картата',paypalNote:'Ще бъдете пренасочени към PayPal за завършване на плащането.',
-      payBtn:'Плати',secure:'🔒 Сигурно плащане. Данните на картата не се съхраняват.',
-      summary:'ВАШАТА ПОРЪЧКА',format:'Електронна книга · PDF + EPUB',
+      step1:'1 · ВАШАТА ПОЩА',emailPh:'you@email.com',emailNote:'На този адрес ще получите връзка към книгата веднага след плащането.',firstPh:'Име',lastPh:'Фамилия',
+      step2:'2 · ПЛАЩАНЕ',payNote:'Плащане с карта (както и Apple Pay / Google Pay) на защитената страница на myPOS. Данните на картата се въвеждат само там — сайтът не ги вижда. След плащането ще се върнете тук и веднага ще можете да изтеглите книгата.',
+      agree:'Моля книгата да ми бъде предоставена веднага след плащането и разбирам, че след началото на изтеглянето на електронната книга губя правото си на отказ от покупката.',
+      payBtn:'Към плащането',secure:'🔒 Сигурно плащане чрез myPOS.',notForSale:'Тази книга все още не се продава на сайта.',
+      summary:'ВАШАТА ПОРЪЧКА',format:'Електронна книга · на български',
       price:'Цена',vat:'Данък',included:'включен',total:'Общо',
-      okTitle:'Благодарим за поръчката!',okText:'„{title}“ е изпратена на вашата поща:',okHome:'Към начало',okRead:'Чети откъса'},
+      okTitle:'Благодарим за покупката!',okText:'Плащането е получено. Изтеглете книгата — връзките са изпратени и на вашата поща:',okNoFile:'Плащането е получено. Авторът ще ви изпрати книгата по имейл съвсем скоро:',
+      waitTitle:'Потвърждаваме плащането…',waitText:'Обикновено отнема няколко секунди. Не затваряйте страницата.',lateText:'Плащането все още се обработва. Щом бъде потвърдено, връзката към книгата ще бъде изпратена на:',
+      cancelTitle:'Плащането не е завършено',cancelText:'Не са удържани пари. Можете да опитате отново.',retry:'Опитай отново',failTitle:'Поръчката не е намерена',failText:'Ако сте платили книгата, а писмо няма — пишете на автора и ще проверим.',
+      download:'Изтегли',testMark:'ТЕСТОВА ПОРЪЧКА — НЕ СА УДЪРЖАНИ ПАРИ',okHome:'Към начало',okRead:'Чети откъса'},
   };
-  // order.html?book=<id> — книга из data/books.json (правится на сайте в режиме ?edit); без параметра — «Просто вернуться домой»
+  // order.html?book=<id> — книга из data/books.json; без параметра — «Просто вернуться домой».
+  // После оплаты myPOS возвращает сюда: ?pay=ok|cancel&order=<заказ>&key=<ключ> (shop/return.php).
   DEFAULT_BOOK = 'home';
-  state = { lang:'ru', paid:false, email:'', method:'card', book:null, hasChapter:false };
+  state = { lang:'ru', email:'', first:'', last:'', book:null, hasChapter:false, pay:'', order:null, polls:0 };
   componentDidMount(){
     try{const s=localStorage.getItem('vish_lang'); if(s&&this.DICT[s]) this.setState({lang:s});}catch(e){}
     const B=window.RoniBooks, id=B.param('book')||this.DEFAULT_BOOK;
     B.find(id).then(book=>{ if(book) this.setState({book}); }).catch(()=>{});
     B.hasChapter(id).then(ok=>this.setState({hasChapter:ok}));
+    const pay=B.param('pay');
+    if(pay==='ok'||pay==='cancel'){ this.setState({pay}); this.poll(); }
+  }
+  // статус заказа с сервера: ждём подтверждения от myPOS (до ~2 минут)
+  poll(){
+    const B=window.RoniBooks, o=B.param('order'), k=B.param('key');
+    if(!o||!k){ this.setState({order:{status:'unknown'}}); return; }
+    fetch('shop/status.php?o='+encodeURIComponent(o)+'&k='+encodeURIComponent(k),{cache:'no-store'})
+      .then(r=>r.json()).catch(()=>({status:'unknown'}))
+      .then(st=>{
+        const polls=this.state.polls+1;
+        this.setState({order:st,polls});
+        if(this.state.pay==='ok'&&st.status==='new'&&polls<45) setTimeout(()=>this.poll(),2500);
+      });
   }
   componentDidUpdate(){
     if(!this.state.book) return;
@@ -191,25 +239,46 @@ class Component extends DCLogic {
     if(document.title!==s) document.title=s;
   }
   setLang(c){ try{localStorage.setItem('vish_lang',c);}catch(e){} this.setState({lang:c}); }
+  // цена к оплате — как на сервере (shop_price): на языке страницы, если она в евро, иначе русская
+  eurPrice(raw,lang){
+    const B=window.RoniBooks, isEur=(s)=>/€|EUR/i.test(s||'');
+    const own=B.field(raw,lang,'price');
+    if(isEur(own)) return own;
+    const ru=B.field(raw,'ru','price');
+    return isEur(ru)?ru:'';
+  }
   renderVals(){
     const lang = this.DICT[this.state.lang] ? this.state.lang : 'ru';
-    const t = this.DICT[lang];
-    const book = window.RoniBooks.view(this.state.book, lang) || {title:'',cover:'',price:'',href:'index.html#books',readHref:''};
+    const t = this.DICT[lang], B=window.RoniBooks, raw=this.state.book;
+    const book = B.view(raw, lang) || {id:'',title:'',cover:'',price:'',href:'index.html#books',readHref:'',soon:true};
+    const price = raw ? this.eurPrice(raw,lang) : '';
+    // книги нет на этом языке — вместо формы заказа сообщение (результат оплаты показываем всегда)
+    const absent = !this.state.pay && !!raw && !book.here;
+    const canBuy = !!raw && !book.soon && !!price && !absent;
+    // результат оплаты
+    const pay=this.state.pay, st=this.state.order||{status:'new'}, paid=st.status==='paid';
+    const files=(st.files||[]).map(f=>({url:f.url,label:t.download+' '+f.format}));
+    let resIcon='…', resTitle=t.waitTitle, resText=t.waitText, resEmail='';
+    if(pay==='cancel'){ resIcon='×'; resTitle=t.cancelTitle; resText=t.cancelText; }
+    else if(st.status==='unknown'){ resIcon='?'; resTitle=t.failTitle; resText=t.failText; }
+    else if(paid){ resIcon='✓'; resTitle=t.okTitle; resText=files.length?t.okText:t.okNoFile; resEmail=st.email||''; }
+    else if(this.state.polls>=45){ resText=t.lateText; resEmail=st.email||''; }
     return {
-      t, book,
-      cover: book.cover,
-      price: book.price,
-      payLabel: t.payBtn + (book.price ? ' · ' + book.price : ''),
-      okText: t.okText.replace('{title}', book.title),
+      t, book, lang, setLang:(c)=>this.setLang(c), absent, present: !absent,
+      bookId: book.id||'', cover: book.cover, price,
+      canBuy, cantBuy: !!raw && !canBuy,
+      payLabel: t.payBtn + (price ? ' · ' + price : ''),
       backHref: book.href,
       readHref: this.state.hasChapter ? book.readHref : book.href,
-      lang:lang, setLang:(c)=>this.setLang(c),
-      notPaid:!this.state.paid, paid:this.state.paid, email:this.state.email,
-      isCard:this.state.method==='card', isPaypal:this.state.method==='paypal',
-      payCard:this.state.method==='card'?'on':'', payPaypal:this.state.method==='paypal'?'on':'',
-      pickCard:()=>this.setState({method:'card'}), pickPaypal:()=>this.setState({method:'paypal'}),
+      showForm: !pay, showResult: !!pay,
+      email:this.state.email, first:this.state.first, last:this.state.last,
       onEmail:(e)=>this.setState({email:e.target.value}),
-      onSubmit:(e)=>{ e.preventDefault(); this.setState({paid:true}); try{window.scrollTo(0,0);}catch(x){} },
+      onFirst:(e)=>this.setState({first:e.target.value}),
+      onLast:(e)=>this.setState({last:e.target.value}),
+      resIcon, resTitle, resText, resEmail, hasEmail:!!resEmail,
+      files, hasFiles: paid && files.length>0,
+      isCancel: pay==='cancel', isTest: !!st.test,
+      retryHref: 'order.html?book='+encodeURIComponent(book.id||this.DEFAULT_BOOK),
     };
   }
 }

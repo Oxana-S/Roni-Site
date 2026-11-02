@@ -56,7 +56,41 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/__edit/ping":
             return self._reply(200, "ok")
+        if self.headers.get("Range"):
+            return self._range()
         return super().do_GET()
+
+    def _range(self):
+        """Кусок файла по заголовку Range (206): без этого браузер не перематывает видео (assets/presenter)."""
+        path = Path(self.translate_path(self.path))
+        m = re.match(r"bytes=(\d*)-(\d*)$", self.headers.get("Range", "").strip())
+        if not path.is_file() or not m or (m.group(1) == "" and m.group(2) == ""):
+            return super().do_GET()
+        size = path.stat().st_size
+        if m.group(1) == "":
+            start, end = max(0, size - int(m.group(2))), size - 1
+        else:
+            start, end = int(m.group(1)), min(size - 1, int(m.group(2) or size - 1))
+        if start >= size or start > end:
+            self.send_response(416)
+            self.send_header("Content-Range", f"bytes */{size}")
+            self.end_headers()
+            return
+        self.send_response(206)
+        self.send_header("Content-Type", self.guess_type(str(path)))
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.end_headers()
+        with open(path, "rb") as f:
+            f.seek(start)
+            left = end - start + 1
+            while left > 0:
+                chunk = f.read(min(65536, left))
+                if not chunk:
+                    break
+                self.wfile.write(chunk)
+                left -= len(chunk)
 
     def do_POST(self):
         if self.path != "/__edit/save":

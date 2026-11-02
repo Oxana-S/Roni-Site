@@ -17,10 +17,15 @@
        }
      }
    }
+   Языки. Элемент и своя секция показываются на языках из "langs": ["en"] (нет списка — на всех).
+   Скрыть секцию на одних языках — "hiddenIn": { "cast": ["en", "uk"] } ("hidden" — на всех языках).
+   У родного элемента "hide" / "del" — true (на всех языках) или список языков.
+   Замена картинки на одном языке — "mediaIn": { "en": { "assets/img/x.jpg": "assets/uploads/…" } }
+   (у страницы и общая, для подвала); "media" — на всех языках. Сдвиги и размеры — общие для всех языков.
    Подвал общий для всех страниц: его элементы и сдвиги — в "global": { "free": { "footer": … }, "moves": { "footer": … } }.
    Элемент типа «clone» — копия существующего элемента: { "type": "clone", "h": px, "ru": { "html": "…" } }.
    Элемент типа «agent» — голосовой AI-агент hanc.ai в оформлении сайта:
-     { "type": "agent", "agentId", "style": "keeper|portal", "size": 280|370|440, "voiceUrl",
+     { "type": "agent", "agentId" (общий; свой у языка — ru.agentId…), "style": "keeper|portal", "size": 280|370|440, "voiceUrl",
        "ru": { "kicker", "title", "text", "label" } }   (пустые подписи — по умолчанию для стиля)
    Элемент: { "id", "type": "heading|text|quote|image|audio|button|book",
               "x": % ширины слоя, "y": px от верха секции, "w": % ширины (нет — по содержимому),
@@ -63,6 +68,10 @@
   // подвал — общий для всех страниц: его данные лежат в data.global
   function bucket(key) { return key === "footer" ? ((data && data.global) || {}) : page(); }
   function footerEl() { return document.querySelector('[data-sc-name="SiteFooter"] footer'); }
+  // показывается ли элемент / своя секция на языке L
+  function inLang(o, L) { return !o || !Array.isArray(o.langs) || o.langs.indexOf(L) >= 0; }
+  // скрыт / удалён на языке L: true — на всех языках, список — на этих
+  function onIn(v, L) { return v === true || (Array.isArray(v) && v.indexOf(L) >= 0); }
   function tx(b, f) {
     var L = lang(), order = [L, "ru", "en", "uk", "bg"];
     for (var i = 0; i < order.length; i++) { var v = b && b[order[i]] && b[order[i]][f]; if (v) return v; }
@@ -419,14 +428,17 @@
       '<g stroke="#d9b877" stroke-width="1.5">' + runes + '</g></g></svg>';
     return [back, front];
   }
+  // ID агента: свой у текущего языка (b[L].agentId), иначе общий (b.agentId)
+  function agentId(b) { var L = lang(); return (b[L] && b[L].agentId) || b.agentId || ""; }
   function agentHTML(b) {
-    if (!b.agentId) return editing ? '<div class="rl-cap">AI-агент: укажите ID (⚙)</div>' : "";
+    var id = agentId(b);
+    if (!id) return editing ? '<div class="rl-cap">AI-агент: укажите ID для этого языка (⚙)</div>' : "";
     agentScript();
     var s = agentStyle(b), st = AGENT_STYLES[s], k = (AGENT_ORB[b.size] || 180) / 180, orb = Math.round(st.d * k), u = "ag" + (++agentSeq);
     var art = s === "portal" ? portalArt(u) : keeperArt(u), title = agentText(b, "title");
     function pct(v) { return (Math.round(v * 1000) / 10) + "%"; }
     // theme="" — не перекрашивать шар темой из кабинета hanc.ai; свой значок «Powered by» — под кнопкой
-    var attrs = ' agent-id="' + esc(b.agentId) + '" voice-service-url="' + esc(b.voiceUrl || "https://voice.hanc.ai") + '" size="' + orb +
+    var attrs = ' agent-id="' + esc(id) + '" voice-service-url="' + esc(b.voiceUrl || "https://voice.hanc.ai") + '" size="' + orb +
       '" container-padding="0" theme="" hide-branding sound-enabled sound-volume="0.35" orb-colors="' + esc(JSON.stringify(st.orb)) + '"';
     for (var a in st.fx) attrs += " " + a + '="' + esc(st.fx[a]) + '"';
     return '<div class="rl-ag rl-ag-' + s + '" data-rl-agent><div class="rl-ag-in">' +
@@ -518,6 +530,7 @@
       var bk = list.filter(function (x) { return x.id === b.book; })[0];
       if (!bk) return editing ? '<div class="rl-cap">Книга «' + esc(b.book) + '» не найдена</div>' : "";
       var v = B.view(bk, lang());
+      if (!v.here) return editing ? '<div class="rl-cap">📖 «' + esc(v.title || bk.id) + '» не показывается на этом языке (включить — «Книги» → галочка языка)</div>' : "";
       return '<a class="rl-book" href="' + esc(v.href) + '">' + (v.cover ? '<img src="' + esc(v.cover) + '" alt="">' : "") +
         '<div><div class="rl-book-t">' + esc(v.title) + '</div><div class="rl-book-s">' + esc(v.tag || v.subtitle) + "</div>" +
         (v.blurb ? '<div class="rl-book-d">' + esc(v.blurb) + "</div>" : "") + '<span class="rl-book-a">' + LABELS[lang()] + "</span></div></a>";
@@ -691,8 +704,8 @@
       if (el.style[prop] !== v) el.style[prop] = v;
     } else if (key in el) { el.style[prop] = el[key]; delete el[key]; }
   }
-  // list: [{ el: секция, key, mv: { путь: {dx,dy,w,h,hide} } }]
-  function applyMoves(list) {
+  // list: [{ el: секция, key, mv: { путь: {dx,dy,w,h,hide,del} } }]; hide/del — на языке L
+  function applyMoves(list, L) {
     var narrow = innerWidth <= 700, seen = [];
     list.forEach(function (it) {
       var mv = it.mv; if (!mv) return;
@@ -704,8 +717,9 @@
         setSize(el, "width", !narrow && m.w ? m.w + "px" : "");
         setSize(el, "height", !narrow && m.h ? m.h + "px" : "");
         // удалённый — нет нигде (и у редактора); скрытый — у редактора бледный
-        attr(el, "data-rl-hidden", !!m.del || (!!m.hide && !editing));
-        attr(el, "data-rl-dim", !m.del && !!m.hide && editing);
+        var del = onIn(m.del, L), hide = onIn(m.hide, L);
+        attr(el, "data-rl-hidden", del || (hide && !editing));
+        attr(el, "data-rl-dim", !del && hide && editing);
         attr(el, "data-rl-moved", !!(m.dx || m.dy || m.w || m.h));
       });
     });
@@ -719,12 +733,13 @@
 
   // ---- свои секции (фон + свободные элементы)
   var BG = { dark: "", deep: "rl-bg-deep", glow: "rl-bg-glow", image: "" };
-  function syncCustom(parent, after) {
+  function syncCustom(parent, after, L) {
     var custom = page().custom || {};
     var alive = {};
     Object.keys(custom).forEach(function (id) {
-      alive[id] = 1;
       var c = custom[id];
+      if (!inLang(c, L)) return;                 // секция другого языка
+      alive[id] = 1;
       var el = document.querySelector('[data-rl-custom="' + id + '"]');
       if (!el) {
         el = document.createElement("section");
@@ -774,22 +789,25 @@
   }
 
   // ---------------------------------------------------------------- заменённые картинки/аудио
-  // замена картинок/аудио: своя для страницы (pages[…].media), общая — data.media (подвал и старые замены)
-  function applyMedia() {
-    var gm = (data && data.media) || {}, pm = page().media || {};
-    if (!Object.keys(gm).length && !Object.keys(pm).length) return;
-    var both = Object.assign({}, gm, pm);
+  // замена картинок/аудио: своя для страницы (pages[…].media), общая — data.media (подвал и старые замены);
+  // mediaIn[язык] — замены только на этом языке, они главнее
+  function applyMedia(L) {
+    var pg = page(), gm = (data && data.media) || {}, pm = pg.media || {};
+    var gl = ((data && data.mediaIn) || {})[L] || {}, pl = (pg.mediaIn || {})[L] || {};
+    var foot = Object.assign({}, gm, gl), both = Object.assign({}, gm, gl, pm, pl);
+    if (!Object.keys(both).length && !document.querySelector("[data-rl-orig]")) return;
     document.querySelectorAll("img,audio").forEach(function (el) {
       if (el.closest(".rl-free,#re-root")) return;
-      var map = el.closest('[data-sc-name="SiteFooter"]') ? gm : both;
+      var map = el.closest('[data-sc-name="SiteFooter"]') ? foot : both;
       var cur = el.getAttribute("src"); if (!cur) return;
       var orig = el.getAttribute("data-rl-orig");
-      if (orig && cur !== orig && cur !== url(map[orig])) orig = null;   // React сам поменял src
+      if (orig && cur !== orig && cur !== el.__rlSrc) orig = null;   // React сам поменял src
       if (!orig) orig = cur;
-      var to = map[orig];
-      if (!to) return;
+      var to = map[orig] ? url(map[orig]) : orig;    // на этом языке замены нет — исходная картинка
+      if (to === orig && !el.hasAttribute("data-rl-orig")) return;
       el.setAttribute("data-rl-orig", orig);
-      if (cur !== url(to)) el.setAttribute("src", url(to));
+      el.__rlSrc = to;
+      if (cur !== to) el.setAttribute("src", to);
     });
   }
 
@@ -799,29 +817,35 @@
     if (!data || applying) return;
     applying = true;
     try {
-      applyMedia();
+      var L = lang(), p = page(), moveList = [];
+      applyMedia(L);
       var natural = sections().filter(function (s) { return !s.hasAttribute("data-rl-custom"); });
-      if (!natural.length) return;
-      syncCustom(natural[0].parentElement, natural[natural.length - 1]);
-      var secs = sections(), ks = keys(secs), p = page(), hidden = p.hidden || [], L = lang();
-      secs.forEach(function (el, i) {
-        var key = ks[i];
-        el.setAttribute("data-rl-sec", key);
-        var off = hidden.indexOf(key) >= 0;
-        attr(el, "data-rl-hidden", off && !editing);
-        attr(el, "data-rl-dim", off && editing);
-        layerFor(el, key, ((p.free || {})[key] || {}).items || [], L);
-      });
-      var foot = footerEl(), moveList = secs.map(function (el, i) { return { el: el, key: ks[i], mv: (p.moves || {})[ks[i]] }; });
+      if (natural.length) {
+        syncCustom(natural[0].parentElement, natural[natural.length - 1], L);
+        var secs = sections(), ks = keys(secs), hidden = p.hidden || [], hiddenIn = p.hiddenIn || {};
+        secs.forEach(function (el, i) {
+          var key = ks[i];
+          el.setAttribute("data-rl-sec", key);
+          var off = hidden.indexOf(key) >= 0 || onIn(hiddenIn[key], L);
+          attr(el, "data-rl-hidden", off && !editing);
+          attr(el, "data-rl-dim", off && editing);
+          layerFor(el, key, ((p.free || {})[key] || {}).items || [], L);
+          moveList.push({ el: el, key: key, mv: (p.moves || {})[key] });
+        });
+        lastOrder = computeOrder(ks, p.order);
+        reorderable = applyOrder(secs, lastOrder);
+      } else {
+        // своих секций страницы нет (например, «книги нет на этом языке») — убираем и вставленные
+        document.querySelectorAll("[data-rl-custom]").forEach(function (el) { el.remove(); });
+      }
+      var foot = footerEl();
       if (foot) {
         foot.setAttribute("data-rl-sec", "footer");
         var g = bucket("footer");
         layerFor(foot, "footer", ((g.free || {}).footer || {}).items || [], L);
         moveList.push({ el: foot, key: "footer", mv: (g.moves || {}).footer });
       }
-      lastOrder = computeOrder(ks, p.order);
-      reorderable = applyOrder(secs, lastOrder);
-      applyMoves(moveList);
+      applyMoves(moveList, L);
       enhanceAudio();
       if (!fitQueued) {
         fitQueued = true;
@@ -831,6 +855,7 @@
     } finally { applying = false; }
   }
   function layerFor(el, key, items, L) {
+    items = items.filter(function (b) { return inLang(b, L); });   // элементы других языков здесь не рисуются
     var layer = el.__rlLayer;
     if (!items.length && !editing && !el.hasAttribute("data-rl-custom")) {
       if (layer) { layer.remove(); el.__rlSpacer.remove(); el.__rlLayer = el.__rlSpacer = null; }
@@ -847,14 +872,15 @@
     if (!el.__rlPos && getComputedStyle(el).position === "static") { el.style.position = "relative"; el.__rlPos = true; }
     // книги догрузились — перерисовываем только слой с карточками книг (виджет агента не пересоздаётся, звонок не рвётся)
     var wantsBooks = items.some(function (b) { return b.type === "book"; });
-    var sig = JSON.stringify(items) + L + editing + JSON.stringify(preview) + (wantsBooks && window.RoniBooks && window.RoniBooks.cached().books ? 1 : 0);
+    var bs = wantsBooks && window.RoniBooks && window.RoniBooks.cached().books;   // и после правки книги (языки, название)
+    var sig = JSON.stringify(items) + L + editing + JSON.stringify(preview) + (bs ? JSON.stringify(bs) : "");
     if (layer.__sig !== sig) { layer.__sig = sig; renderFree(layer, key, items); }
   }
   function loadBooks() {
     booksWanted = false;
     var go = function () { window.RoniBooks.list().then(apply, function () {}); };
     if (window.RoniBooks) return go();
-    var s = document.createElement("script"); s.src = "assets/books.js"; s.onload = go; document.head.appendChild(s);
+    var s = document.createElement("script"); s.src = "assets/books.js?v=20261026"; s.onload = go; document.head.appendChild(s);
   }
 
   // DOM меняется (React отрисовал, сменили язык) → применяем сразу, до отрисовки кадра
@@ -885,6 +911,8 @@
     },
     cleanHTML: cleanHTML,
     agentText: agentText,
+    inLang: inLang,
+    onIn: onIn,
     agentStyles: function () { return Object.keys(AGENT_STYLES).map(function (k) { return [k, AGENT_STYLES[k].name]; }); },
     pageForEdit: function () {
       data.pages = data.pages || {};

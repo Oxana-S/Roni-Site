@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Книги нет на языке страницы («Книги» в админке → галочки языков): страница книги, главы и заказа показывают это вместо книги -->
+<section style="padding:170px 7vw 120px;text-align:center">
+  <h1 style="font:400 clamp(30px,4.4vw,48px) Forum,serif;color:var(--c-paper-50);margin:0 0 18px">{{ c.title }}</h1>
+  <sc-if value="{{ hasOther }}" hint-placeholder-val="{{ true }}">
+    <p style="font:300 16px/1.6 Spectral,serif;color:#a89c84;margin:0 0 18px">{{ c.other }}</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:0 0 34px">
+      <sc-for list="{{ btns }}" as="b" hint-placeholder-count="1">
+        <button onClick="{{ b.onSelect }}" lang="{{ b.code }}" class="vbtn" style="cursor:pointer;background:transparent;border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:13px 28px;border-radius:2px">{{ b.label }}</button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{ editHint }}" hint-placeholder-val="{{ false }}">
+    <p style="font:300 15px/1.6 Spectral,serif;color:#a89c84;max-width:520px;margin:0 auto 22px">Режим правки: эта книга выключена для языка страницы. Включить — кнопка «Книги» → галочка языка.</p>
+  </sc-if>
+  <a href="index.html#books" class="vlink" style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ c.all }}</a>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:460},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;,&quot;uk&quot;,&quot;bg&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;langs&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string[]&quot;},&quot;onLang&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(code:string)=&gt;void&quot;}}">
+// props: lang — язык страницы, langs — языки, на которых книга есть, onLang — переключить язык страницы
+class Component extends DCLogic {
+  constructor(p){ super(p); window.RoniTexts&&RoniTexts.register(this,'BookAbsent',['CH']); }
+  CH = {
+    ru:{title:'Этой книги пока нет на русском языке',other:'Она есть на других языках:',all:'← Все книги'},
+    en:{title:'This book is not available in English yet',other:'It is available in:',all:'← All books'},
+    uk:{title:'Цієї книги поки немає українською мовою',other:'Вона є іншими мовами:',all:'← Усі книги'},
+    bg:{title:'Тази книга все още я няма на български',other:'Тя е достъпна на други езици:',all:'← Всички книги'},
+  };
+  NAMES = {ru:'Русский',en:'English',uk:'Українська',bg:'Български'};
+  renderVals(){
+    const lang = this.CH[this.props.lang] ? this.props.lang : 'ru';
+    const onLang = this.props.onLang || function(){};
+    const all = Array.isArray(this.props.langs) ? this.props.langs : String(this.props.langs||'').split(',');
+    const langs = all.filter(l => this.NAMES[l] && l !== lang);
+    return {
+      c: this.CH[lang],
+      hasOther: langs.length > 0,
+      btns: langs.map(l => ({ code:l, label:this.NAMES[l], onSelect:() => onLang(l) })),
+      editHint: !!(window.RoniTexts && RoniTexts.editMode),
+    };
+  }
+}
+</script>
+</body>
+</html>

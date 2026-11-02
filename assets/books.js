@@ -4,9 +4,13 @@
    data/chapters/<id>.json  — первая глава книги <id>
 
    Любое поле языка (en/uk/bg) может быть пустым — тогда берётся RU.
+   Языки книги: "langs": ["ru", "uk"] — на каких языках книга есть на сайте (нет списка — на всех).
+   Своя настройка языка — "status", "featured", "amazon" внутри ru/en/uk/bg: она главнее общей.
+   Своя обложка / картинка над главой языка — ru.cover, ru.chapter_image; пусто — общая.
    Объекты общие для всех компонентов страницы: редактор меняет их на месте.
    ============================================================ */
 (function () {
+  var LANGS = (window.RoniTexts && window.RoniTexts.LANGS) || ["ru", "en", "uk", "bg"];
   var cache = {}, loaded = {};
   function getJSON(url) {
     if (!cache[url]) {
@@ -30,6 +34,15 @@
     if (v) return v;
     return (obj && obj.ru && obj.ru[key]) || "";
   }
+  // своя настройка языка (status, featured, amazon), если задана, иначе общая для всех языков
+  function own(b, lang, key) {
+    var v = b && b[lang] && b[lang][key];
+    return v != null ? v : b && b[key];
+  }
+  // есть ли книга на сайте на этом языке
+  function inLang(b, lang) { return !!b && (!Array.isArray(b.langs) || b.langs.indexOf(lang) >= 0); }
+  function langsOf(b) { return LANGS.filter(function (l) { return inLang(b, l); }); }
+  function img(b, lang, key) { return (b[lang] && b[lang][key]) || b[key] || ""; }
   var BOOKS = "data/books.json";
   function chapterUrl(id) { return "data/chapters/" + encodeURIComponent(id) + ".json"; }
   // книга без обложки: прозрачная заглушка (видна полосатая подложка карточки);
@@ -43,8 +56,10 @@
     var id = b.id;
     return {
       id: id,
-      soon: b.status === "soon",
-      featured: !!b.featured,
+      soon: own(b, lang, "status") === "soon",
+      featured: !!own(b, lang, "featured"),
+      here: inLang(b, lang),          // книга есть на этом языке
+      langs: langsOf(b),              // …и на каких языках есть вообще
       noir: b.theme === "noir",
       title: field(b, lang, "title"),
       subtitle: field(b, lang, "subtitle"),
@@ -52,10 +67,10 @@
       blurb: field(b, lang, "blurb"),
       description: field(b, lang, "description") || field(b, lang, "blurb"),
       price: field(b, lang, "price"),
-      cover: field(b, lang, "cover") || b.cover || noCover(id),
-      chapterImage: b.chapter_image || "",
+      cover: img(b, lang, "cover") || noCover(id),
+      chapterImage: img(b, lang, "chapter_image"),
       audio: field(b, lang, "audio"),
-      amazon: b.amazon || "",
+      amazon: own(b, lang, "amazon") || "",
       href: b.page || ("book.html?id=" + encodeURIComponent(id)),   // своя страница или макет «Просто вернуться домой»
       readHref: b.read_page || ("read.html?book=" + encodeURIComponent(id)),   // своя страница чтения (новые книги) или общая
       orderHref: "order.html?book=" + encodeURIComponent(id)
@@ -90,6 +105,7 @@
           copy.__skeleton = true;
           delete copy.read_page;
           delete copy.page;
+          delete copy.langs;          // заготовка видна на любом языке
           return copy;
         });
       });
@@ -111,7 +127,17 @@
     hasChapter: function (id) { return exists(chapterUrl(id)); },
     view: view,
     NO_COVER: NO_COVER,
+    LANGS: LANGS,
     field: field,
+    own: own,
+    inLang: inLang,
+    langsOf: langsOf,
+    // книги этого языка (порядок общий для всех языков)
+    visible: function (list, lang) { return (list || []).filter(function (b) { return inLang(b, lang); }); },
+    // книга для большого блока на главной этого языка (первая отмеченная)
+    featured: function (list, lang) {
+      return this.visible(list, lang).filter(function (b) { return !!own(b, lang, "featured"); })[0] || null;
+    },
     param: function (name) {
       try { return new URLSearchParams(location.search).get(name); } catch (e) { return null; }
     },

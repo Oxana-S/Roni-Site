@@ -28,10 +28,10 @@
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="assets/texts.js"></script>
-<script src="assets/layout.js"></script>
+<script src="assets/layout.js?v=20261026"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
-<script src="assets/books.js"></script>
+<script src="assets/books.js?v=20261026"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -95,6 +95,11 @@
     </header>
   </sc-if>
 
+  <!-- книги нет на этом языке (галочки языков в «Книги») -->
+  <sc-if value="{{ absent }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="BookAbsent" lang="{{ lang }}" langs="{{ book.langs }}" on-lang="{{ setLang }}" hint-size="100%,460px"></dc-import>
+  </sc-if>
+
   <!-- READER -->
   <article style="max-width:720px;margin:0 auto;padding:{{ articlePad }}">
     <sc-if value="{{ plainHead }}" hint-placeholder-val="{{ true }}">
@@ -115,7 +120,7 @@
     </sc-if>
 
     <!-- аудиоверсия главы (загружается кнопкой «🎙 Аудио главы» в режиме правки) -->
-    <sc-if value="{{ book.audio }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ audio }}" hint-placeholder-val="{{ false }}">
       <div style="margin:0 0 40px">
         <div style="font:400 11px Spectral,serif;color:var(--gold-text);letter-spacing:4px;margin-bottom:12px;text-align:center">{{ t.listen }}</div>
         <audio data-rl-enhance="1" data-book-audio="{{ book.id }}" data-rl-title="{{ playerTitle }}" preload="metadata" src="{{ book.audio }}"></audio>
@@ -199,15 +204,17 @@ class Component extends DCLogic {
       gate_title:B.field(chapter,lang,'gate_title'),
       gate_text:B.field(chapter,lang,'gate_text'),
     };
-    const list=chapter ? B.paras(own || B.field(chapter,'ru','text')) : [];
+    const absent=!!this.state.book && !book.here;   // книги нет на этом языке
+    const list=chapter && !absent ? B.paras(own || B.field(chapter,'ru','text')) : [];
     const paras=list.map((x,i)=>({text:x,cls:'vtxt'+(i===0?' vdrop':'')+(/^[—–-]\s/.test(x)?' vdlg':'')}));
-    const ready=!!(this.state.book && chapter);
+    const ready=!!(this.state.book && chapter) && !absent;
     const withImage=ready && !!book.chapterImage;
     return {
-      t, book, ch, paras, ready, withImage,
-      plainHead:!withImage && !this.state.notFound,
+      t, book, ch, paras, ready, withImage, absent,
+      audio:absent ? '' : book.audio,
+      plainHead:!withImage && !this.state.notFound && !absent,
       notFound:this.state.notFound,
-      articlePad:withImage?'30px 24px 40px':'140px 28px 40px',
+      articlePad:absent ? '0' : withImage?'30px 24px 40px':'140px 28px 40px',
       themeCls:book.noir?'noir':'',
       langNote:(ready && !own && lang!=='ru') ? t.langNote : '',
       canBuy:ready && !book.soon,

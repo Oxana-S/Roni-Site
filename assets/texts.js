@@ -104,7 +104,7 @@
 
   if (editMode) {
     var s = document.createElement("script");
-    s.src = "assets/editor.js";
+    s.src = "assets/editor.js?v=20261026";
     s.defer = true;
     document.head.appendChild(s);
   }

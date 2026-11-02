@@ -29,10 +29,11 @@
 <link rel="preload" as="image" href="assets/img/hero-detective.jpg" fetchpriority="high">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="assets/texts.js"></script>
-<script src="assets/layout.js"></script>
+<script src="assets/layout.js?v=20261026"></script>
+<script src="assets/presenter.js?v=2026110208"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
-<script src="assets/books.js"></script>
+<script src="assets/books.js?v=20261026"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -195,7 +196,7 @@
           <a href="{{ feat.orderHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px;box-shadow:0 8px 22px rgba(var(--gold-rgb),.22)">{{ featBuy }}</a>
           <a href="{{ feat.readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 30px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
-        <div style="margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="margin-top:22px;display:{{ featAmazon }};align-items:center;gap:14px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
           <a href="{{ feat.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:10px 18px;text-decoration:none">
             <svg width="26" height="13" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -460,9 +461,9 @@ class Component extends DCLogic {
   hideImg(e) { e.target.style.display = 'none'; }
 
   renderVals() {
-    const lang = this.state.lang;
-    // книга с галочкой «На главной» в админке (первая из отмеченных)
-    const feat = window.RoniBooks.view((this.state.books || []).find(b => b.featured), lang);
+    const lang = this.state.lang, B = window.RoniBooks;
+    // книги этого языка; большой блок — книга с галочкой «На главной» на этом языке (первая из отмеченных)
+    const feat = B.view(B.featured(this.state.books, lang), lang);
     const langBtns = this.LANGS.map(l => {
       const active = l.code === lang;
       const style = 'cursor:pointer;background:transparent;font:400 12px Spectral,serif;letter-spacing:1px;padding:5px 9px;border-radius:2px;border:1px solid '
@@ -481,8 +482,8 @@ class Component extends DCLogic {
       waveOn: this.state.playing ? 'on' : '',
       waveBars: this.WAVE || [],
       audioRef: this.audioRef,
-      books: (this.state.books || []).map(b => window.RoniBooks.view(b, this.state.lang)),
-      feat, hasFeat: !!feat,
+      books: B.visible(this.state.books, lang).map(b => B.view(b, lang)),
+      feat, hasFeat: !!feat, featAmazon: feat && feat.amazon ? 'flex' : 'none',
       featBuy: feat ? this.DICT[lang].buyBtn + (feat.price ? ' · ' + feat.price : '') : '',
       lang: this.state.lang,
       setLang: (c) => this.setLang(c),

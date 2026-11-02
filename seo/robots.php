@@ -13,6 +13,7 @@ header('Cache-Control: no-cache');
 echo "User-agent: *\n"
     . "Disallow: {$dir}admin/\n"
     . "Disallow: {$dir}seo/\n"
+    . "Disallow: {$dir}shop/\n"
     . "Allow: {$dir}\n"
     . "\n"
     . "# Яндекс: служебные параметры адреса не создают новых страниц\n"

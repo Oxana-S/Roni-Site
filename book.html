@@ -28,10 +28,10 @@
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="assets/texts.js"></script>
-<script src="assets/layout.js"></script>
+<script src="assets/layout.js?v=20261026"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
-<script src="assets/books.js"></script>
+<script src="assets/books.js?v=20261026"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -64,6 +64,12 @@
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="books" on-lang="{{ setLang }}" hint-size="100%,66px"></dc-import>
 
+  <!-- книги нет на этом языке (галочки языков в «Книги») -->
+  <sc-if value="{{ absent }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="BookAbsent" lang="{{ lang }}" langs="{{ book.langs }}" on-lang="{{ setLang }}" hint-size="100%,460px"></dc-import>
+  </sc-if>
+
+  <sc-if value="{{ here }}" hint-placeholder-val="{{ true }}">
   <!-- HERO -->
   <section class="vb-hero" style="padding:150px 7vw 70px;background:radial-gradient(120% 80% at 70% 0,#3a1d14,var(--bg) 60%)">
     <div style="max-width:var(--container);margin:0 auto;display:flex;gap:64px;align-items:center;flex-wrap:wrap">
@@ -82,7 +88,7 @@
           <a href="#offer" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.25)">{{ t.buyBtn }}</a>
           <a href="{{ book.readHref }}" class="vbtn" style="border:1px solid rgba(var(--gold-rgb),.5);color:#e3d6bd;font:400 14.5px Spectral,serif;letter-spacing:1px;padding:15px 32px;text-decoration:none;border-radius:2px">{{ t.readBtn }}</a>
         </div>
-        <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="margin-top:20px;display:{{ amazonFlex }};align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font:300 12px Spectral,serif;color:var(--text-faint);letter-spacing:1px">{{ t.alsoOn }}</span>
           <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:9px 16px;text-decoration:none">
             <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -198,7 +204,7 @@
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
         <a href="{{ book.orderHref }}" class="vbtn" style="background:var(--gold);color:var(--bg-2);font:500 14px Spectral,serif;letter-spacing:1px;padding:16px 40px;text-decoration:none;border-radius:2px;box-shadow:0 8px 24px rgba(var(--gold-rgb),.28)">{{ t.buyNow }}</a>
-        <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:14px 20px;text-decoration:none">
+        <a href="{{ book.amazon }}" target="_blank" rel="noopener" class="vbtn" style="display:{{ amazonInline }};align-items:center;gap:9px;border:1px solid rgba(var(--gold-rgb),.45);background:rgba(var(--gold-rgb),.05);border-radius:3px;padding:14px 20px;text-decoration:none">
           <svg width="24" height="12" viewBox="0 0 30 15" style="overflow:visible"><path d="M2 5 q13 11 25 1" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round"></path><path d="M23 2.5 l4 3 -3.4 2.6" stroke="#c9a86a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           <span style="font:500 13px Spectral,serif;color:var(--text);white-space:nowrap">Amazon Kindle</span>
         </a>
@@ -206,6 +212,7 @@
       <div style="font:300 13px Spectral,serif;color:var(--text-faint);margin-top:20px">{{ t.offerNote }}</div>
     </div>
   </section>
+  </sc-if>
 
   <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
 
@@ -291,7 +298,9 @@ class Component extends DCLogic {
     const book=window.RoniBooks.view(this.state.book,lang)||{cover:'',price:'',amazon:'',orderHref:'order.html?book='+this.BOOK_ID,readHref:'read.html?book='+this.BOOK_ID};
     const d=this.DICT[lang], pr=book.price?' '+book.price:'';
     const t=Object.assign({},d,{title:book.title||'',tagline:book.subtitle||'',buyBtn:d.buyBtn+(book.price?' · '+book.price:''),buyNow:d.buyNow+pr});
-    return {t,book,themeCls:book.noir?'noir':'',langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:lang,setLang:(c)=>this.setLang(c)};
+    const absent=!!this.state.book && !book.here;   // книги нет на этом языке
+    return {t,book,absent,here:!absent,amazonFlex:book.amazon?'flex':'none',amazonInline:book.amazon?'inline-flex':'none',
+      themeCls:book.noir?'noir':'',langBtns,headScrolled:this.state.scrolled?'scrolled':'',lang:lang,setLang:(c)=>this.setLang(c)};
   }
 }
 </script>

@@ -16,7 +16,7 @@
   function withBooks(cb) {
     if (window.RoniBooks) return cb();
     var s = document.createElement("script");
-    s.src = "assets/books.js"; s.onload = cb;
+    s.src = "assets/books.js?v=20261026"; s.onload = cb;
     document.head.appendChild(s);
   }
   // На хостинге редактор есть только у вошедшего в admin/ (сессия на сервере).
@@ -42,6 +42,8 @@
   B = window.RoniBooks;
   var LANGS = T.LANGS;
   var LANG_NAMES = { ru: "русский", en: "английский", uk: "украинский", bg: "болгарский" };
+  var LANG_IN = { ru: "русском", en: "английском", uk: "украинском", bg: "болгарском" };   // «только на английском»
+  var LANG_SHORT = { ru: "RU", en: "EN", uk: "UK", bg: "BG" };
   var BOOK_FIELDS = ["title", "subtitle", "tag", "blurb", "price"];
   var CHAP_FIELDS = ["chapter", "gate_title", "gate_text"];
 
@@ -55,16 +57,18 @@
   var editing = null, original = "", index = new Map();
   var plainOnly = (function () { var d = document.createElement("div"); d.contentEditable = "plaintext-only"; return d.contentEditable === "plaintext-only"; })();
 
-  function fresh() { return { texts: {}, books: {}, add: [], del: [], order: null, chapters: {}, uploads: {}, layout: { media: {}, pages: {} }, newPages: {}, bookPages: {} }; }
+  function fresh() { return { texts: {}, books: {}, add: [], del: [], order: null, chapters: {}, uploads: {}, layout: { media: {}, mediaIn: {}, pages: {} }, newPages: {}, bookPages: {} }; }
+  function countIn(mi) { var n = 0; for (var x in mi || {}) n += Object.keys(mi[x]).length; return n; }
   function count() {
     var n = 0, k;
     for (k in pending.texts) n += Object.keys(pending.texts[k]).length;
     for (k in pending.books) n += Object.keys(pending.books[k]).length;
     for (k in pending.chapters) n += Object.keys(pending.chapters[k]).length;
-    n += Object.keys(pending.layout.media).length;
+    n += Object.keys(pending.layout.media).length + countIn(pending.layout.mediaIn);
     for (k in pending.layout.pages) {
       var pp = pending.layout.pages[k];
-      n += (pp.hidden ? 1 : 0) + (pp.order ? 1 : 0) + (pp.custom ? 1 : 0) + (pp.moves ? 1 : 0) + Object.keys(pp.free || {}).length + Object.keys(pp.media || {}).length;
+      n += (pp.hidden || pp.hiddenIn ? 1 : 0) + (pp.order ? 1 : 0) + (pp.custom ? 1 : 0) + (pp.moves ? 1 : 0) + Object.keys(pp.free || {}).length +
+        Object.keys(pp.media || {}).length + countIn(pp.mediaIn);
     }
     var gl = pending.layout.global;
     if (gl) n += Object.keys(gl.free || {}).length + (gl.moves ? 1 : 0);
@@ -89,6 +93,28 @@
     var b = findBook(id); if (!b) return;
     setDeep(b, path, liveValue);
     (pending.books[id] = pending.books[id] || {})[path] = storedValue === undefined ? liveValue : storedValue;
+  }
+  // название для админки: на текущем языке, иначе на любом, где оно есть
+  function anyTitle(b) {
+    var t = B.field(b, lang(), "title");
+    for (var i = 0; !t && i < LANGS.length; i++) t = b[LANGS[i]] && b[LANGS[i]].title;
+    return t || b.id;
+  }
+  // книга на языке x: есть / нет (null — на всех языках)
+  function setBookLang(id, x, on) {
+    var b = findBook(id); if (!b) return;
+    var cur = B.langsOf(b);
+    var next = on ? LANGS.filter(function (y) { return y === x || cur.indexOf(y) >= 0; }) : cur.filter(function (y) { return y !== x; });
+    setBook(id, "langs", next.length === LANGS.length ? null : next);
+  }
+  // «Большой блок на главной» — одна книга на каждом языке
+  function setFeatured(id, on) {
+    var L = lang();
+    books().forEach(function (b) {
+      var is = !!B.own(b, L, "featured");
+      if (b.id === id) { if (is !== on) setBook(b.id, L + ".featured", on); }
+      else if (on && is) setBook(b.id, L + ".featured", false);
+    });
   }
   function chapterOf(id, create) {
     var ch = B.cached().chapters[id];
@@ -183,18 +209,17 @@
     }
   }
 
-  // картинки книг, которые можно заменить кликом
+  // картинки книг, которые можно заменить кликом: { id, field: "cover" | "chapter_image" }
   function imgTarget(src) {
     if (!src) return null;
     var nc = B.NO_COVER && src.indexOf(B.NO_COVER + "#book=") === 0 ? decodeURIComponent(src.split("#book=")[1]) : null;
-    if (nc) return { id: nc, path: "cover" };
+    if (nc) return { id: nc, field: "cover" };
     var L = lang(), bs = books();
     for (var i = 0; i < bs.length; i++) {
-      var b = bs[i];
-      if (b[L] && b[L].cover && src === b[L].cover) return { id: b.id, path: L + ".cover" };
-      if (b.cover && src === b.cover) return { id: b.id, path: "cover" };
+      var b = bs[i], own = b[L] || {};
+      if ((own.cover && src === own.cover) || (b.cover && src === b.cover)) return { id: b.id, field: "cover" };
       // картинка над главой — книжная только на странице чтения (на главной тот же файл может быть фоном героя)
-      if (b.chapter_image && src === b.chapter_image && readPageBookId()) return { id: b.id, path: "chapter_image" };
+      if (readPageBookId() && ((own.chapter_image && src === own.chapter_image) || (b.chapter_image && src === b.chapter_image))) return { id: b.id, field: "chapter_image" };
     }
     return null;
   }
@@ -213,7 +238,10 @@
   var scannedLang = null;
   function scan() {
     if (!active) return;
-    if (scannedLang !== lang()) { scannedLang = lang(); ui(); }
+    if (scannedLang !== lang()) {
+      if (scannedLang) { statusMsg = ""; deselect(); closePop(); }   // сменили язык — подсказки и выделение прежнего языка не нужны
+      scannedLang = lang(); ui();
+    }
     index = buildIndex();
     document.querySelectorAll("span.sc-interp").forEach(function (sp) {
       if (sp === editing || sp.closest("#re-root")) return;
@@ -290,20 +318,39 @@
   window.addEventListener("storage", scheduleScan);
 
   // ---------------------------------------------------------------- картинки
+  // картинка книги (field: cover | chapter_image): all — общая для всех языков (свои картинки языков убираются),
+  // иначе — только для текущего языка
   function pickImage(t) {
     if (!t) return;
+    var L = lang(), path0 = t.all ? t.field : L + "." + t.field;
     var inp = document.createElement("input");
     inp.type = "file"; inp.accept = "image/jpeg,image/png,image/webp";
     inp.onchange = function () {
       var f = inp.files && inp.files[0]; if (!f) return;
       if (f.size > 5 * 1024 * 1024) { status("Файл больше 5 МБ — уменьшите картинку.", true); return; }
       var ext = (f.name.match(/\.(jpe?g|png|webp)$/i) || [".jpg"])[0].toLowerCase().replace(".jpeg", ".jpg");
-      var path = "assets/img/books/" + t.id + "-" + t.path.replace(/\W+/g, "-") + "-" + Date.now() + ext;
+      var path = "assets/img/books/" + t.id + "-" + path0.replace(/\W+/g, "-") + "-" + Date.now() + ext;
       pending.uploads[path] = f;
-      setBook(t.id, t.path, URL.createObjectURL(f), path);
+      setBook(t.id, path0, URL.createObjectURL(f), path);
+      var b = findBook(t.id);
+      if (t.all && b) LANGS.forEach(function (x) { if (b[x] && b[x][t.field]) setBook(t.id, x + "." + t.field, ""); });
       T.rerender(); ui(); scheduleScan();
     };
     inp.click();
+  }
+  // где заменить: только на текущем языке или на всех (cb(all))
+  function scopePopover(anchor, title, cb) {
+    var L = lang();
+    popover(anchor || lastAnchor || document.body, [
+      el("div", { class: "rl-pop-t", text: title }),
+      el("button", { type: "button", class: "re-main", on: { click: function () { closePop(); cb(false); } } }, ["Только на " + LANG_IN[L]]),
+      el("button", { type: "button", on: { click: function () { closePop(); cb(true); } } }, ["На всех языках"])
+    ]);
+  }
+  function bookImage(anchor, id, field) {
+    scopePopover(anchor, (field === "cover" ? "Обложка" : "Картинка над главой") + ": где заменить?", function (all) {
+      pickImage({ id: id, field: field, all: all });
+    });
   }
 
   // ---------------------------------------------------------------- сохранение
@@ -385,15 +432,26 @@
       for (p in pending.chapters[k]) setDeep(ch, p, pending.chapters[k][p]);
       files.push({ path: path, text: json(ch) });
     }
+    // замены картинок одного языка: { язык: { картинка: замена | null } }, null — убрать замену
+    function mergeIn(dst, src) {
+      for (var x in src || {}) for (var y in src[x]) {
+        var m = ((dst.mediaIn = dst.mediaIn || {})[x] = dst.mediaIn[x] || {});
+        if (src[x][y] == null) delete m[y]; else m[y] = src[x][y];
+        if (!Object.keys(m).length) delete dst.mediaIn[x];
+      }
+    }
     var lay = pending.layout, lp = Object.keys(lay.pages);
-    if (Object.keys(lay.media).length || lp.length || lay.global || bookPages.length) {
+    if (Object.keys(lay.media).length || countIn(lay.mediaIn) || lp.length || lay.global || bookPages.length) {
       var lj = JSON.parse((await read("data/layout.json")) || "{}");
       lj.media = lj.media || {}; lj.pages = lj.pages || {};
       for (k in lay.media) lj.media[k] = lay.media[k];
+      mergeIn(lj, lay.mediaIn);
       lp.forEach(function (pg) {
         var src = lay.pages[pg], dst = (lj.pages[pg] = lj.pages[pg] || {});
         if (src.hidden) dst.hidden = src.hidden;
+        if (src.hiddenIn) dst.hiddenIn = src.hiddenIn;
         if (src.media) { dst.media = dst.media || {}; for (var mk in src.media) dst.media[mk] = src.media[mk]; }
+        mergeIn(dst, src.mediaIn);
         if (src.order) dst.order = src.order;
         if (src.custom) dst.custom = src.custom;
         if (src.moves) dst.moves = src.moves;
@@ -546,6 +604,7 @@
     "#re-root .re-fab-x{border-radius:999px;width:34px;height:34px;padding:0;background:rgba(255,255,255,.92);box-shadow:0 6px 24px rgba(0,0,0,.4)}",
     "#re-root .re-fab{background:#c9842f;border-color:#c9842f;color:#fff;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.4);padding:10px 16px;border-radius:999px}",
     "#re-root .re-note{font-size:12.5px;color:#55555c;margin:8px 0 0}",
+    "#re-root .re-lang{display:inline-block;background:#c9842f;color:#fff;border-radius:6px;padding:1px 7px;font-size:12px;letter-spacing:1px;margin-left:2px}",
     "#re-root .re-status{font-size:13px;margin-top:8px}",
     "#re-root .re-err{color:#b3261e}",
     "#re-root a{color:#a3621a}",
@@ -562,6 +621,13 @@
     ".re-modal button.re-main{background:#c9842f;border-color:#c9842f;color:#fff;font-weight:600}",
     ".re-modal button.re-danger{color:#b3261e}",
     ".re-modal .re-book{border:1px solid #e2e2e6;border-radius:10px;padding:14px;margin:12px 0}",
+    ".re-modal .re-book.re-off{background:#f6f6f8;border-style:dashed}",
+    ".re-modal .re-book.re-off h3{color:#77777d}",
+    ".re-modal .re-langs{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 2px;font-size:12.5px;color:#55555c}",
+    ".re-modal .re-langs label{display:inline-flex;gap:5px;align-items:center;margin:0;border:1px solid #d0d0d6;border-radius:7px;padding:4px 9px;cursor:pointer;color:#1d1d1f;font-size:13px}",
+    ".re-modal .re-langs label.on{border-color:#c9842f;background:#fff8ee}",
+    ".re-modal .re-langs label.cur{font-weight:600}",
+    ".re-modal .re-warn{background:#fff4e5;border-radius:8px;padding:8px 10px;margin:8px 0 0;color:#7a4a10;font-size:13px}",
     ".re-modal .re-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 14px}",
     ".re-modal .re-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}",
     ".re-modal .re-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}",
@@ -614,7 +680,7 @@
     var n = count(), L = lang();
     var panel = el("div", { class: "re-panel" }, [
       el("div", { class: "re-row", style: "justify-content:space-between;margin-bottom:8px" }, [
-        el("strong", { text: "Редактирование" }),
+        el("strong", {}, ["Редактирование ", el("span", { class: "re-lang", title: "Язык, который сейчас правится (переключается в шапке сайта)", text: LANG_SHORT[L] })]),
         el("span", { style: "font-size:12.5px;color:#55555c", text: n ? "несохранённых правок: " + n : "правок нет" })
       ]),
       el("div", { class: "re-row" }, [
@@ -628,9 +694,10 @@
         REMOTE ? el("button", { title: "Выйти из админки", on: { click: logout } }, ["Выйти"]) : null
       ]),
       el("p", { class: "re-note" }, [
-        "Кликните по элементу — появится его панель («⠿ Двигать», «🖼 Заменить картинку», «Скрыть») и панель секции («+ Элемент»). Esc — снять выделение. Сейчас правится ",
-        el("b", { text: LANG_NAMES[L] }), " — другие языки переключайте в шапке сайта. Ctrl+клик — перейти по ссылке."
+        "Сейчас правится ", el("b", { text: LANG_NAMES[L] }), " язык (другие — в шапке сайта). Тексты, новые элементы и секции, книги, «Скрыть» и «Удалить» — ",
+        el("b", { text: "только для него" }), "; элемент на нескольких языках — кнопка 🌐 на его панели. Двигать и менять размер — общее для всех языков."
       ]),
+      el("p", { class: "re-note" }, ["Кликните по элементу — появится его панель и панель секции («+ Элемент»). Esc — снять выделение, Ctrl+клик — перейти по ссылке."]),
       statusMsg ? el("div", { class: "re-status" + (statusErr ? " re-err" : ""), text: statusMsg }) : null
     ]);
     root.appendChild(panel);
@@ -671,7 +738,8 @@
     var list = B.cached().books || [], i = list.findIndex(function (x) { return x.id === id; });
     if (i < 0) return false;
     var b = list[i];
-    if (!confirm("Удалить книгу «" + (B.field(b, lang(), "title") || b.id) + "» из каталога? Текст главы останется в файлах.")) return false;
+    if (!confirm("Удалить книгу «" + anyTitle(b) + "» из каталога на ВСЕХ языках? Текст главы останется в файлах.\n\n" +
+      "Чтобы убрать её только с одного языка, снимите галочку этого языка в карточке книги.")) return false;
     list.splice(i, 1);
     delete pending.books[b.id];
     if (b.page) delete pending.bookPages[b.page];
@@ -688,10 +756,12 @@
     if (!list) { status("Каталог книг ещё не загрузился.", true); return; }
     var body = el("div");
     var close = modal([
-      el("h2", { text: onlyId ? "Настройки книги" : "Книги" }),
-      el("p", { text: "Названия и описания удобнее править прямо на страницах. Здесь — то, чего не видно в тексте. Поля с ценой и описанием — для языка: " + LANG_NAMES[L] + "." }),
+      el("h2", {}, [onlyId ? "Настройки книги" : "Книги", " ", el("span", { style: "font-size:14px;color:#a3621a", text: "· " + LANG_NAMES[L] + " язык" })]),
+      el("p", { text: "Названия и описания удобнее править прямо на страницах. Здесь — то, чего не видно в тексте. " +
+        "Галочки языков — на каких языках книга есть на сайте. Остальные поля (кроме оформления и порядка) — только для языка: " + LANG_NAMES[L] +
+        "; другой язык — переключите его в шапке сайта и откройте «Книги» снова." }),
       body
-    ], function () { T.rerender(); ui(); scheduleScan(); });
+    ], function () { T.rerender(); if (Lay) Lay.apply(); ui(); scheduleScan(); });
 
     function changed() { T.rerender(); ui(); }
     function input(label, value, onchange, opts) {
@@ -710,39 +780,50 @@
     }
     function render() {
       body.textContent = "";
+      var LN = LANG_NAMES[L];
       list.forEach(function (b, i) {
-        var id = b.id;
+        var id = b.id, here = B.inLang(b, L), bv = B.view(b, L);
         if (onlyId && id !== onlyId) return;
-        body.appendChild(el("div", { class: "re-book" }, [
+        // на каких языках книга есть на сайте
+        var langs = el("div", { class: "re-langs" }, [el("span", { text: "Есть на сайте на языках:" })].concat(LANGS.map(function (x) {
+          var on = B.inLang(b, x), c = el("input", { type: "checkbox" });
+          c.checked = on;
+          c.addEventListener("change", function () { setBookLang(id, x, c.checked); changed(); render(); });
+          return el("label", { class: (on ? "on" : "") + (x === L ? " cur" : ""), title: LANG_NAMES[x] }, [c, LANG_SHORT[x]]);
+        })));
+        body.appendChild(el("div", { class: "re-book" + (here ? "" : " re-off") }, [
           el("div", { class: "re-row", style: "justify-content:space-between" }, [
-            el("h3", { text: (B.field(b, L, "title") || "(без названия)") + "  ·  " + id }),
+            el("h3", { text: anyTitle(b) + "  ·  " + id }),
             el("div", { class: "re-row" }, [
-              el("button", { title: "Выше", disabled: i === 0, on: { click: function () { moveBook(id, -1); render(); } } }, ["↑"]),
-              el("button", { title: "Ниже", disabled: i === list.length - 1, on: { click: function () { moveBook(id, 1); render(); } } }, ["↓"]),
-              el("button", { class: "re-danger", on: { click: function () { if (removeBook(id)) { if (onlyId) close(); else render(); } } } }, ["Удалить"])
+              el("button", { title: "Выше (порядок общий для всех языков)", disabled: i === 0, on: { click: function () { moveBook(id, -1); render(); } } }, ["↑"]),
+              el("button", { title: "Ниже (порядок общий для всех языков)", disabled: i === list.length - 1, on: { click: function () { moveBook(id, 1); render(); } } }, ["↓"]),
+              el("button", { class: "re-danger", title: "Удалить книгу совсем — на всех языках", on: { click: function () { if (removeBook(id)) { if (onlyId) close(); else render(); } } } }, ["Удалить из каталога"])
             ])
           ]),
+          langs,
+          here ? null : el("p", { class: "re-warn", text: "На языке «" + LN + "» книги нет: посетители не видят её в списках и на главной, а её страница пишет, что книги на этом языке нет. " +
+            "Включить — галочка " + LANG_SHORT[L] + " выше." }),
           el("div", { class: "re-grid" }, [
-            select("Статус", b.status || "published", [["published", "Опубликована — можно купить"], ["soon", "Скоро — без «Купить»"]], function (v) { setBook(id, "status", v); }),
-            select("Оформление", b.theme || "classic", [["classic", "Классика — тёплое золото"], ["noir", "Нуар — тёмный детектив"]], function (v) { setBook(id, "theme", v); }),
-            input("Цена (" + LANG_NAMES[L] + ")", b[L] && b[L].price, function (v) { setBook(id, L + ".price", v); }, { ph: "3.99 €" }),
-            input("Ссылка на Amazon", b.amazon, function (v) { setBook(id, "amazon", v); }, { ph: "https://www.amazon.com/dp/…" }),
-            input("Название (" + LANG_NAMES[L] + ")", b[L] && b[L].title, function (v) { setBook(id, L + ".title", v); }),
-            input("Подпись под обложкой (" + LANG_NAMES[L] + ")", b[L] && b[L].tag, function (v) { setBook(id, L + ".tag", v); })
+            select("Статус · " + LN, B.own(b, L, "status") || "published", [["published", "Опубликована — можно купить"], ["soon", "Скоро — без «Купить»"]], function (v) { setBook(id, L + ".status", v); }),
+            select("Оформление · все языки", b.theme || "classic", [["classic", "Классика — тёплое золото"], ["noir", "Нуар — тёмный детектив"]], function (v) { setBook(id, "theme", v); }),
+            input("Цена · " + LN, b[L] && b[L].price, function (v) { setBook(id, L + ".price", v); }, { ph: "3.99 €" }),
+            input("Ссылка на Amazon · " + LN, B.own(b, L, "amazon"), function (v) { setBook(id, L + ".amazon", v.trim()); }, { ph: "https://www.amazon.com/dp/…  (пусто — без кнопки)" }),
+            input("Название · " + LN, b[L] && b[L].title, function (v) { setBook(id, L + ".title", v); }),
+            input("Подпись под обложкой · " + LN, b[L] && b[L].tag, function (v) { setBook(id, L + ".tag", v); })
           ]),
           el("label", {}, [(function () {
-            var c = el("input", { type: "checkbox" }); c.checked = !!b.featured;
-            c.addEventListener("change", function () { setBook(id, "featured", c.checked); changed(); });
+            var c = el("input", { type: "checkbox" }); c.checked = !!B.own(b, L, "featured");
+            c.addEventListener("change", function () { setFeatured(id, c.checked); changed(); render(); });
             return c;
-          })(), " Большой блок на главной (если отмечено несколько — показывается первая)"]),
-          input("Короткое описание (" + LANG_NAMES[L] + ")", b[L] && b[L].blurb, function (v) { setBook(id, L + ".blurb", v.trim()); }, { area: true }),
-          input("Полное описание для страницы книги (" + LANG_NAMES[L] + ")", b[L] && b[L].description, function (v) { setBook(id, L + ".description", v.trim()); },
+          })(), " Большой блок на главной · " + LN + " (на каждом языке — одна книга)"]),
+          input("Короткое описание · " + LN, b[L] && b[L].blurb, function (v) { setBook(id, L + ".blurb", v.trim()); }, { area: true }),
+          input("Полное описание для страницы книги · " + LN, b[L] && b[L].description, function (v) { setBook(id, L + ".description", v.trim()); },
             { area: true, hint: "Абзацы — через пустую строку. Пусто — показывается короткое описание." }),
           el("div", { class: "re-row", style: "margin-top:12px" }, [
-            el("button", { on: { click: function () { pickImage({ id: id, path: "cover" }); } } }, [b.cover ? "Заменить обложку" : "Загрузить обложку"]),
-            el("button", { on: { click: function () { pickImage({ id: id, path: "chapter_image" }); } } }, [b.chapter_image ? "Заменить картинку над главой" : "Картинка над главой"]),
-            el("a", { href: b.page || ("books.html?id=" + encodeURIComponent(id)) }, ["Страница книги"]),
-            el("a", { href: "read.html?book=" + encodeURIComponent(id) }, ["Первая глава"])
+            el("button", { on: { click: function (e) { bookImage(e.currentTarget, id, "cover"); } } }, [(b.cover || (b[L] && b[L].cover)) ? "🖼 Заменить обложку…" : "🖼 Загрузить обложку…"]),
+            el("button", { on: { click: function (e) { bookImage(e.currentTarget, id, "chapter_image"); } } }, [bv.chapterImage ? "🖼 Заменить картинку над главой…" : "🖼 Картинка над главой…"]),
+            el("a", { href: bv.href }, ["Страница книги"]),
+            el("a", { href: bv.readHref }, ["Первая глава"])
           ])
         ]));
       });
@@ -751,10 +832,10 @@
       var tInp = el("input", { type: "text", placeholder: "Название книги" });
       var err = el("div", { class: "re-err", style: "font-size:13px;margin-top:6px" });
       body.appendChild(el("div", { class: "re-book", style: "background:#faf7f2" }, [
-        el("h3", { text: "Добавить книгу" }),
+        el("h3", { text: "Добавить книгу · " + LANG_NAMES[L] + " язык" }),
         el("div", { class: "re-grid" }, [
-          el("div", {}, [el("label", { text: "Код (из него адрес страницы: books.html?id=код)" }), idInp]),
-          el("div", {}, [el("label", { text: "Название (" + LANG_NAMES[L] + ")" }), tInp])
+          el("div", {}, [el("label", { text: "Код (из него адрес страницы: book.html?id=код)" }), idInp]),
+          el("div", {}, [el("label", { text: "Название · " + LANG_NAMES[L] }), tInp])
         ]),
         err,
         el("div", { class: "re-row", style: "margin-top:10px" }, [el("button", { class: "re-main", on: { click: function () {
@@ -762,7 +843,8 @@
           if (!/^[a-z0-9-]+$/.test(id)) { err.textContent = "Код: только латинские буквы, цифры и дефис."; return; }
           if (list.some(function (b) { return b.id === id; })) { err.textContent = "Книга с таким кодом уже есть."; return; }
           if (!title) { err.textContent = "Введите название."; return; }
-          var nb = { id: id, status: "soon", featured: false, theme: "classic", cover: "", chapter_image: "", page: "", amazon: "", ru: { title: title } };
+          // книга появляется только на текущем языке; другие языки — галочками в её карточке
+          var nb = { id: id, status: "soon", featured: false, theme: "classic", cover: "", chapter_image: "", page: "", amazon: "", langs: [L], ru: { title: title } };
           if (L !== "ru") nb[L] = { title: title };
           pending.del = pending.del.filter(function (x) { return x !== id; });
           pending.add.push(JSON.parse(JSON.stringify(nb)));
@@ -774,7 +856,8 @@
           status("Сохраняю новую книгу «" + title + "»…");
           save();
         } } }, ["Добавить"])]),
-        el("p", { style: "margin:10px 0 0;font-size:12.5px", text: "Новая книга появится в каталоге со статусом «Скоро». Она сразу сохранится. Её страница (book.html?id=код) и глава сразу выглядят как «Просто вернуться домой» — меняйте их на сайте; правки касаются только этой книги. Текст главы — кнопкой «Текст главы» на странице чтения." })
+        el("p", { style: "margin:10px 0 0;font-size:12.5px", text: "Новая книга появится только на языке «" + LANG_NAMES[L] + "», со статусом «Скоро», и сразу сохранится. " +
+          "Другие языки включаются галочками в её карточке. Её страница (book.html?id=код) и глава сразу выглядят как «Просто вернуться домой» — меняйте их на сайте; правки касаются только этой книги. Текст главы — кнопкой «Текст главы» на странице чтения." })
       ]));
       body.appendChild(el("div", { class: "re-foot" }, [el("button", { class: "re-main", on: { click: function () { close(); } } }, ["Закрыть"])]));
     }
@@ -872,8 +955,10 @@
   // настройки AI-агента hanc.ai: ID, стиль, размер, текст кнопки (на текущем языке)
   function agentPopover(anchor, it, onOk) {
     var L = lang(), style = it.style || "keeper";
-    var idInp = el("input", { type: "text", placeholder: "ID агента, например 6a88306058b5a6ef89898c55" });
-    idInp.value = it.agentId || "";
+    var idInp = el("input", { type: "text", placeholder: "ID агента на " + LANG_IN[L] + ", например 6a88306058b5a6ef89898c55" });
+    idInp.value = (it[L] && it[L].agentId) || "";
+    var common = el("input", { type: "text", placeholder: "Общий ID — для языков без своего (можно пусто)" });
+    common.value = it.agentId || "";
     var cards = el("div", { class: "re-ag-styles" });
     (Lay && Lay.agentStyles ? Lay.agentStyles() : [["keeper", "Хранитель тайн"], ["portal", "Врата между мирами"]]).forEach(function (s) {
       var c = el("button", { type: "button", class: "re-ag-style" + (s[0] === style ? " on" : "") });
@@ -891,16 +976,19 @@
     label.value = (it[L] && it[L].label) || "";
     var err = el("div", { class: "rl-pop-t", style: "color:#b3261e" });
     function ok() {
-      var v = idInp.value.trim();
-      if (!/^[A-Za-z0-9_-]{6,}$/.test(v)) { err.textContent = "Вставьте ID агента из кабинета hanc.ai (латиница и цифры)."; return; }
+      var v = idInp.value.trim(), g = common.value.trim(), re = /^[A-Za-z0-9_-]{6,}$/;
+      if ((v && !re.test(v)) || (g && !re.test(g)) || (!v && !g)) { err.textContent = "Вставьте ID агента из кабинета hanc.ai (латиница и цифры)."; return; }
       closePop();
       onOk(function (x) {
-        x.agentId = v; x.style = style; x.size = +size.value; delete x.theme;
+        if (g) x.agentId = g; else delete x.agentId;
+        x.style = style; x.size = +size.value; delete x.theme;
         x[L] = x[L] || {}; x[L].label = label.value.trim();
+        if (v) x[L].agentId = v; else delete x[L].agentId;
       });
     }
     idInp.addEventListener("keydown", function (e) { if (e.key === "Enter") ok(); });
-    popover(anchor, [el("div", { class: "rl-pop-t", text: "AI-агент hanc.ai" }), idInp,
+    popover(anchor, [el("div", { class: "rl-pop-t", text: "AI-агент hanc.ai — ID на " + LANG_IN[L] }), idInp,
+      el("div", { class: "rl-pop-t", text: "Общий ID (если у языка нет своего)" }), common,
       el("div", { class: "rl-pop-t", text: "Оформление" }), cards, size,
       el("div", { class: "rl-pop-t", text: "Текст кнопки (надзаголовок, название и текст правятся прямо на странице)" }), label, err,
       el("button", { type: "button", class: "re-main", on: { click: ok } }, ["OK"])]);
@@ -942,29 +1030,38 @@
   function bucketPending(key) { return key === "footer" ? (pending.layout.global = pending.layout.global || {}) : pagePending(); }
 
   // ---- картинки и аудио сайта ----
-  function setMedia(orig, path, node) {
-    if (node && node.closest('[data-sc-name="SiteFooter"]')) {
-      var d = Lay.data(); d.media = d.media || {};
-      d.media[orig] = path;
-      pending.layout.media[orig] = path;
+  // замена только на текущем языке (mediaIn) или на всех (media — свои замены языков для этой картинки убираются).
+  // В подвале — общая для всех страниц (data), иначе — у страницы
+  function setMedia(orig, path, node, all) {
+    var L = lang(), foot = node && node.closest('[data-sc-name="SiteFooter"]');
+    var live = foot ? Lay.data() : Lay.pageForEdit(), pend = foot ? pending.layout : pagePending();
+    if (all) {
+      (live.media = live.media || {})[orig] = path;
+      (pend.media = pend.media || {})[orig] = path;
+      Object.keys(live.mediaIn || {}).forEach(function (x) {
+        if (!live.mediaIn[x] || live.mediaIn[x][orig] == null) return;
+        delete live.mediaIn[x][orig];
+        ((pend.mediaIn = pend.mediaIn || {})[x] = pend.mediaIn[x] || {})[orig] = null;
+      });
     } else {
-      var pg = Lay.pageForEdit(); pg.media = pg.media || {};
-      pg.media[orig] = path;
-      var pp = pagePending(); pp.media = pp.media || {}; pp.media[orig] = path;
+      ((live.mediaIn = live.mediaIn || {})[L] = live.mediaIn[L] || {})[orig] = path;
+      ((pend.mediaIn = pend.mediaIn || {})[L] = pend.mediaIn[L] || {})[orig] = path;
     }
     Lay.apply(); ui();
   }
-  function replaceImage(im) {
+  function replaceImage(im, anchor) {
     var fi = im.closest(".rl-fi");
-    if (fi) {
+    if (fi) {                                          // своя картинка-элемент: язык у самого элемента (🌐)
       var key = fi.closest(".rl-free").getAttribute("data-rl-layer"), id = fi.getAttribute("data-rl-id");
       return pickFile(IMG_ACCEPT, 8, function (f) { editItem(key, id, function (x) { x.src = upload(f); }); });
     }
     var src = im.getAttribute("src"), bt = imgTarget(src);
-    if (bt) return pickImage(bt);                      // обложка книги → в карточку книги
+    if (bt) return bookImage(anchor, bt.id, bt.field);  // обложка книги → в карточку книги
     var orig = im.getAttribute("data-rl-orig") || src;
     if (!orig || /^blob:/.test(orig) || !Lay) return;
-    pickFile(IMG_ACCEPT, 8, function (f) { setMedia(orig, upload(f), im); });
+    scopePopover(anchor, "Где заменить картинку?", function (all) {
+      pickFile(IMG_ACCEPT, 8, function (f) { setMedia(orig, upload(f), im, all); });
+    });
   }
   function chapterAudio(id) {
     id = id || pageBookId();
@@ -979,12 +1076,14 @@
   function chipFor(au) {
     var bookId = au.getAttribute("data-book-audio");
     function btn(label, fn) {
-      return el("button", { type: "button", on: { click: function (e) { e.preventDefault(); e.stopPropagation(); fn(); } } }, [label]);
+      return el("button", { type: "button", on: { click: function (e) { e.preventDefault(); e.stopPropagation(); fn(e.currentTarget); } } }, [label]);
     }
     var c = el("span", { class: "re-chip" }, [
-      btn("🎙 Заменить запись", function () {
-        if (bookId) return chapterAudio(bookId);
-        pickFile(AUDIO_ACCEPT, 60, function (f) { setMedia(au.getAttribute("data-rl-orig") || au.getAttribute("src"), upload(f), au); });
+      btn("🎙 Заменить запись", function (a) {
+        if (bookId) return chapterAudio(bookId);        // аудио главы — у книги, на текущем языке
+        scopePopover(a, "Где заменить запись?", function (all) {
+          pickFile(AUDIO_ACCEPT, 60, function (f) { setMedia(au.getAttribute("data-rl-orig") || au.getAttribute("src"), upload(f), au, all); });
+        });
       }),
       bookId ? btn("✕ Убрать", function () { setBook(bookId, lang() + ".audio", ""); T.rerender(); ui(); }) : null
     ]);
@@ -1012,7 +1111,8 @@
   function editItem(key, id, fn) { var it = findItem(key, id); if (!it) return; fn(it); commitFree(key); }
   function layerOf(key) { return document.querySelector('.rl-free[data-rl-layer="' + key + '"]'); }
   function addItem(key, type) {
-    var L = lang(), it = { id: uid(), type: type, align: type === "heading" ? "center" : "left" };
+    // новый элемент — только на текущем языке (другие языки — кнопка 🌐 на его панели)
+    var L = lang(), it = { id: uid(), type: type, align: type === "heading" ? "center" : "left", langs: [L] };
     it[L] = {};
     if (WIDTH[type]) it.w = WIDTH[type];
     if (type === "button") it.href = "books.html";
@@ -1033,7 +1133,10 @@
         });
       }
     }
-    function put() { freeItems(key).push(it); commitFree(key, it.id); }
+    function put() {
+      freeItems(key).push(it); commitFree(key, it.id);
+      status("Элемент добавлен только на " + LANG_IN[L] + " языке. Показать и на других — кнопка 🌐 на его панели.");
+    }
     if (type === "image") return pickFile(IMG_ACCEPT, 8, function (f) { it.src = upload(f); put(); });
     if (type === "audio") return pickFile(AUDIO_ACCEPT, 60, function (f) { it.src = upload(f); put(); });
     if (type === "agent") return agentPopover(lastAnchor || document.body, it, function (apply) { apply(it); put(); });
@@ -1054,9 +1157,16 @@
     freeItems(key).push(c);
     commitFree(key);
   }
+  // удалить с текущего языка; элемент только этого языка — удаляется совсем
   function delItem(key, id) {
-    var items = freeItems(key), i = items.findIndex(function (x) { return x.id === id; });
-    if (i >= 0) { items.splice(i, 1); commitFree(key); }
+    var L = lang(), items = freeItems(key), i = items.findIndex(function (x) { return x.id === id; });
+    if (i < 0) return;
+    var it = items[i], rest = (Array.isArray(it.langs) ? it.langs : LANGS).filter(function (x) { return x !== L; });
+    if (rest.length) {
+      it.langs = rest;
+      commitFree(key);
+      status("Элемента больше нет на " + LANG_IN[L] + " языке; на " + rest.map(function (x) { return LANG_SHORT[x]; }).join(", ") + " он остался.");
+    } else { items.splice(i, 1); commitFree(key); }
   }
 
   var pop = null, lastAnchor = null;
@@ -1075,11 +1185,34 @@
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePop(); }, true);
 
   function bookChooser(onPick) {
-    var list = books();
+    var list = books(), L = lang();
     if (!list.length) return [el("span", { text: "Книги ещё не загрузились" })];
     return list.map(function (b) {
-      return el("button", { type: "button", on: { click: function () { closePop(); onPick(b.id); } } }, [B.field(b, lang(), "title") || b.id]);
+      var here = B.inLang(b, L);
+      return el("button", { type: "button", title: here ? "" : "Этой книги нет на " + LANG_IN[L] + " — посетители её здесь не увидят",
+        on: { click: function () { closePop(); onPick(b.id); } } }, [anyTitle(b) + (here ? "" : " (нет на " + LANG_SHORT[L] + ")")]);
     });
+  }
+  // языки элемента / своей секции: «🌐 RU», «🌐 RU·EN», «🌐 все»
+  function langsLabel(o) {
+    return "🌐 " + (o && Array.isArray(o.langs) ? o.langs.map(function (x) { return LANG_SHORT[x]; }).join("·") : "все");
+  }
+  // на каких языках показывать: get() — текущий список (null — все), set(список | null); хотя бы один язык
+  function langsPopover(anchor, what, get, set) {
+    function kids() {
+      var cur = get(), list = Array.isArray(cur) ? cur : LANGS;
+      return [el("div", { class: "rl-pop-t", text: "Где показывать " + what + ":" })].concat(LANGS.map(function (x) {
+        var on = list.indexOf(x) >= 0;
+        return el("button", { type: "button", class: on ? "re-on" : "", "aria-pressed": on ? "true" : "false", title: LANG_NAMES[x], on: { click: function () {
+          var next = on ? list.filter(function (y) { return y !== x; }) : LANGS.filter(function (y) { return y === x || list.indexOf(y) >= 0; });
+          if (!next.length) return;
+          set(next.length === LANGS.length ? null : next);
+          draw();
+        } } }, [(on ? "✓ " : "") + LANG_SHORT[x]]);
+      }), [el("button", { type: "button", on: { click: function () { set(null); draw(); } } }, ["На всех языках"])]);
+    }
+    function draw() { if (!pop) return; pop.textContent = ""; kids().forEach(function (k) { pop.appendChild(k); }); }
+    popover(anchor, kids());
   }
   function openItemMenu(anchor, key) {
     lastAnchor = anchor;
@@ -1163,7 +1296,10 @@
       }
       var handle = el("button", { type: "button", class: "re-handle", title: "Перетащить (Shift — без привязки)" }, ["⠿"]);
       handle.addEventListener("pointerdown", function (e) { startMove(e, key, id, node, layer); });
-      var tools = [handle];
+      var tools = [handle, tb(langsLabel(it), "На каких языках показывать элемент", function (a) {
+        langsPopover(a, "элемент", function () { var x = findItem(key, id); return x && x.langs; },
+          function (v) { editItem(key, id, function (x) { if (v) x.langs = v; else delete x.langs; }); });
+      })];
       if (it.type !== "clone" && it.type !== "agent") tools.push(tb(ALIGN_ICON[it.align || "left"], "Выравнивание текста", function () { editItem(key, id, function (x) { x.align = ALIGN_NEXT[x.align || "left"]; }); }));
       if (it.type === "image") tools.push(tb("🖼", "Заменить картинку", function () { pickFile(IMG_ACCEPT, 8, function (f) { editItem(key, id, function (x) { x.src = upload(f); }); }); }));
       if (it.type === "audio") tools.push(tb("🎙", "Заменить запись", function () { pickFile(AUDIO_ACCEPT, 60, function (f) { editItem(key, id, function (x) { x.src = upload(f); }); }); }));
@@ -1171,7 +1307,7 @@
       if (it.type === "agent") tools.push(tb("⚙", "ID агента, стиль, размер, текст кнопки", function (a) { agentPopover(a, it, function (apply) { editItem(key, id, apply); }); }));
       if (it.type === "book") tools.push(tb("📖", "Другая книга", function (a) { popover(a, bookChooser(function (bid) { editItem(key, id, function (x) { x.book = bid; }); })); }));
       tools.push(tb("⧉", "Дублировать рядом", function () { dupItem(key, id); }));
-      tools.push(tb("✕", "Удалить элемент", function () { delItem(key, id); }));
+      tools.push(tb("✕", "Удалить элемент с этого языка (если он есть и на других языках — там он останется)", function () { delItem(key, id); }));
       node.appendChild(el("div", { class: "rl-ft" }, tools));
       if (it.type === "clone") {
         var box = node.querySelector("[data-rl-html]");
@@ -1336,7 +1472,7 @@
   function cloneNative(sel) {
     var layer = layerOf(sel.key); if (!layer) return;
     var r = sel.el.getBoundingClientRect(), lr = layer.getBoundingClientRect(), lw = lr.width;
-    var L = lang(), it = { id: uid(), type: "clone", align: "left" };
+    var L = lang(), it = { id: uid(), type: "clone", align: "left", langs: [L] };   // копия — только на текущем языке
     it.w = Math.max(0.05, Math.min(100, Math.round(r.width / lw * 1000) / 10));
     it.h = Math.round(r.height / Z());
     it.x = Math.max(0, Math.min(100 - it.w, Math.round((r.left + 24 - lr.left) / lw * 1000) / 10));
@@ -1359,15 +1495,30 @@
     var path = Lay.pathOf(sel.sec, sel.el), mv = (Lay.bucket(sel.key).moves || {})[sel.key] || {};
     return { path: path, m: (path && mv[path]) || {} };
   }
-  function setMove(sel, patch) {
+  // скрыт / удалён хоть на одном языке (true — на всех, список — на этих)
+  function anyLang(v) { return v === true || (Array.isArray(v) && v.length > 0); }
+  // сдвиг и размер (dx, dy, w, h) — общие для всех языков; hide / del — через setVis
+  function setMove(sel, patch, fix) {
     var path = Lay.pathOf(sel.sec, sel.el); if (!path) return;
     var pg = Lay.bucketForEdit(sel.key); pg.moves = pg.moves || {};
     var mv = (pg.moves[sel.key] = pg.moves[sel.key] || {});
     var cur = Object.assign({}, mv[path] || {}, patch);
-    if (!cur.dx && !cur.dy && !cur.w && !cur.h && !cur.hide && !cur.del) delete mv[path]; else mv[path] = cur;
+    if (fix) fix(cur);
+    if (!cur.dx && !cur.dy && !cur.w && !cur.h && !anyLang(cur.hide) && !anyLang(cur.del)) delete mv[path]; else mv[path] = cur;
     if (!Object.keys(mv).length) delete pg.moves[sel.key];
     bucketPending(sel.key).moves = JSON.parse(JSON.stringify(pg.moves));
     Lay.apply(); ui();
+  }
+  // скрыть / удалить (field: hide | del) родной элемент — только на текущем языке
+  function setVis(sel, field, on) {
+    var L = lang();
+    setMove(sel, {}, function (cur) {
+      var list = cur[field] === true ? LANGS.slice() : Array.isArray(cur[field]) ? cur[field].slice() : [];
+      var i = list.indexOf(L);
+      if (on && i < 0) list.push(L);
+      if (!on && i >= 0) list.splice(i, 1);
+      if (list.length) cur[field] = list; else delete cur[field];
+    });
   }
   function placeFrame() {
     if (!nSel) return;
@@ -1385,11 +1536,11 @@
   }
   function hideNative() { nFrame.style.display = "none"; nBar.style.display = "none"; gripR.style.display = gripB.style.display = "none"; nSel = null; }
   function nbtn(label, title, fn) {
-    return el("button", { type: "button", title: title, on: { click: function (e) { e.preventDefault(); e.stopPropagation(); fn(); } } }, [label]);
+    return el("button", { type: "button", title: title, on: { click: function (e) { e.preventDefault(); e.stopPropagation(); fn(e.currentTarget); } } }, [label]);
   }
   function showNative(sel) {
     nSel = sel;
-    var info = moveOf(sel), m = info.m;
+    var info = moveOf(sel), m = info.m, L = lang(), hid = Lay.onIn(m.hide, L);
     var er = sel.el.getBoundingClientRect(), sr = sel.sec.getBoundingClientRect();
     var big = er.width * er.height > 0.6 * sr.width * sr.height;      // фон на всю секцию — только заменить
     var can = !!info.path && !big;
@@ -1398,14 +1549,16 @@
     var handle = el("button", { type: "button", class: "re-handle", title: "Перетащить (Shift — без привязки)" }, ["⠿ Двигать"]);
     handle.addEventListener("pointerdown", startNative);
     [can ? handle : (sel.img ? null : el("span", { text: "Этот элемент нельзя сдвинуть" })),
-     sel.img ? nbtn("🖼 Заменить картинку", "Загрузить другую картинку", function () { replaceImage(sel.img); }) : null,
-     info.path && !big ? nbtn("⧉ Копия", "Скопировать элемент рядом — копию можно двигать и менять", function () { cloneNative(sel); }) : null,
-     can && (m.dx || m.dy || m.w || m.h) ? nbtn("↺", "Вернуть на место и в прежний размер", function () { setMove(sel, { dx: 0, dy: 0, w: 0, h: 0 }); showNative(sel); }) : null,
-     info.path ? nbtn("🗑 Удалить", "Убрать элемент со страницы (вернуть — в панели секции «↩ Вернуть удалённые»)", function () {
-       if (!confirm("Удалить этот элемент со страницы?")) return;
-       var s0 = sel.sec; setMove(sel, { del: true }); hideNative(); showTools(s0, sectionTools(s0));
+     sel.img ? nbtn("🖼 Заменить картинку", "Загрузить другую картинку (спросит: только на этом языке или на всех)", function (a) { replaceImage(sel.img, a); }) : null,
+     info.path && !big ? nbtn("⧉ Копия", "Скопировать элемент рядом — копию можно двигать и менять (копия — только на этом языке)", function () { cloneNative(sel); }) : null,
+     can && (m.dx || m.dy || m.w || m.h) ? nbtn("↺", "Вернуть на место и в прежний размер (на всех языках)", function () { setMove(sel, { dx: 0, dy: 0, w: 0, h: 0 }); showNative(sel); }) : null,
+     // карточку книги прячут кнопкой книги «Скрыть на …» (на панели рядом): список книг у каждого языка свой
+     info.path && !sel.book ? nbtn("🗑 Удалить", "Убрать элемент со страницы на " + LANG_IN[L] + " (вернуть — в панели секции «↩ Вернуть удалённые»)", function () {
+       if (!confirm("Удалить этот элемент со страницы на " + LANG_IN[L] + " языке? На других языках он останется.")) return;
+       var s0 = sel.sec; setVis(sel, "del", true); hideNative(); showTools(s0, sectionTools(s0));
      }) : null,
-     can || (m.hide && info.path) ? nbtn(m.hide ? "👁 Показать" : "Скрыть", m.hide ? "Снова показать посетителям" : "Спрятать этот элемент от посетителей", function () { setMove(sel, { hide: !m.hide }); showNative(sel); }) : null
+     (can && !sel.book) || (hid && info.path) ? nbtn(hid ? "👁 Показать" : "Скрыть", hid ? "Снова показать посетителям на " + LANG_IN[L] : "Спрятать этот элемент от посетителей на " + LANG_IN[L] + " (на других языках он останется)",
+       function () { setVis(sel, "hide", !hid); showNative(sel); }) : null
     ].forEach(function (k) { if (k) nBar.appendChild(k); });
     placeFrame();
   }
@@ -1477,38 +1630,61 @@
   function tbtn(label, title, fn) {
     return el("button", { type: "button", title: title, on: { click: function (e) { e.preventDefault(); e.stopPropagation(); fn(e.currentTarget); } } }, [label]);
   }
+  // скрыть / показать секцию — только на текущем языке.
+  // hidden — скрыта на всех языках (так скрывали раньше), hiddenIn[секция] — на этих языках
   function toggleSection(key) {
-    var pg = Lay.pageForEdit(), h = (pg.hidden || []).slice(), i = h.indexOf(key);
-    if (i >= 0) h.splice(i, 1); else h.push(key);
-    pg.hidden = h;
-    pagePending().hidden = h.slice();
+    var L = lang(), pg = Lay.pageForEdit(), all = (pg.hidden || []).slice(), inAll = all.indexOf(key) >= 0;
+    var map = JSON.parse(JSON.stringify(pg.hiddenIn || {})), list = (map[key] || []).slice();
+    if (inAll) {                       // была скрыта везде: показываем здесь, на других языках остаётся скрытой
+      all.splice(all.indexOf(key), 1);
+      list = LANGS.filter(function (x) { return x !== L; });
+    } else if (list.indexOf(L) >= 0) list.splice(list.indexOf(L), 1);
+    else list.push(L);
+    if (list.length) map[key] = list; else delete map[key];
+    pg.hidden = all; pg.hiddenIn = map;
+    var pp = pagePending(); pp.hidden = all.slice(); pp.hiddenIn = JSON.parse(JSON.stringify(map));
     Lay.apply(); ui();
   }
   function sectionTools(sec) {
     var key = sec.getAttribute("data-rl-sec"), off = sec.hasAttribute("data-rl-dim");
-    var cid = sec.getAttribute("data-rl-custom");
+    var cid = sec.getAttribute("data-rl-custom"), L = lang();
     function again() { showTools(sec, sectionTools(sec)); }
-    // удалённые родные элементы этой секции — можно вернуть
+    // удалённые на этом языке родные элементы секции — можно вернуть
     var mvs = (Lay.bucket(key).moves || {})[key] || {};
-    var dels = Object.keys(mvs).filter(function (pth) { return mvs[pth].del; });
-    var restore = dels.length ? tbtn("↩ Вернуть удалённые (" + dels.length + ")", "Вернуть на страницу удалённые элементы этой секции", function () {
-      dels.forEach(function (pth) { var e = Lay.byPath(sec, pth); if (e) setMove({ sec: sec, key: key, el: e }, { del: false }); });
+    var dels = Object.keys(mvs).filter(function (pth) { return Lay.onIn(mvs[pth].del, L); });
+    var restore = dels.length ? tbtn("↩ Вернуть удалённые (" + dels.length + ")", "Вернуть на страницу элементы этой секции, удалённые на " + LANG_IN[L], function () {
+      dels.forEach(function (pth) { var e = Lay.byPath(sec, pth); if (e) setVis({ sec: sec, key: key, el: e }, "del", false); });
       again();
     }) : null;
+    // свои элементы секции на других языках — здесь их не видно
+    var items = ((Lay.bucket(key).free || {})[key] || {}).items || [];
+    var elsewhere = items.filter(function (x) { return !Lay.inLang(x, L); }).length;
+    var note = elsewhere ? el("span", { title: "Элементы этой секции, добавленные для других языков. Их видно, если переключить язык в шапке сайта.",
+      text: "+" + elsewhere + " на других языках" }) : null;
     if (key === "footer") return [
       el("span", { text: "Подвал — на всех страницах" }),
-      tbtn("+ Элемент", "Добавить текст, кнопку, картинку, аудио…", function (a) { openItemMenu(a, key); }),
-      restore
+      tbtn("+ Элемент", "Добавить текст, кнопку, картинку, аудио… (только на " + LANG_IN[L] + ")", function (a) { openItemMenu(a, key); }),
+      restore, note
     ];
+    var custom = cid && (Lay.page().custom || {})[cid];
     return [
-      el("span", { text: off ? "Секция скрыта" : (cid ? "Своя секция" : "Секция") }),
-      tbtn("+ Элемент", "Добавить текст, кнопку, картинку, аудио…", function (a) { openItemMenu(a, key); }),
-      tbtn(off ? "👁 Показать" : "Скрыть", off ? "Снова показать посетителям" : "Спрятать секцию от посетителей (не удаляется)", function () { toggleSection(key); again(); }),
+      el("span", { text: off ? "Секция скрыта на " + LANG_SHORT[L] : (cid ? "Своя секция" : "Секция") }),
+      tbtn("+ Элемент", "Добавить текст, кнопку, картинку, аудио… (только на " + LANG_IN[L] + ")", function (a) { openItemMenu(a, key); }),
+      tbtn(off ? "👁 Показать" : "Скрыть", off ? "Снова показать посетителям на " + LANG_IN[L] : "Спрятать секцию от посетителей на " + LANG_IN[L] + " (не удаляется, на других языках остаётся)",
+        function () { toggleSection(key); again(); }),
+      custom ? tbtn(langsLabel(custom), "На каких языках показывать секцию", function (a) {
+        langsPopover(a, "секцию", function () { var c = (Lay.page().custom || {})[cid]; return c && c.langs; }, function (v) {
+          var c = Lay.pageForEdit().custom[cid];
+          if (v) c.langs = v; else delete c.langs;
+          saveCustom(); Lay.apply(); ui();
+          if (document.getElementById(key)) again(); else deselect();   // секции больше нет на этом языке
+        });
+      }) : null,
       cid ? tbtn("🎨", "Сменить фон секции", function () { cycleBg(cid); }) : null,
       cid ? tbtn("🖼 Фон", "Картинка на фон секции", function () { bgImage(cid); }) : null,
-      Lay.canReorder() ? tbtn("+ Секция ниже", "Новая пустая секция под этой", function () { deselect(); addSection(key); }) : null,
-      cid ? tbtn("✕", "Удалить секцию", function () { deselect(); deleteSection(cid); }) : null,
-      restore
+      Lay.canReorder() ? tbtn("+ Секция ниже", "Новая пустая секция под этой (только на " + LANG_IN[L] + ")", function () { deselect(); addSection(key); }) : null,
+      cid ? tbtn("✕", "Удалить секцию с этого языка (если она есть и на других — там останется)", function () { deselect(); deleteSection(cid); }) : null,
+      restore, note
     ];
   }
   function bookByHref(href) {
@@ -1520,8 +1696,12 @@
       el("span", { text: "Книга" }),
       tbtn("↑", "Раньше в списке", function () { moveBook(b.id, -1); deselect(); }),
       tbtn("↓", "Позже в списке", function () { moveBook(b.id, 1); deselect(); }),
-      tbtn("⚙ Настройки", "Цена, статус, Amazon, описание", function () { deselect(); booksDialog(b.id); }),
-      tbtn("✕", "Удалить книгу", function () { deselect(); removeBook(b.id); })
+      tbtn("⚙ Настройки", "Языки, цена, статус, Amazon, описание", function () { deselect(); booksDialog(b.id); }),
+      tbtn("Скрыть на " + LANG_SHORT[lang()], "Убрать книгу с сайта на " + LANG_IN[lang()] + " (вернуть — «Книги» → галочка языка)", function () {
+        var L = lang();
+        deselect(); setBookLang(b.id, L, false); T.rerender(); if (Lay) Lay.apply(); ui();
+        status("«" + anyTitle(b) + "» больше не показывается на " + LANG_IN[L] + ". Вернуть — «Книги» → галочка " + LANG_SHORT[L] + ".");
+      })
     ];
   }
   function setSelFree(node) {
@@ -1571,7 +1751,7 @@
     setSelFree(null);
     var card = t.closest("a.vcard"), bk = card && bookByHref(card.getAttribute("href"));
     var img = imageUnder(x, y, sec);
-    if (bk) { showNative({ sec: sec, key: sec.getAttribute("data-rl-sec"), el: card, img: card.querySelector("img") }); showTools(card, bookTools(bk)); return; }
+    if (bk) { showNative({ sec: sec, key: sec.getAttribute("data-rl-sec"), el: card, img: card.querySelector("img"), book: true }); showTools(card, bookTools(bk)); return; }
     var thin = thinAt(x, y, sec);
     var nt = thin ? { sec: sec, key: sec.getAttribute("data-rl-sec"), el: thin } : nativeAt(t);   // родной элемент секции
     if (!nt && img) nt = { sec: sec, key: sec.getAttribute("data-rl-sec"), el: Lay.pick(img, sec) || img };
@@ -1616,19 +1796,31 @@
     Lay.apply(); ui(); scheduleScan();
   }
   function saveCustom() { pagePending().custom = JSON.parse(JSON.stringify(Lay.pageForEdit().custom || {})); }
+  // порядок секций для всех языков: видимые сейчас + свои секции других языков (их сейчас нет на странице) на прежних местах
+  function fullOrder() {
+    var out = Lay.order(), saved = (Lay.page().order || []).slice();
+    saved.forEach(function (k, i) {
+      if (out.indexOf(k) >= 0) return;
+      var at = 0;
+      for (var j = i - 1; j >= 0; j--) { var p = out.indexOf(saved[j]); if (p >= 0) { at = p + 1; break; } }
+      out.splice(at, 0, k);
+    });
+    return out;
+  }
   function addSection(afterKey) {
-    var id = Date.now().toString(36), pg = Lay.pageForEdit(), key = "c-" + id;
+    var L = lang(), id = Date.now().toString(36), pg = Lay.pageForEdit(), key = "c-" + id;
     pg.custom = pg.custom || {};
-    pg.custom[id] = { bg: "deep" };
+    pg.custom[id] = { bg: "deep", langs: [L] };      // новая секция — только на текущем языке
     saveCustom();
-    // сразу заголовок посередине — его можно переписать или удалить
-    var L = lang(), h = { id: uid(), type: "heading", align: "center", x: 20, y: 72, w: 60 };
+    // сразу заголовок посередине — его можно переписать или удалить (он показывается везде, где есть секция)
+    var h = { id: uid(), type: "heading", align: "center", x: 20, y: 72, w: 60 };
     h[L] = { text: "" };
     freeItems(key).push(h);
     var pp = pagePending(); pp.free = pp.free || {}; pp.free[key] = JSON.parse(JSON.stringify(pg.free[key]));
-    var o = Lay.order(), at = o.indexOf(afterKey) + 1;
+    var o = fullOrder(), at = o.indexOf(afterKey) + 1;
     o.splice(at > 0 ? at : o.length, 0, key);
     setOrder(o);
+    status("Секция добавлена только на " + LANG_IN[L] + " языке. Показать и на других — кнопка 🌐 на панели секции.");
     setTimeout(function () {
       var s = document.getElementById(key);
       if (s) s.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -1636,9 +1828,19 @@
       if (f) f.focus();
     }, 80);
   }
+  // удалить свою секцию с текущего языка; секция только этого языка — удаляется совсем, со всем, что в ней
   function deleteSection(id) {
+    var L = lang(), pg = Lay.pageForEdit(), c = pg.custom[id];
+    var rest = (c && Array.isArray(c.langs) ? c.langs : LANGS).filter(function (x) { return x !== L; });
+    if (c && rest.length) {
+      var names = rest.map(function (x) { return LANG_SHORT[x]; }).join(", ");
+      if (!confirm("Убрать эту секцию на " + LANG_IN[L] + " языке? На " + names + " она останется.")) return;
+      c.langs = rest;
+      saveCustom(); Lay.apply(); ui();
+      return status("Секции больше нет на " + LANG_IN[L] + " языке; на " + names + " она осталась.");
+    }
     if (!confirm("Удалить эту секцию вместе со всем, что в ней?")) return;
-    var pg = Lay.pageForEdit(), key = "c-" + id, o = Lay.order(), i = o.indexOf(key);
+    var key = "c-" + id, o = fullOrder(), i = o.indexOf(key);
     delete pg.custom[id];
     saveCustom();
     if (pg.free && pg.free[key]) { pg.free[key].items = []; commitFree(key); }
@@ -1710,6 +1912,7 @@
     ".rl-pop select{font:14px system-ui,sans-serif;padding:6px 8px;border:1px solid #c8c8ce;border-radius:7px;background:#fff;color:#1d1d1f}",
     ".rl-pop input{flex:1;min-width:220px;font:14px system-ui,sans-serif;padding:7px 9px;border:1px solid #c8c8ce;border-radius:7px;color:#1d1d1f;background:#fff}",
     ".rl-pop button.re-main{background:#c9842f;border-color:#c9842f;color:#fff}",
+    ".rl-pop button.re-on{background:#fff3e0;border-color:#c9842f;color:#7a4a10;font-weight:600}",
     ".re-ag-styles{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}",
     ".rl-pop button.re-ag-style{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;white-space:normal;text-align:center;background:#fff;border-radius:10px}",
     ".rl-pop button.re-ag-style.on{border-color:#c9842f;box-shadow:0 0 0 2px rgba(201,132,47,.35);background:#fff8ee}",

@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /seo/
+Disallow: /shop/
 Allow: /
 
 # Яндекс: служебные параметры адреса не создают новых страниц

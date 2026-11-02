@@ -1,0 +1,44 @@
+{
+ "ffmpeg": "ffmpeg",
+ "talk": [
+  {
+   "src": "out/Man_presenting_product_to_camera_23885acf.mkv",
+   "entry": 76,
+   "r": 138,
+   "exit": false
+  },
+  {
+   "src": "out/Man_speaking_to_camera_8e20daa1.mkv"
+  },
+  {
+   "src": "out/Man_speaking_to_camera_20034664.mkv"
+  },
+  {
+   "src": "out/Man_talking_to_camera_4e149326.mkv"
+  },
+  {
+   "src": "out/Man_talking_to_camera_b8e5b2a6.mkv"
+  },
+  {
+   "src": "out/Man_speaking_to_camera_4f6b37e5.mkv"
+  },
+  {
+   "src": "out/Man_talking_to_camera_cfff603f.mkv"
+  },
+  {
+   "src": "out/Man_presenting_product_to_camera_2e891b9e.mkv",
+   "entry": 76,
+   "start": false,
+   "r": 124,
+   "exit": false
+  }
+ ],
+ "idle": [
+  "out/Man_standing_with_arms_crossed_1374616b.mkv",
+  "out/Man_standing_with_arms_crossed_b7ee3f33.mkv"
+ ],
+ "json": "talk.json",
+ "video": "talk.mp4",
+ "crf": 24,
+ "gop": 24
+}

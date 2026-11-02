@@ -23,10 +23,10 @@
 <link rel="stylesheet" href="styles/theme.css">
 <script>(function(){try{var z={"1":"1","2":"1.12","3":"1.24"}[localStorage.getItem("vish_fs")]||"1";document.documentElement.style.zoom=z;}catch(e){}})();</script>
 <script src="assets/texts.js"></script>
-<script src="assets/layout.js"></script>
+<script src="assets/layout.js?v=20261026"></script>
 <script src="./support.js"></script>
 <script src="assets/seo-meta.js"></script>
-<script src="assets/books.js"></script>
+<script src="assets/books.js?v=20261026"></script>
 <script src="assets/analytics.js" defer></script>
 </head>
 <body>
@@ -66,6 +66,11 @@
       </sc-if>
       <a href="index.html#books" class="vlink" style="font:400 14px Spectral,serif;color:var(--gold);letter-spacing:1px;text-decoration:none">{{ t.allBooks }}</a>
     </section>
+  </sc-if>
+
+  <!-- книги нет на этом языке (галочки языков в «Книги») -->
+  <sc-if value="{{ absent }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="BookAbsent" lang="{{ lang }}" langs="{{ book.langs }}" on-lang="{{ setLang }}" hint-size="100%,460px"></dc-import>
   </sc-if>
 
   <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}">
@@ -183,11 +188,12 @@ class Component extends DCLogic {
     const lang=this.state.lang, t=this.DICT[lang], B=window.RoniBooks;
     const raw=this.current();
     const book=B.view(raw,lang) || {};
+    const absent=!!raw && !book.here;            // книги нет на этом языке
     const desc=B.paras(book.description);
-    const others=(this.state.all||[]).filter(b=>b.id!==this.id).map(b=>B.view(b,lang));
+    const others=B.visible(this.state.all,lang).filter(b=>b.id!==this.id).map(b=>B.view(b,lang));
     return {
-      t, book, desc, others,
-      ready:!!raw,
+      t, book, desc, others, absent,
+      ready:!!raw && !absent,
       notFound:this.state.all!==null && !raw,
       editHint:this.state.all!==null && !raw && !!(window.RoniTexts&&RoniTexts.editMode),
       missingId:this.id||'',

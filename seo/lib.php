@@ -201,14 +201,38 @@ function seo_bf($b, $lang, $key) {
     return isset($b[$def][$key]) && is_string($b[$def][$key]) ? $b[$def][$key] : '';
 }
 
-function seo_published($b) {
-    return !isset($b['status']) || $b['status'] !== 'soon';
+// своя настройка языка (status, featured, amazon), если задана, иначе общая (RoniBooks.own)
+function seo_bown($b, $lang, $key) {
+    if (isset($b[$lang]) && is_array($b[$lang]) && isset($b[$lang][$key])) return $b[$lang][$key];
+    return isset($b[$key]) ? $b[$key] : null;
+}
+
+// есть ли книга на сайте на этом языке: "langs" — список языков, нет списка — на всех (RoniBooks.inLang)
+function seo_book_in($b, $lang) {
+    return !isset($b['langs']) || !is_array($b['langs']) || in_array($lang, $b['langs'], true);
+}
+
+// «Опубликована» (не «Скоро»): с языком — с учётом своего статуса языка
+function seo_published($b, $lang = null) {
+    $s = $lang !== null ? seo_bown($b, $lang, 'status') : (isset($b['status']) ? $b['status'] : null);
+    return $s !== 'soon';
+}
+
+// языки, на которых книга открыта посетителям и поисковикам: она там есть и не «Скоро»
+function seo_book_langs($b) {
+    $out = [];
+    foreach (seo_langs() as $l) if (seo_book_in($b, $l) && seo_published($b, $l)) $out[] = $l;
+    return $out;
+}
+
+// обложка / картинка над главой языка, пусто — общая (как RoniBooks.view)
+function seo_book_img($b, $lang, $key) {
+    if (isset($b[$lang][$key]) && is_string($b[$lang][$key]) && $b[$lang][$key] !== '') return $b[$lang][$key];
+    return isset($b[$key]) && is_string($b[$key]) ? $b[$key] : '';
 }
 
 function seo_cover($b, $lang) {
-    $c = seo_bf($b, $lang, 'cover');
-    if ($c === '' && isset($b['cover'])) $c = (string) $b['cover'];
-    return $c;
+    return seo_book_img($b, $lang, 'cover');
 }
 
 // своя страница книги: page из каталога или book.html?id=<id>
@@ -318,6 +342,7 @@ function seo_book_node($b, $lang) {
           'author' => ['@id' => seo_person_id()], 'bookFormat' => 'https://schema.org/EBook'];
     $alt = [];
     foreach (seo_langs() as $l) {
+        if (!seo_book_in($b, $l)) continue;   // названия только тех языков, где книга есть на сайте
         $t = isset($b[$l]['title']) && is_string($b[$l]['title']) ? $b[$l]['title'] : '';
         if ($t !== '' && $t !== $name && !in_array($t, $alt, true)) $alt[] = $t;
     }
@@ -328,11 +353,12 @@ function seo_book_node($b, $lang) {
     $img = seo_abs(seo_cover($b, $lang));
     if ($img !== '') $n['image'] = $img;
     if (isset($c['books'][$b['id']]['genre'])) $n['genre'] = seo_loc($c['books'][$b['id']]['genre'], $lang);
-    if (!empty($b['amazon']) && is_string($b['amazon']) && stripos($b['amazon'], 'REPLACE') === false && preg_match('#^https?://#i', $b['amazon'])) {
-        $n['sameAs'] = $b['amazon'];
+    $am = seo_bown($b, $lang, 'amazon');
+    if (!empty($am) && is_string($am) && stripos($am, 'REPLACE') === false && preg_match('#^https?://#i', $am)) {
+        $n['sameAs'] = $am;
     }
     // цена — только когда на сайте работает оплата ("offers": true в assets/seo.json)
-    if (!empty($c['offers']) && seo_published($b) && ($pr = seo_price(seo_bf($b, $lang, 'price')))) {
+    if (!empty($c['offers']) && seo_book_in($b, $lang) && seo_published($b, $lang) && ($pr = seo_price(seo_bf($b, $lang, 'price')))) {
         $n['offers'] = ['@type' => 'Offer', 'price' => $pr[0], 'priceCurrency' => $pr[1],
                         'availability' => 'https://schema.org/InStock',
                         'url' => seo_url('order.html', ['book' => (string) $b['id']], $lang)];
@@ -369,8 +395,14 @@ function seo_sitemap_entries() {
         $type = isset($pc['type']) ? $pc['type'] : 'page';
         if (in_array($type, ['home', 'profile', 'contact', 'blog', 'page', 'landing'], true)) {
             $files = [$page];
+            $ls = $langs;
             if ($type === 'home') $files[] = 'data/books.json';
-            $add($page, [], $langs, $files, []);
+            // страница-лендинг книги — только на языках, где книга есть на сайте
+            if ($type === 'landing' && !empty($pc['book']) && ($lb = seo_book((string) $pc['book']))) {
+                $ls = array_values(array_filter($langs, function ($l) use ($lb) { return seo_book_in($lb, $l); }));
+                $files[] = 'data/books.json';
+            }
+            $add($page, [], $ls, $files, []);
         } elseif ($type === 'article' && !empty($c['articles']) && is_array($c['articles'])) {
             foreach ($c['articles'] as $id => $a) {
                 $ls = array_values(array_intersect($langs, array_keys((array) $a)));
@@ -380,14 +412,16 @@ function seo_sitemap_entries() {
         }
     }
     foreach (seo_books() as $b) {
-        if (!is_array($b) || !isset($b['id']) || !seo_valid_id($b['id']) || !seo_published($b)) continue;
+        if (!is_array($b) || !isset($b['id']) || !seo_valid_id($b['id'])) continue;
+        $live = seo_book_langs($b);   // только языки, где книга есть и не «Скоро»
+        if (!$live) continue;
         list($p, $q) = seo_book_page($b);
-        $cover = seo_cover($b, seo_def());
-        if ($p !== 'index.html') $add($p, $q, $langs, [$p, 'data/books.json'], $cover !== '' ? [$cover] : []);
+        $cover = seo_cover($b, in_array(seo_def(), $live, true) ? seo_def() : $live[0]);
+        if ($p !== 'index.html') $add($p, $q, $live, [$p, 'data/books.json'], $cover !== '' ? [$cover] : []);
         $ch = seo_chapter($b['id']);
         if ($ch) {
             list($rp, $rq) = seo_book_read($b);
-            $add($rp, $rq, seo_chapter_langs($ch), [$rp, 'data/books.json', 'data/chapters/' . $b['id'] . '.json'], []);
+            $add($rp, $rq, array_values(array_intersect(seo_chapter_langs($ch), $live)), [$rp, 'data/books.json', 'data/chapters/' . $b['id'] . '.json'], []);
         }
     }
     return $out;

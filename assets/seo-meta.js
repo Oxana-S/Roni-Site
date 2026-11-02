@@ -32,6 +32,19 @@
   var urlLang = param("lang");
   if (valid(urlLang) && baseSet) { try { origSet("vish_lang", urlLang); } catch (e) {} }
 
+  // 1а) первый заход без ?lang и без выбранного языка — язык браузера; нет такого на сайте — английский.
+  // Поисковым роботам не подменяем: адрес без ?lang у них — русская версия (hreflang).
+  if (!valid(urlLang) && !valid(stored()) && baseSet && !/bot|crawl|spider|slurp|google|bing|yandex|lighthouse/i.test(navigator.userAgent || "")) {
+    try {
+      var pref = [].concat(navigator.languages || [], navigator.language || []), pick = "en";
+      for (var i = 0; i < pref.length; i++) {
+        var p = String(pref[i]).toLowerCase().split("-")[0];
+        if (valid(p)) { pick = p; break; }
+      }
+      origSet("vish_lang", pick);
+    } catch (e) {}
+  }
+
   function current() {
     var l = stored();
     if (valid(l)) return l;

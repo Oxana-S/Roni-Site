@@ -134,7 +134,7 @@ function seo_page($page, $file) {
             $nodes = [];
             $list = '';
             foreach (seo_books() as $b) {
-                if (!is_array($b) || !isset($b['id']) || !seo_valid_id($b['id']) || !seo_published($b)) continue;
+                if (!is_array($b) || !isset($b['id']) || !seo_valid_id($b['id']) || !seo_book_in($b, $lang) || !seo_published($b, $lang)) continue;
                 $nodes[] = seo_book_node($b, $lang);
                 $list .= seo_nos_book($b, $lang, 'h2');
             }
@@ -199,8 +199,11 @@ function seo_page($page, $file) {
                 if ($type !== 'landing') $m['index'] = false;   // книги нет в каталоге — страница-заготовка
                 break;
             }
-            $m['nodes'][] = seo_book_node($b, $lang);
             if ($type === 'landing') {
+                // лендинг книги — только на языках, где книга есть на сайте
+                $m['langs'] = array_values(array_filter($langs, function ($l) use ($b) { return seo_book_in($b, $l); }));
+                if (!seo_book_in($b, $lang)) { $m['index'] = false; break; }
+                $m['nodes'][] = seo_book_node($b, $lang);
                 $m['crumbs'] = [$home, [$m['title'], '']];
                 $m['nos'] = '<h1>' . seo_e($m['title']) . '</h1><p>' . seo_e($m['desc']) . '</p>' . seo_nos_book($b, $lang, 'h2');
                 $m['about'] = ['@id' => seo_book_id($b)];
@@ -209,6 +212,11 @@ function seo_page($page, $file) {
             list($p, $q) = seo_book_page($b);
             $m['path'] = $p;
             $m['params'] = $q;
+            // версии на других языках — только там, где книга есть и не «Скоро»; здесь её нет — страница пишет об этом
+            $m['langs'] = seo_book_langs($b);
+            if (!in_array($lang, $m['langs'], true)) $m['index'] = false;
+            if (!seo_book_in($b, $lang)) break;
+            $m['nodes'][] = seo_book_node($b, $lang);
             $title = seo_bf($b, $lang, 'title');
             // у страницы с текстами в assets/seo.json (book.html для «Просто вернуться домой») — они
             if (!($page === 'book.html' && isset($pc['book']) && $id === $pc['book'] && isset($pc[$def]['t']))) {
@@ -222,7 +230,6 @@ function seo_page($page, $file) {
             $m['og'] = 'book';
             $m['pageType'] = 'ItemPage';
             $m['main'] = ['@id' => seo_book_id($b)];
-            if (!seo_published($b)) $m['index'] = false;   // «Скоро»: страница пока собрана из макета
             $m['crumbs'] = [$home, [$title, '']];
             $m['nos'] = seo_nos_book($b, $lang, 'h1');
             break;
@@ -234,7 +241,11 @@ function seo_page($page, $file) {
             $ch = seo_chapter($id);
             $avail = $ch ? seo_chapter_langs($ch) : [];
             if (!$b || !$avail) { $m['index'] = false; break; }
-            if (!seo_published($b)) $m['index'] = false;
+            if (!seo_book_in($b, $lang)) { $m['index'] = false; break; }   // книги нет на этом языке — страница пишет об этом
+            // версии главы — на языках со своим текстом, где книга есть и не «Скоро»
+            $live = array_values(array_intersect($avail, seo_book_langs($b)));
+            if (!$live || !seo_published($b, $lang)) $m['index'] = false;
+            if ($live) $avail = $live;
             $canon = in_array($lang, $avail, true) ? $lang : (in_array($def, $avail, true) ? $def : $avail[0]);
             list($rp, $rq) = seo_book_read($b);
             list($bp, $bq) = seo_book_page($b);
@@ -248,7 +259,8 @@ function seo_page($page, $file) {
             $vars = ['title' => $title, 'author' => seo_author($lang), 'text' => $text];
             $m['title'] = seo_fill(seo_loc(isset($cfg['patterns']['read']) ? $cfg['patterns']['read'] : '«{title}» | {author}', $lang), $vars);
             $m['desc'] = seo_cut(seo_fill(seo_loc(isset($cfg['patterns']['readDesc']) ? $cfg['patterns']['readDesc'] : '{text}', $lang), $vars));
-            $img = !empty($b['chapter_image']) ? (string) $b['chapter_image'] : seo_cover($b, $lang);
+            $img = seo_book_img($b, $lang, 'chapter_image');
+            if ($img === '') $img = seo_cover($b, $lang);
             if (seo_abs($img) !== '') $m['image'] = $img;
             $m['og'] = 'article';
             $url = seo_url($rp, $rq, $canon);
